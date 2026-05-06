@@ -16,6 +16,7 @@ const data = [
         grade: "3°",
         date: "12/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 2,
@@ -24,6 +25,7 @@ const data = [
         grade: "5°",
         date: "20/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 3,
@@ -32,6 +34,7 @@ const data = [
         grade: "2°",
         date: "15/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 4,
@@ -40,6 +43,7 @@ const data = [
         grade: "4°",
         date: "18/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 5,
@@ -48,6 +52,7 @@ const data = [
         grade: "3°",
         date: "22/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 6,
@@ -56,6 +61,7 @@ const data = [
         grade: "6°",
         date: "25/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 7,
@@ -64,6 +70,7 @@ const data = [
         grade: "4°",
         date: "28/04/2026",
         url: "#",
+        price: "$1000",
     },
     {
         id: 8,
@@ -72,6 +79,7 @@ const data = [
         grade: "5°",
         date: "30/04/2026",
         url: "#",
+        price: "$1000",
     },
 ];
 
@@ -94,6 +102,7 @@ const columns: Column<Row>[] = [
     { key: "subject", label: "Materia" },
     { key: "grade", label: "Grado" },
     { key: "date", label: "Fecha" },
+    { key: "price", label: "Price" },
     // aca es dinamico para ppoder poner botones de acciones como ver, editar, eliminar, etc
     {
         key: "acciones",
@@ -171,9 +180,17 @@ export const Planifiaciones = () => {
                     <h2 className="text-2xl font-bold">
                         Mis Planificaciones
                     </h2>
-                    <button className="bg-sky-600 text-white px-5 py-2 rounded-xl hover:bg-sky-700 transition">
-                        ➕ Nueva
-                    </button>
+
+                    <Button
+                        className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg"
+
+                        onClick={() => {
+                            // navigate("/planificaciones/crear");
+                        }}
+                    >
+                        Crear Planificación
+                    </Button>
+
                 </div>
 
 
