@@ -193,8 +193,6 @@ export const Planifiaciones = () => {
 
                 </div>
 
-
-
                 <div className="flex flex-wrap gap-3 items-center mb-5">
                     <input
                         type="text"

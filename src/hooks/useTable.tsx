@@ -22,7 +22,7 @@ export const useTable = ({ data }: Props) => {
     const pageSize = 5;
 
 
-    console.log("Search:", search)
+    // console.log("Search:", search)
     //! FILTRADO FUNCIONA PERO LA DATA TIENE Q VENIR SIN TILDES, SINO NO ENCUENTRA COINCIDENCIAS POR EJEMPLO CON "MATEMÁTICA" Y "MATEMATICA", HAY Q QUITAR LAS TILDES EN EL BACKEND O HACER UNA FUNCION QUE LAS ELIMINE EN EL FRONTEND
     const rows = useMemo(() => {
         return data.filter((item) => {
