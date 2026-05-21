@@ -1,8 +1,6 @@
 import {
     TrendUp,
     BookOpen,
-    Users,
-    CurrencyDollar,
     Star,
 } from "@phosphor-icons/react"
 import { Header } from "../../components/Header"
@@ -42,8 +40,8 @@ const statCards = [
 
 const topPlanificaciones = [
     { title: "Matemática 4° grado", ventas: "24 ventas", rating: "4.9" },
-    { title: "Lengua 6° grado", ventas: "19 ventas", rating: "4.8" },
-    { title: "Cs. Naturales 3°", ventas: "14 ventas", rating: "4.7" },
+    { title: "Lengua 6° grado",     ventas: "19 ventas", rating: "4.8" },
+    { title: "Cs. Naturales 3°",    ventas: "14 ventas", rating: "4.7" },
 ]
 
 export const DashboardCreator = () => {
