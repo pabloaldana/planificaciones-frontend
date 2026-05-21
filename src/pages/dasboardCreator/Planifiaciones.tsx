@@ -1,5 +1,5 @@
 import { MagnifyingGlass, Eye, PencilSimple } from "@phosphor-icons/react"
-import { DataTable } from "@/components/common/DataTable"
+import { DataTable, type Column } from "@/components/common/DataTable"
 import {
     Select,
     SelectContent,
@@ -72,12 +72,6 @@ type Row = {
     date: string
     url: string
     price: string
-}
-
-type Column<T> = {
-    key: keyof T | string
-    label: string
-    render?: (row: T) => React.ReactNode
 }
 
 const columns: Column<Row>[] = [

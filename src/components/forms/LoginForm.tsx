@@ -81,7 +81,7 @@ export const LoginForm = () => {
 
                                         <a
                                             href="#"
-                                            className="ml-auto text-sm hover:underline text-violet-600 hover:text-violet-700"
+                                            className="ml-auto text-sm hover:underline text-slate-500 hover:text-[#1e293b]"
                                         >
                                             ¿Olvidaste tu contraseña?
                                         </a>
@@ -102,7 +102,7 @@ export const LoginForm = () => {
                         />
 
                         <Button type="submit"
-                            className="w-full bg-violet-500 hover:bg-violet-600 text-white"
+                            className="w-full bg-[#1e293b] hover:bg-[#0f172a] text-white"
                         >
                             Iniciar sesión
                         </Button>

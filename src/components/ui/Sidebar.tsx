@@ -1,10 +1,10 @@
 import { useState } from "react"
 import {
-    GraduationCap,
-    SquaresFour,
-    FileText,
-    ChartBar,
-    Gear,
+    BookBookmarkIcon,
+    SquaresFourIcon,
+    FileTextIcon,
+    ChartBarIcon,
+    GearIcon,
 } from "@phosphor-icons/react"
 
 type NavItem = {
@@ -17,22 +17,22 @@ const navItems: NavItem[] = [
     {
         key: "dashboard",
         label: "Dashboard",
-        icon: <SquaresFour size={18} weight="duotone" />,
+        icon: <SquaresFourIcon size={18} weight="duotone" />,
     },
     {
         key: "planificaciones",
         label: "Planificaciones",
-        icon: <FileText size={18} weight="duotone" />,
+        icon: <FileTextIcon size={18} weight="duotone" />,
     },
     {
         key: "estadisticas",
         label: "Estadísticas",
-        icon: <ChartBar size={18} weight="duotone" />,
+        icon: <ChartBarIcon size={18} weight="duotone" />,
     },
     {
         key: "configuracion",
         label: "Configuración",
-        icon: <Gear size={18} weight="duotone" />,
+        icon: <GearIcon size={18} weight="duotone" />,
     },
 ]
 
@@ -54,7 +54,7 @@ export const Sidebar = ({ activeItem = "dashboard", onItemClick }: Props) => {
             {/* Top: brand */}
             <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-100">
                 <div className="w-10 h-10 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0">
-                    <GraduationCap size={20} weight="fill" color="white" />
+                    <BookBookmarkIcon size={20} weight="fill" color="white" />
                 </div>
                 <div className="flex flex-col leading-tight">
                     <span className="text-[#1e3a5f] font-bold text-base leading-none">

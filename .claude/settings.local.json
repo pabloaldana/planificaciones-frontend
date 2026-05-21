@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(node -e \"const icons = require\\('@phosphor-icons/react'\\); const matches = Object.keys\\(icons\\).filter\\(k => k.toLowerCase\\(\\).includes\\('mortarboard'\\) || k.toLowerCase\\(\\).includes\\('student'\\) || k.toLowerCase\\(\\).includes\\('academ'\\) || k.toLowerCase\\(\\).includes\\('school'\\)\\); console.log\\(matches\\)\")",
+      "Bash(powershell -Command \"Get-Content 'node_modules/@phosphor-icons/react/dist/csr/BookBookmark.d.ts'\")"
+    ]
+  }
+}

@@ -1,26 +1,14 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-
-import { Button } from "@/components/ui/button";
-
-import { LoginForm } from "@/components/forms/LoginForm";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { LoginForm } from "@/components/forms/LoginForm"
 
 export const LoginCard = () => {
     return (
-        <Card className="w-full max-w-md rounded-3xl border-0 bg-white/80 backdrop-blur shadow-2xl">
-
-            <CardHeader className="space-y-2 pb-6">
-                <CardTitle>
+        <Card className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white shadow-lg">
+            <CardHeader className="pb-4">
+                <CardTitle className="text-xl font-bold text-[#1e293b]">
                     Iniciar sesión
                 </CardTitle>
-
-                <CardDescription>
+                <CardDescription className="text-slate-500 text-sm">
                     Ingresá tus datos para continuar
                 </CardDescription>
             </CardHeader>
@@ -28,13 +16,6 @@ export const LoginCard = () => {
             <CardContent>
                 <LoginForm />
             </CardContent>
-
-            <CardFooter className="flex-col gap-2">
-                <Button className="w-full">
-                    Login con Google
-                </Button>
-            </CardFooter>
-
         </Card>
-    );
-};
+    )
+}
