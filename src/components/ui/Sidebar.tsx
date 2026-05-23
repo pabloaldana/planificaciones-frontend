@@ -1,65 +1,29 @@
-import { useState } from "react"
+import { NavLink } from "react-router-dom"
 import {
-    BookBookmarkIcon,
-    SquaresFourIcon,
-    FileTextIcon,
-    ChartBarIcon,
-    GearIcon,
+    BookBookmark,
+    SquaresFour,
+    FileText,
+    ChartBar,
+    Gear,
 } from "@phosphor-icons/react"
 
-type NavItem = {
-    key: string
-    label: string
-    icon: React.ReactNode
-}
-
-const navItems: NavItem[] = [
-    {
-        key: "dashboard",
-        label: "Dashboard",
-        icon: <SquaresFourIcon size={18} weight="duotone" />,
-    },
-    {
-        key: "planificaciones",
-        label: "Planificaciones",
-        icon: <FileTextIcon size={18} weight="duotone" />,
-    },
-    {
-        key: "estadisticas",
-        label: "Estadísticas",
-        icon: <ChartBarIcon size={18} weight="duotone" />,
-    },
-    {
-        key: "configuracion",
-        label: "Configuración",
-        icon: <GearIcon size={18} weight="duotone" />,
-    },
+const navItems = [
+    { label: "Dashboard",       to: "/dashboard",                icon: <SquaresFour size={18} weight="duotone" />, end: true },
+    { label: "Planificaciones", to: "/dashboard/planificaciones", icon: <FileText    size={18} weight="duotone" /> },
+    { label: "Estadísticas",    to: "/dashboard/estadisticas",   icon: <ChartBar    size={18} weight="duotone" /> },
+    { label: "Configuración",   to: "/dashboard/configuracion",  icon: <Gear        size={18} weight="duotone" /> },
 ]
 
-interface Props {
-    activeItem?: string
-    onItemClick?: (key: string) => void
-}
-
-export const Sidebar = ({ activeItem = "dashboard", onItemClick }: Props) => {
-    const [active, setActive] = useState(activeItem)
-
-    const handleClick = (key: string) => {
-        setActive(key)
-        onItemClick?.(key)
-    }
-
+export const Sidebar = () => {
     return (
         <aside className="w-62.5 min-h-screen bg-white border-r border-slate-200 flex flex-col shrink-0">
-            {/* Top: brand */}
+            {/* Brand */}
             <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-100">
                 <div className="w-10 h-10 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0">
-                    <BookBookmarkIcon size={20} weight="fill" color="white" />
+                    <BookBookmark size={20} weight="fill" color="white" />
                 </div>
                 <div className="flex flex-col leading-tight">
-                    <span className="text-[#1e3a5f] font-bold text-base leading-none">
-                        Aula
-                    </span>
+                    <span className="text-[#1e3a5f] font-bold text-base leading-none">Aula</span>
                     <span className="text-slate-400 text-xs mt-0.5">Panel del creador</span>
                 </div>
             </div>
@@ -70,35 +34,35 @@ export const Sidebar = ({ activeItem = "dashboard", onItemClick }: Props) => {
                     Navegación
                 </p>
                 <ul className="space-y-0.5">
-                    {navItems.map((item) => {
-                        const isActive = active === item.key
-                        return (
-                            <li key={item.key}>
-                                <button
-                                    onClick={() => handleClick(item.key)}
-                                    className={[
-                                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                    {navItems.map((item) => (
+                        <li key={item.to}>
+                            <NavLink
+                                to={item.to}
+                                end={item.end}
+                                className={({ isActive }) =>
+                                    [
+                                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                                         isActive
                                             ? "bg-[#e8f0fe] text-[#1e3a5f]"
                                             : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
-                                    ].join(" ")}
-                                >
-                                    <span
-                                        className={
-                                            isActive ? "text-[#1e3a5f]" : "text-slate-400"
-                                        }
-                                    >
-                                        {item.icon}
-                                    </span>
-                                    {item.label}
-                                </button>
-                            </li>
-                        )
-                    })}
+                                    ].join(" ")
+                                }
+                            >
+                                {({ isActive }) => (
+                                    <>
+                                        <span className={isActive ? "text-[#1e3a5f]" : "text-slate-400"}>
+                                            {item.icon}
+                                        </span>
+                                        {item.label}
+                                    </>
+                                )}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </nav>
 
-            {/* Bottom: user */}
+            {/* User */}
             <div className="px-5 py-4 border-t border-slate-100 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-slate-300 flex items-center justify-center shrink-0 text-slate-600 font-bold text-sm">
                     P
