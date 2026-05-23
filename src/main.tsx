@@ -1,11 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
-import { DashboardCreator } from './pages/dasboardCreator/DashboardCreator.tsx'
-import { LoginForm } from './components/forms/LoginForm.tsx'
-import { LoginCard } from './components/auth/LoginCard.tsx'
-import { LoginPage } from './pages/login/LoginPage.tsx'
+
+import { DashboardCreator } from './pages/dashboard/creator/DashboardCreator.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

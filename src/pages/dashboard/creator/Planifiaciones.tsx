@@ -6,9 +6,9 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../../components/ui/Select"
+} from "../../../components/ui/Select"
 import { Button } from "@/components/ui/button"
-import { useTable } from "../../hooks/useTable"
+import { useTable } from "../../../hooks/useTable"
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
