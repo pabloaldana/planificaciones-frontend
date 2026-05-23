@@ -143,19 +143,6 @@ const SeccionCuenta = () => (
             </button>
         </div>
 
-        <hr className="border-slate-100 my-6" />
-
-        {/* Eliminar cuenta */}
-        <div>
-            <h3 className="text-sm font-semibold text-red-600 mb-1">Eliminar cuenta</h3>
-            <p className="text-slate-500 text-sm mb-4">
-                Esta acción es irreversible. Se eliminarán todos tus datos, planificaciones y
-                configuraciones de forma permanente.
-            </p>
-            <button className="border border-red-200 text-red-500 hover:bg-red-50 rounded-lg px-4 py-2 text-sm transition-colors">
-                Eliminar cuenta
-            </button>
-        </div>
     </div>
 )
 
