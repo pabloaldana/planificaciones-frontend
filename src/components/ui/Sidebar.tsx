@@ -19,11 +19,11 @@ export const Sidebar = () => {
         <aside className="w-62.5 min-h-screen bg-white border-r border-slate-200 flex flex-col shrink-0">
             {/* Brand */}
             <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-100">
-                <div className="w-10 h-10 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-[#8B3A52] flex items-center justify-center shrink-0">
                     <BookBookmark size={20} weight="fill" color="white" />
                 </div>
                 <div className="flex flex-col leading-tight">
-                    <span className="text-[#1e3a5f] font-bold text-base leading-none">Aula</span>
+                    <span className="text-[#8B3A52] font-bold text-base leading-none">Aula</span>
                     <span className="text-slate-400 text-xs mt-0.5">Panel del creador</span>
                 </div>
             </div>
@@ -43,14 +43,14 @@ export const Sidebar = () => {
                                     [
                                         "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                                         isActive
-                                            ? "bg-[#e8f0fe] text-[#1e3a5f]"
+                                            ? "bg-[#FADADD] text-[#8B3A52]"
                                             : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
                                     ].join(" ")
                                 }
                             >
                                 {({ isActive }) => (
                                     <>
-                                        <span className={isActive ? "text-[#1e3a5f]" : "text-slate-400"}>
+                                        <span className={isActive ? "text-[#8B3A52]" : "text-slate-400"}>
                                             {item.icon}
                                         </span>
                                         {item.label}

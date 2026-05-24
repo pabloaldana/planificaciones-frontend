@@ -26,10 +26,10 @@ const data = [
 // ─── Badges ──────────────────────────────────────────────────────────────────
 
 const subjectBadge: Record<string, string> = {
-    Matematica: "bg-purple-50 text-purple-700 border border-purple-200",
-    Lengua: "bg-amber-50  text-amber-700  border border-amber-200",
-    Naturales: "bg-green-50  text-green-700  border border-green-200",
-    Sociales: "bg-blue-50   text-blue-700   border border-blue-200",
+    Matematica: "bg-[#E8DAEF] text-[#5C3D7A] border border-[#D4BAE8]",
+    Lengua: "bg-[#FFF7C2] text-[#7A6200] border border-[#E8D870]",
+    Naturales: "bg-[#D1F2EB] text-[#1A6B4A] border border-[#A8DDD0]",
+    Sociales: "bg-[#D7F0FA] text-[#1A5F7A] border border-[#A8D8EE]",
 }
 
 const SubjectBadge = ({ subject }: { subject: string }) => (
@@ -149,13 +149,13 @@ export const Planifiaciones = () => {
             {/* Header */}
             <div className="flex items-start justify-between px-6 py-5 border-b border-slate-100">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1e293b]">Mis Planificaciones</h2>
+                    <h2 className="text-xl font-bold text-[#8B3A52]">Mis Planificaciones</h2>
                     <p className="text-slate-500 text-sm mt-0.5">
                         Gestioná, editá y publicá tus contenidos.
                     </p>
                 </div>
                 <Button
-                    className="bg-[#1e293b] hover:bg-[#0f172a] text-white rounded-lg text-sm h-9 px-4"
+                    className="bg-[#8B3A52] hover:bg-[#6E2D40] text-white rounded-lg text-sm h-9 px-4"
                     onClick={() => {
                         // navigate("/planificaciones/crear")
                     }}
@@ -237,7 +237,7 @@ export const Planifiaciones = () => {
                             className={[
                                 "w-8 h-8 text-sm rounded-md border transition-colors",
                                 p === page
-                                    ? "bg-[#1e293b] text-white border-[#1e293b]"
+                                    ? "bg-[#8B3A52] text-white border-[#8B3A52]"
                                     : "border-slate-200 text-slate-600 hover:bg-slate-50",
                             ].join(" ")}
                         >

@@ -5,6 +5,9 @@ import { Planifiaciones } from "../pages/dashboard/creator/Planifiaciones"
 import { Estadisticas } from "../pages/dashboard/creator/Estadisticas"
 import { LandingPage } from "../pages/landing/LandingPage"
 import { Configuracion } from "@/pages/dashboard/creator/Configuracion"
+import { LoginPage } from "@/pages/auth/LoginPage"
+import { RegisterPage } from "@/pages/auth/RegisterPage"
+
 
 export const AppRouter = () => {
     return (
@@ -14,6 +17,8 @@ export const AppRouter = () => {
                 {/* ── Rutas públicas ─────────────────────────────── */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="*" element={<LandingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/registro" element={<RegisterPage />} />
 
                 {/* ── Dashboard creador (/dashboard) ─────────────── */}
                 <Route path="/dashboard" element={<DashboardLayout />}>

@@ -8,7 +8,7 @@ export const DashboardLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true)
 
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex">
+        <div className="min-h-screen bg-[#F2F2F2] flex">
             {sidebarOpen && <Sidebar />}
 
             <div className="flex-1 flex flex-col min-w-0">

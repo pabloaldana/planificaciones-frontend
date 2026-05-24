@@ -38,10 +38,10 @@ const vendidas = [
 // ─── Badges ──────────────────────────────────────────────────────────────────
 
 const subjectBadge: Record<string, string> = {
-    Matematica: "bg-purple-50 text-purple-700 border border-purple-200",
-    Lengua:     "bg-amber-50  text-amber-700  border border-amber-200",
-    Naturales:  "bg-green-50  text-green-700  border border-green-200",
-    Sociales:   "bg-blue-50   text-blue-700   border border-blue-200",
+    Matematica: "bg-[#E8DAEF] text-[#5C3D7A] border border-[#D4BAE8]",
+    Lengua:     "bg-[#FFF7C2] text-[#7A6200] border border-[#E8D870]",
+    Naturales:  "bg-[#D1F2EB] text-[#1A6B4A] border border-[#A8DDD0]",
+    Sociales:   "bg-[#D7F0FA] text-[#1A5F7A] border border-[#A8D8EE]",
 }
 
 const SubjectBadge = ({ subject }: { subject: string }) => (
@@ -58,29 +58,29 @@ const statCards = [
     {
         label:   "Ingresos totales",
         value:   "$36.000",
-        icon:    <CurrencyDollar size={20} weight="bold" className="text-emerald-600" />,
-        iconBg:  "bg-emerald-100",
+        icon:    <CurrencyDollar size={20} weight="bold" className="text-[#1A7A4A]" />,
+        iconBg:  "bg-[#D1F2EB]",
         badge:   "+8% este mes",
     },
     {
         label:   "Total vendidas",
         value:   "36 ventas",
-        icon:    <ShoppingCart size={20} weight="bold" className="text-blue-600" />,
-        iconBg:  "bg-blue-100",
+        icon:    <ShoppingCart size={20} weight="bold" className="text-[#1A6B8A]" />,
+        iconBg:  "bg-[#D7F0FA]",
         badge:   "+5 esta semana",
     },
     {
         label:   "Más vendida",
         value:   "Núm. Naturales",
-        icon:    <Trophy size={20} weight="bold" className="text-amber-500" />,
-        iconBg:  "bg-amber-100",
+        icon:    <Trophy size={20} weight="bold" className="text-[#7A6200]" />,
+        iconBg:  "bg-[#FFF7C2]",
         badge:   "24 ventas",
     },
     {
         label:   "Mejor mes",
         value:   "Abril 2026",
-        icon:    <CalendarCheck size={20} weight="bold" className="text-violet-600" />,
-        iconBg:  "bg-violet-100",
+        icon:    <CalendarCheck size={20} weight="bold" className="text-[#5C3D7A]" />,
+        iconBg:  "bg-[#E8DAEF]",
         badge:   "$14.000",
     },
 ]
@@ -92,7 +92,7 @@ const BarTooltip = ({ active, payload, label }: { active?: boolean; payload?: { 
     return (
         <div className="bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm text-sm">
             <p className="text-slate-500 mb-0.5">{label}</p>
-            <p className="font-semibold text-[#1e293b]">{payload[0].value} ventas</p>
+            <p className="font-semibold text-[#8B3A52]">{payload[0].value} ventas</p>
         </div>
     )
 }
@@ -115,8 +115,8 @@ export const Estadisticas = () => {
                                 {card.icon}
                             </div>
                         </div>
-                        <p className="text-[1.75rem] font-bold text-[#1e293b] leading-none">{card.value}</p>
-                        <span className="self-start bg-red-100 text-red-400 text-xs font-medium px-2.5 py-1 rounded-full">
+                        <p className="text-[1.75rem] font-bold text-[#8B3A52] leading-none">{card.value}</p>
+                        <span className="self-start bg-[#FADADD] text-[#8B3A52] text-xs font-medium px-2.5 py-1 rounded-full">
                             {card.badge}
                         </span>
                     </div>
@@ -127,7 +127,7 @@ export const Estadisticas = () => {
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
                 {/* Ventas por mes — ocupa 2/3 */}
                 <div className="lg:col-span-2 bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#1e293b] mb-5">Ventas por mes</h2>
+                    <h2 className="text-base font-semibold text-[#8B3A52] mb-5">Ventas por mes</h2>
                     <ResponsiveContainer width="100%" height={220}>
                         <BarChart data={ventasPorMes} barSize={36}>
                             <XAxis
@@ -142,15 +142,15 @@ export const Estadisticas = () => {
                                 tick={{ fontSize: 12, fill: "#94a3b8" }}
                                 width={24}
                             />
-                            <Tooltip content={<BarTooltip />} cursor={{ fill: "#f1f5f9" }} />
-                            <Bar dataKey="ventas" fill="#1e293b" radius={[6, 6, 0, 0]} />
+                            <Tooltip content={<BarTooltip />} cursor={{ fill: "#F2F2F2" }} />
+                            <Bar dataKey="ventas" fill="#8B3A52" radius={[6, 6, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
                 {/* Ventas por materia — ocupa 1/3 */}
                 <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#1e293b] mb-5">Por materia</h2>
+                    <h2 className="text-base font-semibold text-[#8B3A52] mb-5">Por materia</h2>
                     <ResponsiveContainer width="100%" height={220}>
                         <PieChart>
                             <Pie
@@ -180,7 +180,7 @@ export const Estadisticas = () => {
                                     />
                                     <span className="text-slate-600">{item.name}</span>
                                 </div>
-                                <span className="font-semibold text-[#1e293b]">{item.value}</span>
+                                <span className="font-semibold text-[#8B3A52]">{item.value}</span>
                             </li>
                         ))}
                     </ul>
@@ -191,7 +191,7 @@ export const Estadisticas = () => {
             <section className="bg-white rounded-xl border border-slate-100 shadow-sm">
                 {/* Header */}
                 <div className="px-6 py-5 border-b border-slate-100">
-                    <h2 className="text-xl font-bold text-[#1e293b]">Planificaciones vendidas</h2>
+                    <h2 className="text-xl font-bold text-[#8B3A52]">Planificaciones vendidas</h2>
                     <p className="text-slate-500 text-sm mt-0.5">
                         Solo las que registran al menos una venta
                     </p>
@@ -216,13 +216,13 @@ export const Estadisticas = () => {
                                     key={row.title}
                                     className={i < vendidas.length - 1 ? "border-b border-slate-100" : ""}
                                 >
-                                    <td className="px-6 py-4 font-medium text-[#1e293b]">{row.title}</td>
+                                    <td className="px-6 py-4 font-medium text-[#8B3A52]">{row.title}</td>
                                     <td className="px-6 py-4">
                                         <SubjectBadge subject={row.subject} />
                                     </td>
                                     <td className="px-6 py-4 text-slate-600">{row.grade}</td>
                                     <td className="px-6 py-4">
-                                        <span className="font-bold text-[#1e293b]">{row.ventas}</span>
+                                        <span className="font-bold text-[#8B3A52]">{row.ventas}</span>
                                     </td>
                                     <td className="px-6 py-4 text-slate-600">{row.ingresos}</td>
                                     <td className="px-6 py-4">

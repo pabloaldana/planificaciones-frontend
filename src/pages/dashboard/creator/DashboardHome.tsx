@@ -4,29 +4,29 @@ const statCards = [
     {
         label: "Ventas del mes",
         value: "$84.250",
-        icon: <TrendUp size={20} weight="bold" className="text-cyan-600" />,
-        iconBg: "bg-cyan-100",
+        icon: <TrendUp size={20} weight="bold" className="text-[#1A6B8A]" />,
+        iconBg: "bg-[#D7F0FA]",
         badge: "+12,4%",
     },
     {
         label: "Planificaciones",
         value: "127",
-        icon: <TrendUp size={20} weight="bold" className="text-pink-500" />,
-        iconBg: "bg-pink-100",
+        icon: <TrendUp size={20} weight="bold" className="text-[#8B3A52]" />,
+        iconBg: "bg-[#FADADD]",
         badge: "+8 nuevas",
     },
     {
         label: "Clientes activos",
         value: "342",
-        icon: <TrendUp size={20} weight="bold" className="text-green-600" />,
-        iconBg: "bg-green-100",
+        icon: <TrendUp size={20} weight="bold" className="text-[#1A7A4A]" />,
+        iconBg: "bg-[#D1F2EB]",
         badge: "+24",
     },
     {
         label: "Tasa de conversión",
         value: "4,8%",
-        icon: <TrendUp size={20} weight="bold" className="text-violet-500" />,
-        iconBg: "bg-violet-100",
+        icon: <TrendUp size={20} weight="bold" className="text-[#5C3D7A]" />,
+        iconBg: "bg-[#E8DAEF]",
         badge: "+0,6%",
     },
 ]
@@ -54,11 +54,11 @@ export const DashboardHome = () => {
                             </div>
                         </div>
 
-                        <p className="text-[2rem] font-bold text-[#1e293b] leading-none">
+                        <p className="text-[2rem] font-bold text-[#8B3A52] leading-none">
                             {card.value}
                         </p>
 
-                        <span className="self-start bg-red-100 text-red-400 text-xs font-medium px-2.5 py-1 rounded-full">
+                        <span className="self-start bg-[#FADADD] text-[#8B3A52] text-xs font-medium px-2.5 py-1 rounded-full">
                             {card.badge}
                         </span>
                     </div>
@@ -69,7 +69,7 @@ export const DashboardHome = () => {
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Ventas recientes */}
                 <div className="lg:col-span-2 bg-white rounded-xl border border-slate-100 shadow-sm p-6 flex flex-col">
-                    <h2 className="text-base font-semibold text-[#1e293b] mb-4">
+                    <h2 className="text-base font-semibold text-[#8B3A52] mb-4">
                         Ventas recientes
                     </h2>
                     <div className="flex-1 flex items-center justify-center min-h-64">
@@ -79,25 +79,25 @@ export const DashboardHome = () => {
 
                 {/* Planificaciones top */}
                 <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#1e293b] mb-4">
+                    <h2 className="text-base font-semibold text-[#8B3A52] mb-4">
                         Planificaciones top
                     </h2>
 
                     <ul className="space-y-4">
                         {topPlanificaciones.map((item) => (
                             <li key={item.title} className="flex items-center gap-3">
-                                <div className="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                                    <BookOpen size={18} weight="duotone" className="text-blue-500" />
+                                <div className="w-9 h-9 rounded-full bg-[#D7F0FA] flex items-center justify-center shrink-0">
+                                    <BookOpen size={18} weight="duotone" className="text-[#1A6B8A]" />
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-[#1e293b] truncate">
+                                    <p className="text-sm font-semibold text-[#8B3A52] truncate">
                                         {item.title}
                                     </p>
                                     <p className="text-xs text-slate-400">{item.ventas}</p>
                                 </div>
 
-                                <span className="bg-red-100 text-red-400 text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
+                                <span className="bg-[#FADADD] text-[#8B3A52] text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
                                     <Star size={11} weight="fill" />
                                     {item.rating}
                                 </span>
