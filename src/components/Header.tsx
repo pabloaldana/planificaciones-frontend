@@ -10,7 +10,7 @@ export const Header = ({ onToggleSidebar }: Props) => {
             {/* Toggle sidebar */}
             <button
                 onClick={onToggleSidebar}
-                className="text-slate-500 hover:text-slate-800 transition-colors p-1 rounded-md hover:bg-slate-100"
+                className="text-slate-500 hover:text-slate-800 transition-colors p-2 rounded-md hover:bg-slate-100"
                 aria-label="Toggle sidebar"
             >
                 <TextColumns size={20} weight="regular" />

@@ -8,47 +8,17 @@ import {
     MagnifyingGlass,
     CreditCard,
     CheckCircle,
+    Desktop,
 } from "@phosphor-icons/react"
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
 import { MdEmail, MdPhone } from "react-icons/md"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
+import { PublicNavbar } from "@/components/common/PublicNavbar"
 
 export const LandingPage = () => {
     return (
         <div className="min-h-screen bg-white font-mono">
-            {/* ===== NAVBAR ===== */}
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-100">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <a href="#" className="flex items-center gap-2 text-[#8B3A52] font-bold text-lg">
-                        <GraduationCap size={28} weight="duotone" />
-                        <span>Aula</span>
-                    </a>
-
-                    {/* Nav links — hidden on mobile */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600">
-                        <a href="#" className="hover:text-[#8B3A52] transition-colors">Inicio</a>
-                        <a href="#" className="hover:text-[#8B3A52] transition-colors">Planificaciones</a>
-                        <a href="#" className="hover:text-[#8B3A52] transition-colors">Sobre nosotros</a>
-                    </nav>
-
-                    {/* Actions */}
-                    <div className="flex items-center gap-3">
-                        <NavLink
-                            to="/login"
-                            className="hidden sm:inline-flex text-sm px-4 py-2 rounded-xl border border-slate-200 text-[#8B3A52] hover:bg-slate-50 transition-colors"
-                        >
-                            Iniciar sesión
-                        </NavLink>
-                        <NavLink
-                            to="/registro"
-                            className="text-sm px-4 py-2 rounded-xl bg-[#8B3A52] text-white hover:bg-[#6E2D40] transition-colors"
-                        >
-                            Registrarse
-                        </NavLink>
-                    </div>
-                </div>
-            </header>
+            <PublicNavbar />
 
             {/* ===== HERO ===== */}
             <section className="bg-gradient-to-b from-white to-slate-50 py-20 sm:py-28">
@@ -63,16 +33,17 @@ export const LandingPage = () => {
                     </h1>
 
                     <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-                        Ahorrá tiempo con planificaciones de calidad, organizadas por materia y grado. Creadas por docentes, para docentes.
+                        Ahorrá tiempo con planificaciones de calidad, organizadas por materia y grado. Creadas por docente, para docentes.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                        <a
-                            href="#"
+                        <Link
+                            to="/catalogo"
+
                             className="px-6 py-3 rounded-xl bg-[#8B3A52] text-white hover:bg-[#6E2D40] transition-colors text-sm font-semibold"
                         >
                             Ver planificaciones →
-                        </a>
+                        </Link>
                         <a
                             href="#"
                             className="px-6 py-3 rounded-xl border border-slate-200 text-[#8B3A52] hover:bg-slate-50 transition-colors text-sm font-semibold"
@@ -90,50 +61,61 @@ export const LandingPage = () => {
                         Explorá por materia
                     </h2>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
                         {/* Matemática */}
-                        <div className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-slate-100">
+                        <NavLink to="/catalogo?materia=Matematica" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
                             <div className="w-14 h-14 rounded-full bg-[#E8DAEF] flex items-center justify-center">
                                 <ChalkboardTeacher size={28} weight="duotone" className="text-[#5C3D7A]" />
                             </div>
                             <div className="text-center">
                                 <p className="font-semibold text-[#8B3A52] text-sm">Matemática</p>
-                                <p className="text-xs text-slate-400 mt-1">12 planificaciones disponibles</p>
+                                <p className="text-xs text-slate-400 mt-1">12 planificaciones</p>
                             </div>
-                        </div>
+                        </NavLink>
 
                         {/* Lengua */}
-                        <div className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-slate-100">
+                        <NavLink to="/catalogo?materia=Lengua" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
                             <div className="w-14 h-14 rounded-full bg-[#FFF7C2] flex items-center justify-center">
                                 <BookOpen size={28} weight="duotone" className="text-[#7A6200]" />
                             </div>
                             <div className="text-center">
                                 <p className="font-semibold text-[#8B3A52] text-sm">Lengua</p>
-                                <p className="text-xs text-slate-400 mt-1">9 planificaciones disponibles</p>
+                                <p className="text-xs text-slate-400 mt-1">9 planificaciones</p>
                             </div>
-                        </div>
+                        </NavLink>
 
                         {/* Naturales */}
-                        <div className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-slate-100">
+                        <NavLink to="/catalogo?materia=Naturales" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
                             <div className="w-14 h-14 rounded-full bg-[#D1F2EB] flex items-center justify-center">
                                 <Plant size={28} weight="duotone" className="text-[#1A7A4A]" />
                             </div>
                             <div className="text-center">
                                 <p className="font-semibold text-[#8B3A52] text-sm">Ciencias Naturales</p>
-                                <p className="text-xs text-slate-400 mt-1">7 planificaciones disponibles</p>
+                                <p className="text-xs text-slate-400 mt-1">7 planificaciones</p>
                             </div>
-                        </div>
+                        </NavLink>
 
                         {/* Sociales */}
-                        <div className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-slate-100">
+                        <NavLink to="/catalogo?materia=Sociales" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
                             <div className="w-14 h-14 rounded-full bg-[#D7F0FA] flex items-center justify-center">
                                 <Globe size={28} weight="duotone" className="text-[#1A6B8A]" />
                             </div>
                             <div className="text-center">
                                 <p className="font-semibold text-[#8B3A52] text-sm">Ciencias Sociales</p>
-                                <p className="text-xs text-slate-400 mt-1">8 planificaciones disponibles</p>
+                                <p className="text-xs text-slate-400 mt-1">8 planificaciones</p>
                             </div>
-                        </div>
+                        </NavLink>
+
+                        {/* Tecnología */}
+                        <NavLink to="/catalogo?materia=Tecnologia" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
+                            <div className="w-14 h-14 rounded-full bg-[#FFE8D0] flex items-center justify-center">
+                                <Desktop size={28} weight="duotone" className="text-[#8B4500]" />
+                            </div>
+                            <div className="text-center">
+                                <p className="font-semibold text-[#8B3A52] text-sm">Tecnología</p>
+                                <p className="text-xs text-slate-400 mt-1">5 planificaciones</p>
+                            </div>
+                        </NavLink>
                     </div>
                 </div>
             </section>

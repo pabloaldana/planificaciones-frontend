@@ -9,6 +9,7 @@ import {
 } from "../../../components/ui/Select"
 import { Button } from "@/components/ui/button"
 import { useTable } from "../../../hooks/useTable"
+import { subjectConfig } from "@/constants/subjects"
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -25,18 +26,11 @@ const data = [
 
 // ─── Badges ──────────────────────────────────────────────────────────────────
 
-const subjectBadge: Record<string, string> = {
-    Matematica: "bg-[#E8DAEF] text-[#5C3D7A] border border-[#D4BAE8]",
-    Lengua: "bg-[#FFF7C2] text-[#7A6200] border border-[#E8D870]",
-    Naturales: "bg-[#D1F2EB] text-[#1A6B4A] border border-[#A8DDD0]",
-    Sociales: "bg-[#D7F0FA] text-[#1A5F7A] border border-[#A8D8EE]",
-}
-
 const SubjectBadge = ({ subject }: { subject: string }) => (
     <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${subjectBadge[subject] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}
+        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${subjectConfig[subject]?.badge ?? "bg-slate-100 text-slate-600"}`}
     >
-        {subject}
+        {subjectConfig[subject]?.label ?? subject}
     </span>
 )
 
@@ -147,7 +141,7 @@ export const Planifiaciones = () => {
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
             {/* Header */}
-            <div className="flex items-start justify-between px-6 py-5 border-b border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 px-6 py-5 border-b border-slate-100">
                 <div>
                     <h2 className="text-xl font-bold text-[#8B3A52]">Mis Planificaciones</h2>
                     <p className="text-slate-500 text-sm mt-0.5">
@@ -155,7 +149,7 @@ export const Planifiaciones = () => {
                     </p>
                 </div>
                 <Button
-                    className="bg-[#8B3A52] hover:bg-[#6E2D40] text-white rounded-lg text-sm h-9 px-4"
+                    className="bg-[#8B3A52] hover:bg-[#6E2D40] text-white rounded-lg text-sm h-9 px-4 w-full sm:w-auto"
                     onClick={() => {
                         // navigate("/planificaciones/crear")
                     }}
@@ -167,7 +161,7 @@ export const Planifiaciones = () => {
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 px-6 py-4 border-b border-slate-100">
                 {/* Search */}
-                <div className="relative flex-1 min-w-52">
+                <div className="relative flex-1 min-w-40 sm:min-w-52">
                     <MagnifyingGlass
                         size={15}
                         className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
@@ -183,7 +177,7 @@ export const Planifiaciones = () => {
 
                 {/* Grade select */}
                 <Select value={grade} onValueChange={setGrade}>
-                    <SelectTrigger className="w-44">
+                    <SelectTrigger className="w-full sm:w-44">
                         <SelectValue placeholder="Todos los grados" />
                     </SelectTrigger>
                     <SelectContent>
@@ -197,7 +191,7 @@ export const Planifiaciones = () => {
 
                 {/* Subject select */}
                 <Select value={subject} onValueChange={setSubject}>
-                    <SelectTrigger className="w-44">
+                    <SelectTrigger className="w-full sm:w-44">
                         <SelectValue placeholder="Todas las materias" />
                     </SelectTrigger>
                     <SelectContent>
@@ -211,12 +205,12 @@ export const Planifiaciones = () => {
             </div>
 
             {/* Table */}
-            <div className="px-6 py-2">
+            <div className="px-6 py-2 overflow-x-auto">
                 <DataTable columns={columns} data={rows} />
             </div>
 
             {/* Footer: count + pagination */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-slate-100">
                 <p className="text-slate-400 text-sm">
                     Mostrando {rows.length} de {totalFiltered} resultados
                 </p>

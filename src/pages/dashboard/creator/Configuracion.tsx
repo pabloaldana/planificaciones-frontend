@@ -251,9 +251,9 @@ export const Configuracion = () => {
     }
 
     return (
-        <div className="grid grid-cols-3 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 items-start">
             {/* Menú lateral */}
-            <div className="col-span-1 bg-white rounded-xl border border-slate-100 shadow-sm p-3">
+            <div className="md:col-span-1 bg-white rounded-xl border border-slate-100 shadow-sm p-3">
                 <nav className="flex flex-col gap-1">
                     {menuItems.map(({ id, label, icon: Icon }) => (
                         <button
@@ -273,7 +273,7 @@ export const Configuracion = () => {
             </div>
 
             {/* Contenido de la sección activa */}
-            <div className="col-span-2">{renderSection()}</div>
+            <div className="md:col-span-2">{renderSection()}</div>
         </div>
     )
 }

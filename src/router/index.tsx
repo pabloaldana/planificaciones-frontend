@@ -7,6 +7,8 @@ import { LandingPage } from "../pages/landing/LandingPage"
 import { Configuracion } from "@/pages/dashboard/creator/Configuracion"
 import { LoginPage } from "@/pages/auth/LoginPage"
 import { RegisterPage } from "@/pages/auth/RegisterPage"
+import { CatalogPage } from "@/pages/catalog/CatalogPage"
+import { PlanDetailPage } from "@/pages/catalog/PlanDetailPage"
 
 
 export const AppRouter = () => {
@@ -19,6 +21,8 @@ export const AppRouter = () => {
                 <Route path="*" element={<LandingPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/registro" element={<RegisterPage />} />
+                <Route path="/catalogo" element={<CatalogPage />} />
+                <Route path="/catalogo/:id" element={<PlanDetailPage />} />
 
                 {/* ── Dashboard creador (/dashboard) ─────────────── */}
                 <Route path="/dashboard" element={<DashboardLayout />}>

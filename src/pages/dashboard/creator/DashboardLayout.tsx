@@ -9,7 +9,7 @@ export const DashboardLayout = () => {
 
     return (
         <div className="min-h-screen bg-[#F2F2F2] flex">
-            {sidebarOpen && <Sidebar />}
+            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
             <div className="flex-1 flex flex-col min-w-0">
                 <Header onToggleSidebar={() => setSidebarOpen(prev => !prev)} />
