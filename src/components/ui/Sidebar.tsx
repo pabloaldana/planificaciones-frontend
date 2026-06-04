@@ -1,30 +1,37 @@
-import { NavLink } from "react-router-dom"
-import {
-    BookBookmark,
-    SquaresFour,
-    FileText,
-    ChartBar,
-    Gear,
-    X,
-} from "@phosphor-icons/react"
+import { NavLink, useNavigate } from "react-router-dom"
+import { BookBookmark, X, SignOut } from "@phosphor-icons/react"
+import { useAuth } from "@/context/AuthContext"
+import type { ReactNode } from "react"
 
-const navItems = [
-    { label: "Dashboard",       to: "/dashboard",                 icon: <SquaresFour size={18} weight="duotone" />, end: true },
-    { label: "Planificaciones", to: "/dashboard/planificaciones", icon: <FileText    size={18} weight="duotone" /> },
-    { label: "Estadísticas",    to: "/dashboard/estadisticas",    icon: <ChartBar    size={18} weight="duotone" /> },
-    { label: "Configuración",   to: "/dashboard/configuracion",   icon: <Gear        size={18} weight="duotone" /> },
-]
+export type NavItem = {
+    label: string
+    to: string
+    icon: ReactNode
+    end?: boolean
+}
 
 interface SidebarProps {
     isOpen: boolean
     onClose: () => void
+    navItems: NavItem[]
+    subtitle: string
 }
 
-export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
-    // Solo cierra en mobile al navegar
+export const Sidebar = ({ isOpen, onClose, navItems, subtitle }: SidebarProps) => {
+    const { user, logout } = useAuth()
+    const navigate = useNavigate()
+
     const handleNavClick = () => {
         if (window.innerWidth < 768) onClose()
     }
+
+    const handleLogout = () => {
+        logout()
+        navigate("/login")
+    }
+
+    const initials = user?.email?.charAt(0).toUpperCase() ?? "U"
+    const rolLabel = user?.roles?.[0] ?? ""
 
     return (
         <>
@@ -54,13 +61,11 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     </div>
                     <div className="flex flex-col leading-tight flex-1">
                         <span className="text-[#8B3A52] font-bold text-base leading-none">Aula</span>
-                        <span className="text-slate-400 text-xs mt-0.5">Panel del creador</span>
+                        <span className="text-slate-400 text-xs mt-0.5">{subtitle}</span>
                     </div>
-                    {/* Botón cerrar — solo mobile */}
                     <button
                         onClick={onClose}
                         className="md:hidden p-2 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
-                        aria-label="Cerrar menú"
                     >
                         <X size={18} />
                     </button>
@@ -101,15 +106,26 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     </ul>
                 </nav>
 
-                {/* User */}
+                {/* User + logout */}
                 <div className="px-5 py-4 border-t border-slate-100 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-slate-300 flex items-center justify-center shrink-0 text-slate-600 font-bold text-sm">
-                        P
+                    <div className="w-9 h-9 rounded-full bg-[#8B3A52] flex items-center justify-center shrink-0 text-white font-bold text-sm">
+                        {initials}
                     </div>
-                    <div className="flex flex-col leading-tight">
-                        <span className="text-slate-800 font-semibold text-sm">Pablo Ruiz</span>
-                        <span className="text-slate-400 text-xs">Creador</span>
+                    <div className="flex flex-col leading-tight min-w-0 flex-1">
+                        <span className="text-slate-800 font-semibold text-sm truncate">
+                            {user?.email ?? "Usuario"}
+                        </span>
+                        <span className="text-slate-400 text-xs capitalize">
+                            {rolLabel}
+                        </span>
                     </div>
+                    <button
+                        onClick={handleLogout}
+                        title="Cerrar sesión"
+                        className="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+                    >
+                        <SignOut size={17} />
+                    </button>
                 </div>
             </aside>
         </>

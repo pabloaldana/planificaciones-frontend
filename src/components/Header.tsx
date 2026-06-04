@@ -1,4 +1,5 @@
-import { MagnifyingGlass, Bell, TextColumns } from "@phosphor-icons/react"
+import { MagnifyingGlass, Bell, TextColumns, House } from "@phosphor-icons/react"
+import { NavLink } from "react-router-dom"
 
 interface Props {
     onToggleSidebar?: () => void
@@ -15,6 +16,15 @@ export const Header = ({ onToggleSidebar }: Props) => {
             >
                 <TextColumns size={20} weight="regular" />
             </button>
+
+            {/* Link al inicio */}
+            <NavLink
+                to="/"
+                title="Ir al inicio"
+                className="text-slate-400 hover:text-[#8B3A52] hover:bg-slate-100 transition-colors p-2 rounded-md"
+            >
+                <House size={20} weight="duotone" />
+            </NavLink>
 
             {/* Search */}
             <div className="flex-1 max-w-md">

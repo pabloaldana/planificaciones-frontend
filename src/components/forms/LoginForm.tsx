@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,46 +13,56 @@ import {
     FormControl,
     FormMessage,
 } from "@/components/ui/form"
+import { useAuth } from "@/context/AuthContext"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 const formSchema = z.object({
-    nameUser: z.string().min(3, "Mínimo 3 caracteres"),
-    password: z.string().min(2, "Password requerida"),
+    email: z.string().email("Email inválido"),
+    password: z.string().min(2, "Contraseña requerida"),
 })
 
 type FormValues = z.infer<typeof formSchema>
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export const LoginForm = () => {
+    const { login, isLoading, error } = useAuth()
+    const navigate = useNavigate()
+
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            nameUser: "",
-            password: "",
-        },
+        defaultValues: { email: "", password: "" },
     })
 
-    const onSubmit = (values: FormValues) => {
-        console.log("Login:", values)
-        form.reset()
+    const onSubmit = async (values: FormValues) => {
+        try {
+            const loggedUser = await login(values.email, values.password)
+            if (loggedUser.roles.includes("super-admin")) {
+                navigate("/admin")
+            } else if (loggedUser.roles.includes("admin")) {
+                navigate("/dashboard")
+            } else {
+                navigate("/mi-cuenta")
+            }
+        } catch {
+            // el error ya lo maneja AuthContext en `error`
+        }
     }
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-6"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+
                 <FormField
                     control={form.control}
-                    name="nameUser"
+                    name="email"
                     render={({ field }) => (
                         <FormItem className="grid gap-2">
-                            <FormLabel>Usuario</FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <Input
                                     className="bg-white border-slate-200"
-                                    placeholder="Usuario"
+                                    placeholder="tucorreo@ejemplo.com"
+                                    type="email"
                                     {...field}
                                 />
                             </FormControl>
@@ -83,29 +93,31 @@ export const LoginForm = () => {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs" />
                         </FormItem>
                     )}
                 />
 
-                {/* Submit */}
+                {/* Error del servidor */}
+                {error && (
+                    <p className="text-xs text-red-500 text-center -mt-2">{error}</p>
+                )}
+
                 <Button
                     type="submit"
+                    disabled={isLoading}
                     className="w-full bg-[#8B3A52] hover:bg-[#6E2D40] text-white"
                 >
-                    Iniciar sesión
+                    {isLoading ? "Ingresando..." : "Iniciar sesión"}
                 </Button>
 
-                {/* Link al registro */}
                 <p className="text-center text-sm text-slate-500">
                     ¿No estás registrado?{" "}
-                    <NavLink
-                        to="/registro"
-                        className="text-[#8B3A52] hover:underline font-medium"
-                    >
+                    <NavLink to="/registro" className="text-[#8B3A52] hover:underline font-medium">
                         Registrarse
                     </NavLink>
                 </p>
+
             </form>
         </Form>
     )

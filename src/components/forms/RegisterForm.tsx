@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,7 @@ import {
     FormControl,
     FormMessage,
 } from "@/components/ui/form"
+import { useAuth } from "@/context/AuthContext"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 const formSchema = z
@@ -20,11 +21,6 @@ const formSchema = z
         nombre: z.string().min(2, "Mínimo 2 caracteres"),
         apellido: z.string().min(2, "Mínimo 2 caracteres"),
         email: z.string().email("Email inválido"),
-        username: z
-            .string()
-            .min(3, "Mínimo 3 caracteres")
-            .max(20, "Máximo 20 caracteres")
-            .regex(/^[a-zA-Z0-9_]+$/, "Solo letras, números y guión bajo"),
         password: z.string().min(8, "Mínimo 8 caracteres"),
         confirmPassword: z.string(),
     })
@@ -37,21 +33,32 @@ type FormValues = z.infer<typeof formSchema>
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export const RegisterForm = () => {
+    const { register, isLoading, error } = useAuth()
+    const navigate = useNavigate()
+
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             nombre: "",
             apellido: "",
             email: "",
-            username: "",
             password: "",
             confirmPassword: "",
         },
     })
 
     const onSubmit = (values: FormValues) => {
-        console.log("Registro:", values)
-        form.reset()
+        console.log("onsubmit del registro")
+
+
+        try {
+            const newUser = register(values.nombre, values.apellido, values.email, values.password)
+            console.log("Usuario registrado:", newUser)
+            //como los nuevos usuarios siempre son user navego directamnte a su dashboar
+            navigate("/mi-cuenta")
+        } catch {
+
+        }
     }
 
     return (
@@ -111,25 +118,6 @@ export const RegisterForm = () => {
                                     className="bg-white border-slate-200"
                                     type="email"
                                     placeholder="juan@ejemplo.com"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage className="text-xs" />
-                        </FormItem>
-                    )}
-                />
-
-                {/* Username */}
-                <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Nombre de usuario</FormLabel>
-                            <FormControl>
-                                <Input
-                                    className="bg-white border-slate-200"
-                                    placeholder="juan_perez"
                                     {...field}
                                 />
                             </FormControl>

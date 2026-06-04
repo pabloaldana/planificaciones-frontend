@@ -9,13 +9,38 @@ import {
     CreditCard,
     CheckCircle,
     Desktop,
+    type Icon,
 } from "@phosphor-icons/react"
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
 import { MdEmail, MdPhone } from "react-icons/md"
 import { Link, NavLink } from "react-router-dom"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
+import { useMaterias } from "@/hooks/useMaterias"
+import { usePlanifiaciones } from "@/hooks/usePlanificaciones"
+
+// ── Estilos por materia (clave = nombre exacto del backend en minúsculas) ──────
+type SubjectStyle = { icon: Icon; bg: string; color: string }
+
+const subjectStyles: Record<string, SubjectStyle> = {
+    "matemática":           { icon: ChalkboardTeacher, bg: "bg-[#E8DAEF]", color: "text-[#5C3D7A]" },
+    "lengua y literatura":  { icon: BookOpen,          bg: "bg-[#FFF7C2]", color: "text-[#7A6200]" },
+    "ciencias naturales":   { icon: Plant,             bg: "bg-[#D1F2EB]", color: "text-[#1A7A4A]" },
+    "ciencias sociales":    { icon: Globe,             bg: "bg-[#D7F0FA]", color: "text-[#1A6B8A]" },
+    "tecnología":           { icon: Desktop,           bg: "bg-[#FFE8D0]", color: "text-[#8B4500]" },
+    "inglés":               { icon: BookOpen,          bg: "bg-[#FFF7C2]", color: "text-[#7A6200]" },
+}
+const defaultStyle: SubjectStyle = { icon: BookOpen, bg: "bg-slate-100", color: "text-slate-500" }
 
 export const LandingPage = () => {
+    const { data: materias = [],       isLoading: materiasLoading   } = useMaterias()
+    const { data: planificaciones = [] }                               = usePlanifiaciones()
+
+    const top4Materias = [...materias]
+        .sort((a, b) => b.planificacionesCount - a.planificacionesCount)
+        .slice(0, 4)
+
+
+
     return (
         <div className="min-h-screen bg-white font-mono">
             <PublicNavbar />
@@ -61,62 +86,37 @@ export const LandingPage = () => {
                         Explorá por materia
                     </h2>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-                        {/* Matemática */}
-                        <NavLink to="/catalogo?materia=Matematica" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 rounded-full bg-[#E8DAEF] flex items-center justify-center">
-                                <ChalkboardTeacher size={28} weight="duotone" className="text-[#5C3D7A]" />
-                            </div>
-                            <div className="text-center">
-                                <p className="font-semibold text-[#8B3A52] text-sm">Matemática</p>
-                                <p className="text-xs text-slate-400 mt-1">12 planificaciones</p>
-                            </div>
-                        </NavLink>
-
-                        {/* Lengua */}
-                        <NavLink to="/catalogo?materia=Lengua" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 rounded-full bg-[#FFF7C2] flex items-center justify-center">
-                                <BookOpen size={28} weight="duotone" className="text-[#7A6200]" />
-                            </div>
-                            <div className="text-center">
-                                <p className="font-semibold text-[#8B3A52] text-sm">Lengua</p>
-                                <p className="text-xs text-slate-400 mt-1">9 planificaciones</p>
-                            </div>
-                        </NavLink>
-
-                        {/* Naturales */}
-                        <NavLink to="/catalogo?materia=Naturales" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 rounded-full bg-[#D1F2EB] flex items-center justify-center">
-                                <Plant size={28} weight="duotone" className="text-[#1A7A4A]" />
-                            </div>
-                            <div className="text-center">
-                                <p className="font-semibold text-[#8B3A52] text-sm">Ciencias Naturales</p>
-                                <p className="text-xs text-slate-400 mt-1">7 planificaciones</p>
-                            </div>
-                        </NavLink>
-
-                        {/* Sociales */}
-                        <NavLink to="/catalogo?materia=Sociales" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 rounded-full bg-[#D7F0FA] flex items-center justify-center">
-                                <Globe size={28} weight="duotone" className="text-[#1A6B8A]" />
-                            </div>
-                            <div className="text-center">
-                                <p className="font-semibold text-[#8B3A52] text-sm">Ciencias Sociales</p>
-                                <p className="text-xs text-slate-400 mt-1">8 planificaciones</p>
-                            </div>
-                        </NavLink>
-
-                        {/* Tecnología */}
-                        <NavLink to="/catalogo?materia=Tecnologia" className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100">
-                            <div className="w-14 h-14 rounded-full bg-[#FFE8D0] flex items-center justify-center">
-                                <Desktop size={28} weight="duotone" className="text-[#8B4500]" />
-                            </div>
-                            <div className="text-center">
-                                <p className="font-semibold text-[#8B3A52] text-sm">Tecnología</p>
-                                <p className="text-xs text-slate-400 mt-1">5 planificaciones</p>
-                            </div>
-                        </NavLink>
-                    </div>
+                    {materiasLoading ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+                            {[...Array(5)].map((_, i) => (
+                                <div key={i} className="bg-white rounded-2xl p-6 h-36 animate-pulse border border-slate-100" />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                            {top4Materias.map((materia) => {
+                                const style = subjectStyles[materia.name.toLowerCase()] ?? defaultStyle
+                                const MateriaIcon = style.icon
+                                return (
+                                    <NavLink
+                                        key={materia.id}
+                                        to={`/catalogo?materia=${materia.id}`}
+                                        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100"
+                                    >
+                                        <div className={`w-14 h-14 rounded-full ${style.bg} flex items-center justify-center`}>
+                                            <MateriaIcon size={28} weight="duotone" className={style.color} />
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="font-semibold text-[#8B3A52] text-sm capitalize">{materia.name}</p>
+                                            <p className="text-xs text-slate-400 mt-1">
+                                                {materia.planificacionesCount} {materia.planificacionesCount === 1 ? "planificación" : "planificaciones"}
+                                            </p>
+                                        </div>
+                                    </NavLink>
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
             </section>
 

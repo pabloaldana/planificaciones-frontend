@@ -1,10 +1,18 @@
 import { GraduationCap, ShoppingCart } from "@phosphor-icons/react"
 import { NavLink } from "react-router-dom"
 import { useCart } from "@/context/CartContext"
+import { useAuth } from "@/context/AuthContext"
 import { CartDrawer } from "@/components/common/CartDrawer"
 
+const getDashboardPath = (roles: string[]) => {
+    if (roles.includes("super-admin")) return "/admin"
+    if (roles.includes("admin"))       return "/dashboard"
+    return "/mi-cuenta"
+}
+
 export const PublicNavbar = () => {
-    const { count, openCart } = useCart()
+    const { count, openCart }      = useCart()
+    const { user, isAuthenticated } = useAuth()
 
     return (
         <>
@@ -53,18 +61,36 @@ export const PublicNavbar = () => {
                             )}
                         </button>
 
-                        <NavLink
-                            to="/login"
-                            className="hidden sm:inline-flex text-sm px-4 py-2 rounded-xl border border-slate-200 text-[#8B3A52] hover:bg-slate-50 transition-colors"
-                        >
-                            Iniciar sesión
-                        </NavLink>
-                        <NavLink
-                            to="/registro"
-                            className="text-sm px-4 py-2 rounded-xl bg-[#8B3A52] text-white hover:bg-[#6E2D40] transition-colors"
-                        >
-                            Registrarse
-                        </NavLink>
+                        {isAuthenticated && user ? (
+                            /* Usuario logueado */
+                            <NavLink
+                                to={getDashboardPath(user.roles)}
+                                className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
+                            >
+                                <div className="w-7 h-7 rounded-full bg-[#8B3A52] flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                    {user.name?.charAt(0).toUpperCase()}
+                                </div>
+                                <span className="hidden sm:block text-sm font-medium text-slate-700">
+                                    {user.name} {user.lastname}
+                                </span>
+                            </NavLink>
+                        ) : (
+                            /* No logueado */
+                            <>
+                                <NavLink
+                                    to="/login"
+                                    className="hidden sm:inline-flex text-sm px-4 py-2 rounded-xl border border-slate-200 text-[#8B3A52] hover:bg-slate-50 transition-colors"
+                                >
+                                    Iniciar sesión
+                                </NavLink>
+                                <NavLink
+                                    to="/registro"
+                                    className="text-sm px-4 py-2 rounded-xl bg-[#8B3A52] text-white hover:bg-[#6E2D40] transition-colors"
+                                >
+                                    Registrarse
+                                </NavLink>
+                            </>
+                        )}
                     </div>
 
                 </div>
