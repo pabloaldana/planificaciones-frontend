@@ -4,44 +4,33 @@ import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Pagination } from "@/components/ui/Pagination"
-import { PlanCard, subjectConfig, type Planificacion } from "@/components/common/PlanCard"
+import { PlanCard } from "@/components/common/PlanCard"
+import { usePlanifiaciones } from "@/hooks/usePlanificaciones"
+import { Footer } from "@/components/Footer"
 
 const PAGE_SIZE = 12
 
-// ── Mock data ─────────────────────────────────────────────────────────────────
-const planificaciones: Planificacion[] = [
-    { id: 1,  title: "Números Naturales",       subject: "Matematica", grade: "3°", price: 1000, rating: 4.9, sales: 24 },
-    { id: 2,  title: "Suma y Resta",            subject: "Matematica", grade: "2°", price: 800,  rating: 4.7, sales: 18 },
-    { id: 3,  title: "Multiplicación",          subject: "Matematica", grade: "4°", price: 1000, rating: 4.8, sales: 15 },
-    { id: 4,  title: "Comprensión Lectora",     subject: "Lengua",     grade: "5°", price: 1200, rating: 4.8, sales: 19 },
-    { id: 5,  title: "El Abecedario",           subject: "Lengua",     grade: "1°", price: 700,  rating: 4.6, sales: 12 },
-    { id: 6,  title: "La Oración Simple",       subject: "Lengua",     grade: "3°", price: 900,  rating: 4.5, sales: 10 },
-    { id: 7,  title: "Sistema Solar",           subject: "Naturales",  grade: "4°", price: 900,  rating: 4.7, sales: 14 },
-    { id: 8,  title: "Ecosistemas",             subject: "Naturales",  grade: "5°", price: 1100, rating: 4.6, sales: 11 },
-    { id: 9,  title: "El Agua y sus Estados",   subject: "Naturales",  grade: "3°", price: 800,  rating: 4.8, sales: 20 },
-    { id: 10, title: "Mapas y Continentes",     subject: "Sociales",   grade: "6°", price: 1000, rating: 4.7, sales: 16 },
-    { id: 11, title: "Provincias de Argentina", subject: "Sociales",   grade: "5°", price: 1200, rating: 4.9, sales: 22 },
-    { id: 12, title: "Pueblos Originarios",     subject: "Sociales",   grade: "4°", price: 900,  rating: 4.5, sales: 8  },
-    { id: 13, title: "Intro a la Computación",  subject: "Tecnologia", grade: "4°", price: 1100, rating: 4.7, sales: 13 },
-    { id: 14, title: "Internet y Redes",        subject: "Tecnologia", grade: "6°", price: 1300, rating: 4.8, sales: 17 },
-    { id: 15, title: "Algoritmos Básicos",      subject: "Tecnologia", grade: "5°", price: 1000, rating: 4.6, sales: 9  },
-]
+// ── Tipos para filtros dinámicos ──────────────────────────────────────────────
+interface FilterOption {
+    id: string
+    label: string
+    numero?: number
+}
 
-// ── Filter config ─────────────────────────────────────────────────────────────
-const SUBJECTS = ["Matematica", "Lengua", "Naturales", "Sociales", "Tecnologia"] as const
-const GRADES   = ["1°", "2°", "3°", "4°", "5°", "6°", "7°"]
-
-// ── Filters panel (compartido entre sidebar y drawer) ─────────────────────────
 interface FiltersPanelProps {
+    subjectOptions: FilterOption[]
+    gradeOptions: FilterOption[]
     selectedSubjects: string[]
     selectedGrades: string[]
-    onToggleSubject: (s: string) => void
-    onToggleGrade: (g: string) => void
+    onToggleSubject: (id: string) => void
+    onToggleGrade: (id: string) => void
     onClear: () => void
     activeCount: number
 }
 
+// ── Filters panel ─────────────────────────────────────────────────────────────
 const FiltersPanel = ({
+    subjectOptions, gradeOptions,
     selectedSubjects, selectedGrades,
     onToggleSubject, onToggleGrade,
     onClear, activeCount,
@@ -56,45 +45,49 @@ const FiltersPanel = ({
             )}
         </div>
 
-        {/* Materia */}
-        <div>
-            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Materia</p>
-            <div className="flex flex-col gap-2.5">
-                {SUBJECTS.map((s) => (
-                    <label key={s} className="flex items-center gap-2.5 cursor-pointer group">
-                        <Checkbox
-                            checked={selectedSubjects.includes(s)}
-                            onCheckedChange={() => onToggleSubject(s)}
-                            className="border-slate-300 data-[state=checked]:bg-[#8B3A52] data-[state=checked]:border-[#8B3A52]"
-                        />
-                        <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
-                            {subjectConfig[s].label}
-                        </span>
-                    </label>
-                ))}
+        {subjectOptions.length > 0 && (
+            <div>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Materia</p>
+                <div className="flex flex-col gap-2.5">
+                    {subjectOptions.map((s) => (
+                        <label key={s.id} className="flex items-center gap-2.5 cursor-pointer group">
+                            <Checkbox
+                                checked={selectedSubjects.includes(s.id)}
+                                onCheckedChange={() => onToggleSubject(s.id)}
+                                className="border-slate-300 data-[state=checked]:bg-[#8B3A52] data-[state=checked]:border-[#8B3A52]"
+                            />
+                            <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
+                                {s.label}
+                            </span>
+                        </label>
+                    ))}
+                </div>
             </div>
-        </div>
+        )}
 
-        <div className="border-t border-slate-100" />
+        {subjectOptions.length > 0 && gradeOptions.length > 0 && (
+            <div className="border-t border-slate-100" />
+        )}
 
-        {/* Grado */}
-        <div>
-            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Grado</p>
-            <div className="flex flex-col gap-2.5">
-                {GRADES.map((g) => (
-                    <label key={g} className="flex items-center gap-2.5 cursor-pointer group">
-                        <Checkbox
-                            checked={selectedGrades.includes(g)}
-                            onCheckedChange={() => onToggleGrade(g)}
-                            className="border-slate-300 data-[state=checked]:bg-[#8B3A52] data-[state=checked]:border-[#8B3A52]"
-                        />
-                        <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
-                            {g} grado
-                        </span>
-                    </label>
-                ))}
+        {gradeOptions.length > 0 && (
+            <div>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Grado</p>
+                <div className="flex flex-col gap-2.5">
+                    {gradeOptions.map((g) => (
+                        <label key={g.id} className="flex items-center gap-2.5 cursor-pointer group">
+                            <Checkbox
+                                checked={selectedGrades.includes(g.id)}
+                                onCheckedChange={() => onToggleGrade(g.id)}
+                                className="border-slate-300 data-[state=checked]:bg-[#8B3A52] data-[state=checked]:border-[#8B3A52]"
+                            />
+                            <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
+                                {g.label}
+                            </span>
+                        </label>
+                    ))}
+                </div>
             </div>
-        </div>
+        )}
     </div>
 )
 
@@ -112,35 +105,53 @@ export const CatalogPage = () => {
     const [selectedGrades, setSelectedGrades] = useState<string[]>([])
     const [page, setPage] = useState(1)
 
-    const toggleSubject = (s: string) =>
-        setSelectedSubjects((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s])
+    const { data: planificaciones = [], isLoading, error } = usePlanifiaciones()
 
-    const toggleGrade = (g: string) =>
-        setSelectedGrades((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g])
+    const toggleSubject = (id: string) =>
+        setSelectedSubjects((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
+
+    const toggleGrade = (id: string) =>
+        setSelectedGrades((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
 
     const clearFilters = () => { setSelectedSubjects([]); setSelectedGrades([]) }
 
-    // Vuelve a página 1 cuando cambian los filtros o la búsqueda
     useEffect(() => { setPage(1) }, [selectedSubjects, selectedGrades, search])
+
+    // Materias únicas del backend, ordenadas alfabéticamente
+    const subjectOptions = useMemo(() => {
+        const seen = new Set<number>()
+        return planificaciones
+            .filter(p => { if (seen.has(p.materia.id)) return false; seen.add(p.materia.id); return true })
+            .map(p => ({ id: String(p.materia.id), label: p.materia.name }))
+            .sort((a, b) => a.label.localeCompare(b.label, "es"))
+    }, [planificaciones])
+
+    // Grados únicos del backend, ordenados por número
+    const gradeOptions = useMemo(() => {
+        const seen = new Set<number>()
+        return planificaciones
+            .filter(p => { if (seen.has(p.grado.id)) return false; seen.add(p.grado.id); return true })
+            .map(p => ({ id: String(p.grado.id), label: p.grado.name, numero: p.grado.numero }))
+            .sort((a, b) => (a.numero ?? 0) - (b.numero ?? 0))
+    }, [planificaciones])
 
     const activeCount = selectedSubjects.length + selectedGrades.length
 
     const filtered = useMemo(() => {
-        let result = planificaciones.filter((p) => {
-            const matchSubject = selectedSubjects.length === 0 || selectedSubjects.includes(p.subject)
-            const matchGrade   = selectedGrades.length === 0   || selectedGrades.includes(p.grade)
-            const matchSearch  = p.title.toLowerCase().includes(search.toLowerCase())
+        let result = planificaciones.filter(p => {
+            if (!p.is_active) return false
+            const matchSubject = selectedSubjects.length === 0 || selectedSubjects.includes(String(p.materia.id))
+            const matchGrade = selectedGrades.length === 0 || selectedGrades.includes(String(p.grado.id))
+            const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())
             return matchSubject && matchGrade && matchSearch
         })
-        if (sortBy === "price_asc")  result = [...result].sort((a, b) => a.price - b.price)
+        if (sortBy === "price_asc") result = [...result].sort((a, b) => a.price - b.price)
         if (sortBy === "price_desc") result = [...result].sort((a, b) => b.price - a.price)
-        if (sortBy === "rating")     result = [...result].sort((a, b) => b.rating - a.rating)
-        if (sortBy === "sales")      result = [...result].sort((a, b) => b.sales - a.sales)
         return result
-    }, [selectedSubjects, selectedGrades, search, sortBy])
+    }, [planificaciones, selectedSubjects, selectedGrades, search, sortBy])
 
     const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
-    const paginated  = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+    const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
     return (
         <div className="min-h-screen bg-[#F2F2F2] font-mono">
@@ -167,9 +178,15 @@ export const CatalogPage = () => {
                 {/* ── Toolbar ─────────────────────────────────────────────── */}
                 <div className="flex items-center justify-between mb-5 gap-3">
                     <p className="text-sm text-slate-500">
-                        <span className="font-semibold text-slate-700">{filtered.length}</span> planificaciones
-                        {filtered.length > PAGE_SIZE && (
-                            <span> · página {page} de {totalPages}</span>
+                        {isLoading ? (
+                            <span className="text-slate-400">Cargando...</span>
+                        ) : (
+                            <>
+                                <span className="font-semibold text-slate-700">{filtered.length}</span> planificaciones
+                                {filtered.length > PAGE_SIZE && (
+                                    <span> · página {page} de {totalPages}</span>
+                                )}
+                            </>
                         )}
                     </p>
 
@@ -193,8 +210,6 @@ export const CatalogPage = () => {
                             className="text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white text-slate-600 focus:outline-none focus:border-slate-400 cursor-pointer"
                         >
                             <option value="featured">Destacados</option>
-                            <option value="sales">Más vendidos</option>
-                            <option value="rating">Mejor valorados</option>
                             <option value="price_asc">Precio: menor a mayor</option>
                             <option value="price_desc">Precio: mayor a menor</option>
                         </select>
@@ -204,8 +219,10 @@ export const CatalogPage = () => {
                 <div className="flex gap-6 items-start">
 
                     {/* ── Sidebar desktop ──────────────────────────────────── */}
-                    <aside className="hidden lg:block w-56 shrink-0 bg-white rounded-xl border border-slate-100 shadow-sm p-5 sticky top-24">
+                    <aside className="hidden lg:block w-56 shrink-0 bg-white rounded-xl border border-slate-100 shadow-sm p-5 sticky top-24">``
                         <FiltersPanel
+                            subjectOptions={subjectOptions}
+                            gradeOptions={gradeOptions}
                             selectedSubjects={selectedSubjects}
                             selectedGrades={selectedGrades}
                             onToggleSubject={toggleSubject}
@@ -217,7 +234,22 @@ export const CatalogPage = () => {
 
                     {/* ── Grid ─────────────────────────────────────────────── */}
                     <div className="flex-1">
-                        {paginated.length > 0 ? (
+                        {isLoading ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                                {[...Array(6)].map((_, i) => (
+                                    <div key={i} className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-col gap-3 animate-pulse">
+                                        <div className="h-5 bg-slate-100 rounded-full w-24" />
+                                        <div className="h-4 bg-slate-100 rounded w-full" />
+                                        <div className="h-4 bg-slate-100 rounded w-3/4" />
+                                        <div className="h-8 bg-slate-100 rounded-xl mt-2" />
+                                    </div>
+                                ))}
+                            </div>
+                        ) : error ? (
+                            <div className="py-20 text-center text-slate-400 text-sm">
+                                Error al cargar las planificaciones.
+                            </div>
+                        ) : paginated.length > 0 ? (
                             <>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                                     {paginated.map((p) => <PlanCard key={p.id} plan={p} />)}
@@ -266,6 +298,8 @@ export const CatalogPage = () => {
                 </div>
                 <div className="p-5 overflow-y-auto h-full pb-20">
                     <FiltersPanel
+                        subjectOptions={subjectOptions}
+                        gradeOptions={gradeOptions}
                         selectedSubjects={selectedSubjects}
                         selectedGrades={selectedGrades}
                         onToggleSubject={toggleSubject}
@@ -276,6 +310,7 @@ export const CatalogPage = () => {
                 </div>
             </aside>
 
+            <Footer />
         </div>
     )
 }

@@ -34,3 +34,8 @@ export const getPlanificaciones = async (): Promise<Planificacion[]> => {
     // console.log("Planificaciones obtenidas:", data) // Agrega este log para verificar los datos obtenidos
     return data
 }
+
+export const getPlanificacionById = async (id: number): Promise<Planificacion> => {
+    const { data } = await api.get<Planificacion>(`/planificaciones/${id}`)
+    return data
+}
