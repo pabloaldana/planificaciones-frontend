@@ -1,7 +1,7 @@
 import { getPlanificaciones, getPlanificacionById } from "@/services/planificaciones.service"
 import { useQuery } from "@tanstack/react-query"
 
-export const usePlanifiaciones = () => {
+export const usePlanificaciones = () => {
     return useQuery({
         queryKey: ["planificaciones"],
         queryFn: getPlanificaciones,

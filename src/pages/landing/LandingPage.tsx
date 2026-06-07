@@ -22,18 +22,18 @@ import { usePlanifiaciones } from "@/hooks/usePlanificaciones"
 type SubjectStyle = { icon: Icon; bg: string; color: string }
 
 const subjectStyles: Record<string, SubjectStyle> = {
-    "matemática":           { icon: ChalkboardTeacher, bg: "bg-[#E8DAEF]", color: "text-[#5C3D7A]" },
-    "lengua y literatura":  { icon: BookOpen,          bg: "bg-[#FFF7C2]", color: "text-[#7A6200]" },
-    "ciencias naturales":   { icon: Plant,             bg: "bg-[#D1F2EB]", color: "text-[#1A7A4A]" },
-    "ciencias sociales":    { icon: Globe,             bg: "bg-[#D7F0FA]", color: "text-[#1A6B8A]" },
-    "tecnología":           { icon: Desktop,           bg: "bg-[#FFE8D0]", color: "text-[#8B4500]" },
-    "inglés":               { icon: BookOpen,          bg: "bg-[#FFF7C2]", color: "text-[#7A6200]" },
+    "matemática": { icon: ChalkboardTeacher, bg: "bg-[#E8DAEF]", color: "text-[#5C3D7A]" },
+    "lengua y literatura": { icon: BookOpen, bg: "bg-[#FFF7C2]", color: "text-[#7A6200]" },
+    "ciencias naturales": { icon: Plant, bg: "bg-[#D1F2EB]", color: "text-[#1A7A4A]" },
+    "ciencias sociales": { icon: Globe, bg: "bg-[#D7F0FA]", color: "text-[#1A6B8A]" },
+    "tecnología": { icon: Desktop, bg: "bg-[#FFE8D0]", color: "text-[#8B4500]" },
+    "inglés": { icon: BookOpen, bg: "bg-[#FFF7C2]", color: "text-[#7A6200]" },
 }
 const defaultStyle: SubjectStyle = { icon: BookOpen, bg: "bg-slate-100", color: "text-slate-500" }
 
 export const LandingPage = () => {
-    const { data: materias = [],       isLoading: materiasLoading   } = useMaterias()
-    const { data: planificaciones = [] }                               = usePlanifiaciones()
+    const { data: materias = [], isLoading: materiasLoading } = useMaterias()
+    // const { data: planificaciones = [] }                               = usePlanifiaciones()
 
     const top4Materias = [...materias]
         .sort((a, b) => b.planificacionesCount - a.planificacionesCount)

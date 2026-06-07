@@ -5,7 +5,7 @@ import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Pagination } from "@/components/ui/Pagination"
 import { PlanCard } from "@/components/common/PlanCard"
-import { usePlanifiaciones } from "@/hooks/usePlanificaciones"
+import { usePlanificaciones } from "@/hooks/usePlanificaciones"
 import { Footer } from "@/components/Footer"
 
 const PAGE_SIZE = 12
