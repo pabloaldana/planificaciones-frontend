@@ -1,11 +1,14 @@
 import { MagnifyingGlass, Bell, TextColumns, House } from "@phosphor-icons/react"
 import { NavLink } from "react-router-dom"
+import { useAuth } from "@/context/AuthContext"
 
 interface Props {
     onToggleSidebar?: () => void
 }
 
 export const Header = ({ onToggleSidebar }: Props) => {
+    const { user } = useAuth()
+
     return (
         <header className="h-15 bg-white border-b border-slate-200 flex items-center px-5 gap-4 shrink-0">
             {/* Toggle sidebar */}
@@ -50,8 +53,11 @@ export const Header = ({ onToggleSidebar }: Props) => {
                     <Bell size={20} weight="regular" />
                 </button>
 
-                <div className="w-8 h-8 rounded-full bg-slate-400 flex items-center justify-center text-white font-semibold text-sm">
-                    P
+                <div
+                    title={user ? `${user.name} ${user.lastname}` : undefined}
+                    className="w-8 h-8 rounded-full bg-slate-400 flex items-center justify-center text-white font-semibold text-sm"
+                >
+                    {user?.name?.charAt(0).toUpperCase()}
                 </div>
             </div>
         </header>
