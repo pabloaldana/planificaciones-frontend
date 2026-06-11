@@ -10,6 +10,6 @@ export type Grado = {
 
 export const getGrados = async (): Promise<Grado[]> => {
     const { data } = await api.get<Grado[]>("/grados")
-    console.log("Grados obtenidos:", data) // Agrega este log para verificar la respuesta
+    // console.log("Grados obtenidos:", data) // Agrega este log para verificar la respuesta
     return data
 }

@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Pagination } from "@/components/ui/Pagination"
 import { PlanCard } from "@/components/common/PlanCard"
 import { usePlanificaciones } from "@/hooks/usePlanificaciones"
+
 import { Footer } from "@/components/Footer"
 
 const PAGE_SIZE = 12
@@ -105,7 +106,7 @@ export const CatalogPage = () => {
     const [selectedGrades, setSelectedGrades] = useState<string[]>([])
     const [page, setPage] = useState(1)
 
-    const { data: planificaciones = [], isLoading, error } = usePlanifiaciones()
+    const { data: planificaciones = [], isLoading, error } = usePlanificaciones()
 
     const toggleSubject = (id: string) =>
         setSelectedSubjects((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])

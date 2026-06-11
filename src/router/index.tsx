@@ -11,6 +11,7 @@ import { PlanDetailPage } from "@/pages/catalog/PlanDetailPage"
 import { DashboardLayout } from "../pages/dashboard/creator/DashboardLayout"
 import { DashboardHome } from "../pages/dashboard/creator/DashboardHome"
 import { Planificaciones } from "../pages/dashboard/creator/Planifiaciones"
+import { CrearPlanificacion } from "../pages/dashboard/creator/CrearPlanificacion"
 import { Estadisticas } from "../pages/dashboard/creator/Estadisticas"
 import { Configuracion } from "@/pages/dashboard/creator/Configuracion"
 import { UserLayout } from "@/pages/dashboard/user/UserLayout"
@@ -37,11 +38,12 @@ export const AppRouter = () => {
                     <Route path="/catalogo" element={<CatalogPage />} />
                     <Route path="/catalogo/:id" element={<PlanDetailPage />} />
 
-                    {/* ── Dashboard admin ──────────────── */}
+                    {/* ── Dashboard admin - creador ──────────────── */}
                     <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                         <Route path="/dashboard" element={<DashboardLayout />}>
                             <Route index element={<DashboardHome />} />
                             <Route path="planificaciones" element={<Planificaciones />} />
+                            <Route path="planificaciones/crear" element={<CrearPlanificacion />} />
                             <Route path="estadisticas" element={<Estadisticas />} />
                             <Route path="configuracion" element={<Configuracion />} />
                         </Route>

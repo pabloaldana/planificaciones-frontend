@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { useTable } from "@/hooks/index"
 import { getSubjectConfig } from "@/constants/subjects"
 import { useMaterias, useGrados, usePlanificaciones } from "@/hooks/index"
+import { useNavigate } from "react-router-dom"
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
 
@@ -82,6 +83,8 @@ export const Planificaciones = () => {
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
 
+    const navigate = useNavigate()
+
     // Mapeo al shape que espera useTable
     const tableData = useMemo<Row[]>(() => planificaciones.map(p => ({
         id: p.id,
@@ -132,9 +135,7 @@ export const Planificaciones = () => {
                 </div>
                 <Button
                     className="bg-[#8B3A52] hover:bg-[#6E2D40] text-white rounded-lg text-sm h-9 px-4 w-full sm:w-auto"
-                    onClick={() => {
-                        // navigate("/planificaciones/crear")
-                    }}
+                    onClick={() => navigate("/dashboard/planificaciones/crear")}
                 >
                     + Crear planificación
                 </Button>

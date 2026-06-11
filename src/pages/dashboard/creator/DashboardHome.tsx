@@ -1,5 +1,6 @@
 import { TrendUp, BookOpen, Star } from "@phosphor-icons/react"
 
+//! FALTA TRAER DATOS DE LAS VENTAS DEL MES , TODOS ESTOS DATOS VIENE DEL BACKEND, SOLO SE ESTAN USANDO DATOS DE PRUEBA PARA EL DISEÑO, FALTA CONECTAR CON EL BACKEND PARA TRAER LOS DATOS REALES
 const statCards = [
     {
         label: "Ventas del mes",
@@ -31,10 +32,12 @@ const statCards = [
     },
 ]
 
+//!ESTOS DATOS TAMBIEN VIENEN DEL BACKEN DE UN METODO Q FALTA IMPLEMENTAR
+
 const topPlanificaciones = [
     { title: "Matemática 4° grado", ventas: "24 ventas", rating: "4.9" },
-    { title: "Lengua 6° grado",     ventas: "19 ventas", rating: "4.8" },
-    { title: "Cs. Naturales 3°",    ventas: "14 ventas", rating: "4.7" },
+    { title: "Lengua 6° grado", ventas: "19 ventas", rating: "4.8" },
+    { title: "Cs. Naturales 3°", ventas: "14 ventas", rating: "4.7" },
 ]
 
 export const DashboardHome = () => {

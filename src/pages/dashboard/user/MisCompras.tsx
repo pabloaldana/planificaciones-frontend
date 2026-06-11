@@ -1,14 +1,26 @@
-import { Star, DownloadSimple, Eye } from "@phosphor-icons/react"
-import { subjectConfig } from "@/constants/subjects"
-
-// ── Mock data (reemplazar con useQuery cuando esté el backend) ────────────────
-const compras = [
-    { id: 1,  title: "Números Naturales",   subject: "Matematica", grade: "3°", price: 1000, rating: 4.9, purchasedAt: "12/04/2026" },
-    { id: 4,  title: "Comprensión Lectora", subject: "Lengua",     grade: "5°", price: 1200, rating: 4.8, purchasedAt: "18/04/2026" },
-    { id: 7,  title: "Sistema Solar",       subject: "Naturales",  grade: "4°", price: 900,  rating: 4.7, purchasedAt: "25/04/2026" },
-]
+import { DownloadSimple, Eye } from "@phosphor-icons/react"
+import { getSubjectConfig } from "@/constants/subjects"
+import { useCompras } from "@/hooks"
 
 export const MisCompras = () => {
+    const { data: compras = [], isLoading } = useCompras()
+
+    if (isLoading) {
+        return (
+            <section className="bg-white rounded-xl shadow-sm border border-slate-100 divide-y divide-slate-100">
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-4 px-6 py-4 animate-pulse">
+                        <div className="flex-1 space-y-2">
+                            <div className="h-3 bg-slate-100 rounded w-24" />
+                            <div className="h-4 bg-slate-100 rounded w-48" />
+                        </div>
+                        <div className="h-4 bg-slate-100 rounded w-16" />
+                    </div>
+                ))}
+            </section>
+        )
+    }
+
     if (compras.length === 0) {
         return (
             <section className="bg-white rounded-xl shadow-sm border border-slate-100 p-12 text-center">
@@ -30,10 +42,11 @@ export const MisCompras = () => {
 
             {/* Lista */}
             <div className="divide-y divide-slate-100">
-                {compras.map((item) => {
-                    const subject = subjectConfig[item.subject]
+                {compras.map((compra) => {
+                    const { planificacion } = compra
+                    const subject = getSubjectConfig(planificacion.materia.name)
                     return (
-                        <div key={item.id} className="flex items-center gap-4 px-6 py-4">
+                        <div key={compra.id} className="flex items-center gap-4 px-6 py-4">
 
                             {/* Info */}
                             <div className="flex-1 min-w-0">
@@ -41,40 +54,40 @@ export const MisCompras = () => {
                                     <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${subject.badge}`}>
                                         {subject.label}
                                     </span>
-                                    <span className="text-xs text-slate-400">{item.grade} grado</span>
+                                    <span className="text-xs text-slate-400">{planificacion.grado.name}</span>
                                 </div>
-                                <p className="text-sm font-semibold text-slate-700 truncate">{item.title}</p>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <div className="flex items-center gap-1 text-amber-400">
-                                        <Star size={11} weight="fill" />
-                                        <span className="text-xs text-slate-500 font-medium">{item.rating}</span>
-                                    </div>
-                                    <span className="text-slate-300 text-xs">·</span>
-                                    <span className="text-xs text-slate-400">Comprada el {item.purchasedAt}</span>
-                                </div>
+                                <p className="text-sm font-semibold text-slate-700 truncate">{planificacion.title}</p>
+                                <p className="text-xs text-slate-400 mt-1">
+                                    Comprada el {new Date(compra.createdAt).toLocaleDateString("es-AR")}
+                                </p>
                             </div>
 
                             {/* Precio */}
                             <span className="text-sm font-bold text-[#8B3A52] shrink-0">
-                                ${item.price.toLocaleString("es-AR")}
+                                ${Number(compra.priceAtPurchase).toLocaleString("es-AR")}
                             </span>
 
                             {/* Acciones */}
                             <div className="flex items-center gap-2 shrink-0">
-                                <button
+                                <a
+                                    href={planificacion.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     title="Ver"
                                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:bg-slate-50 transition-colors"
                                 >
                                     <Eye size={14} />
                                     Ver
-                                </button>
-                                <button
+                                </a>
+                                <a
+                                    href={planificacion.url}
+                                    download
                                     title="Descargar"
                                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#8B3A52] text-white text-xs font-medium hover:bg-[#6E2D40] transition-colors"
                                 >
                                     <DownloadSimple size={14} />
                                     Descargar
-                                </button>
+                                </a>
                             </div>
 
                         </div>
