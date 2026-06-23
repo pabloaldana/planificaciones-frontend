@@ -1,27 +1,23 @@
 import { useState } from "react"
 import { MagnifyingGlass, PencilSimple, ProhibitInset } from "@phosphor-icons/react"
-
-// ── Mock data ─────────────────────────────────────────────────────────────────
-const mockUsuarios = [
-    { id: "1", name: "María",  lastname: "González", email: "maria@example.com",  roles: ["user"],        isActive: true  },
-    { id: "2", name: "Lucas",  lastname: "Pérez",    email: "lucas@example.com",  roles: ["admin"],       isActive: true  },
-    { id: "3", name: "Sofía",  lastname: "Ramírez",  email: "sofia@example.com",  roles: ["user"],        isActive: false },
-    { id: "4", name: "Carlos", lastname: "Mendoza",  email: "carlos@example.com", roles: ["user"],        isActive: true  },
-    { id: "5", name: "Pablo",  lastname: "Aldana",   email: "pablo@example.com",  roles: ["super-admin"], isActive: true  },
-]
+import { useUsers } from "@/hooks/useUsers"
+import { usePagination } from "@/hooks/usePagination"
 
 const rolBadge: Record<string, string> = {
     "super-admin": "bg-[#E8DAEF] text-[#5C3D7A]",
-    "admin":       "bg-[#FADADD] text-[#8B3A52]",
-    "user":        "bg-[#D7F0FA] text-[#1A5F7A]",
+    "admin": "bg-[#FADADD] text-[#8B3A52]",
+    "user": "bg-[#D7F0FA] text-[#1A5F7A]",
 }
 
 export const Usuarios = () => {
     const [search, setSearch] = useState("")
+    const { data: usuarios = [], isLoading } = useUsers()
 
-    const filtered = mockUsuarios.filter((u) =>
+    const filtered = usuarios.filter((u) =>
         `${u.name} ${u.lastname} ${u.email}`.toLowerCase().includes(search.toLowerCase())
     )
+
+    const { rows, page, setPage, totalPages } = usePagination(filtered)
 
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
@@ -61,7 +57,21 @@ export const Usuarios = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
-                        {filtered.map((u) => (
+                        {isLoading && (
+                            <tr>
+                                <td colSpan={5} className="px-6 py-8 text-center text-slate-400 text-sm">
+                                    Cargando usuarios...
+                                </td>
+                            </tr>
+                        )}
+                        {!isLoading && rows.length === 0 && (
+                            <tr>
+                                <td colSpan={5} className="px-6 py-8 text-center text-slate-400 text-sm">
+                                    No se encontraron usuarios.
+                                </td>
+                            </tr>
+                        )}
+                        {rows.map((u) => (
                             <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
@@ -102,9 +112,44 @@ export const Usuarios = () => {
                 </table>
             </div>
 
-            {/* Footer */}
-            <div className="px-6 py-4 border-t border-slate-100">
-                <p className="text-slate-400 text-sm">{filtered.length} usuarios</p>
+            {/* Footer: count + pagination */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-slate-100">
+                <p className="text-slate-400 text-sm">
+                    Mostrando {rows.length} de {filtered.length} usuarios
+                </p>
+
+                <div className="flex items-center gap-1">
+                    <button
+                        onClick={() => setPage(page - 1)}
+                        disabled={page === 1}
+                        className="px-3 py-1.5 text-sm rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    >
+                        &lt; Previous
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                        <button
+                            key={p}
+                            onClick={() => setPage(p)}
+                            className={[
+                                "w-8 h-8 text-sm rounded-md border transition-colors",
+                                p === page
+                                    ? "bg-[#8B3A52] text-white border-[#8B3A52]"
+                                    : "border-slate-200 text-slate-600 hover:bg-slate-50",
+                            ].join(" ")}
+                        >
+                            {p}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={() => setPage(page + 1)}
+                        disabled={page === totalPages}
+                        className="px-3 py-1.5 text-sm rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    >
+                        Next &gt;
+                    </button>
+                </div>
             </div>
 
         </section>

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { AuthProvider } from "@/context/AuthContext"
+import { CartProvider } from "@/context/CartContext"
 import { ProtectedRoute } from "@/router/ProtectedRoute"
 
 import { LandingPage } from "../pages/landing/LandingPage"
@@ -28,47 +29,49 @@ export const AppRouter = () => {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <Routes>
+                <CartProvider>
+                    <Routes>
 
-                    {/* ── Rutas públicas ─────────────────────────────── */}
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="*" element={<LandingPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/registro" element={<RegisterPage />} />
-                    <Route path="/catalogo" element={<CatalogPage />} />
-                    <Route path="/catalogo/:id" element={<PlanDetailPage />} />
+                        {/* ── Rutas públicas ─────────────────────────────── */}
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="*" element={<LandingPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/registro" element={<RegisterPage />} />
+                        <Route path="/catalogo" element={<CatalogPage />} />
+                        <Route path="/catalogo/:id" element={<PlanDetailPage />} />
 
-                    {/* ── Dashboard admin - creador ──────────────── */}
-                    <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-                        <Route path="/dashboard" element={<DashboardLayout />}>
-                            <Route index element={<DashboardHome />} />
-                            <Route path="planificaciones" element={<Planificaciones />} />
-                            <Route path="planificaciones/crear" element={<CrearPlanificacion />} />
-                            <Route path="estadisticas" element={<Estadisticas />} />
-                            <Route path="configuracion" element={<Configuracion />} />
+                        {/* ── Dashboard admin - creador ──────────────── */}
+                        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+                            <Route path="/dashboard" element={<DashboardLayout />}>
+                                <Route index element={<DashboardHome />} />
+                                <Route path="planificaciones" element={<Planificaciones />} />
+                                <Route path="planificaciones/crear" element={<CrearPlanificacion />} />
+                                <Route path="estadisticas" element={<Estadisticas />} />
+                                <Route path="configuracion" element={<Configuracion />} />
+                            </Route>
                         </Route>
-                    </Route>
 
-                    {/* ── Dashboard super-admin ─────────────────────── */}
-                    <Route element={<ProtectedRoute allowedRoles={["super-admin"]} />}>
-                        <Route path="/admin" element={<SuperAdminLayout />}>
-                            <Route index element={<SuperAdminHome />} />
-                            <Route path="usuarios" element={<Usuarios />} />
-                            <Route path="materias" element={<Materias />} />
-                            <Route path="grados" element={<Grados />} />
-                            <Route path="planificaciones" element={<PlanificacionesAdmin />} />
+                        {/* ── Dashboard super-admin ─────────────────────── */}
+                        <Route element={<ProtectedRoute allowedRoles={["super-admin"]} />}>
+                            <Route path="/admin" element={<SuperAdminLayout />}>
+                                <Route index element={<SuperAdminHome />} />
+                                <Route path="usuarios" element={<Usuarios />} />
+                                <Route path="materias" element={<Materias />} />
+                                <Route path="grados" element={<Grados />} />
+                                <Route path="planificaciones" element={<PlanificacionesAdmin />} />
+                            </Route>
                         </Route>
-                    </Route>
 
-                    {/* ── Dashboard usuario ──────────────────────────── */}
-                    <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
-                        <Route path="/mi-cuenta" element={<UserLayout />}>
-                            <Route index element={<MisCompras />} />
-                            <Route path="perfil" element={<MiPerfil />} />
+                        {/* ── Dashboard usuario ──────────────────────────── */}
+                        <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
+                            <Route path="/mi-cuenta" element={<UserLayout />}>
+                                <Route index element={<MisCompras />} />
+                                <Route path="perfil" element={<MiPerfil />} />
+                            </Route>
                         </Route>
-                    </Route>
 
-                </Routes>
+                    </Routes>
+                </CartProvider>
             </AuthProvider>
         </BrowserRouter>
     )

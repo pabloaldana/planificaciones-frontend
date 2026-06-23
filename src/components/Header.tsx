@@ -29,21 +29,6 @@ export const Header = ({ onToggleSidebar }: Props) => {
                 <House size={20} weight="duotone" />
             </NavLink>
 
-            {/* Search */}
-            <div className="flex-1 max-w-md">
-                <div className="relative">
-                    <MagnifyingGlass
-                        size={16}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Buscar planificaciones, materias..."
-                        className="w-full bg-slate-100 border border-transparent rounded-lg pl-9 pr-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-slate-300 focus:bg-white transition-colors"
-                    />
-                </div>
-            </div>
-
             {/* Right actions */}
             <div className="ml-auto flex items-center gap-3">
                 <button

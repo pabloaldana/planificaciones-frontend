@@ -16,7 +16,7 @@ import { MdEmail, MdPhone } from "react-icons/md"
 import { Link, NavLink } from "react-router-dom"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { useMaterias } from "@/hooks/useMaterias"
-import { usePlanifiaciones } from "@/hooks/usePlanificaciones"
+
 
 // ── Estilos por materia (clave = nombre exacto del backend en minúsculas) ──────
 type SubjectStyle = { icon: Icon; bg: string; color: string }
@@ -268,83 +268,6 @@ export const LandingPage = () => {
                             <h3 className="font-bold text-[#8B3A52] text-base">Usás en clase</h3>
                             <p className="text-slate-500 text-sm leading-relaxed">
                                 Descargá la planificación y llevala lista al aula
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ===== TESTIMONIOS ===== */}
-            <section className="bg-white py-16 sm:py-20">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-[#8B3A52] text-center mb-12">
-                        Lo que dicen los docentes
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Testimonio 1 */}
-                        <div className="rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-[#8B3A52] text-white flex items-center justify-center font-bold text-sm">
-                                    M
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-[#8B3A52] text-sm">María G.</p>
-                                    <div className="flex items-center gap-0.5 text-amber-400">
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                    </div>
-                                </div>
-                            </div>
-                            <p className="text-slate-500 text-sm leading-relaxed">
-                                "Excelente material, muy completo y fácil de adaptar. Me ahorró horas de trabajo."
-                            </p>
-                        </div>
-
-                        {/* Testimonio 2 */}
-                        <div className="rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-[#8B3A52] text-white flex items-center justify-center font-bold text-sm">
-                                    L
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-[#8B3A52] text-sm">Lucas P.</p>
-                                    <div className="flex items-center gap-0.5 text-amber-400">
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                    </div>
-                                </div>
-                            </div>
-                            <p className="text-slate-500 text-sm leading-relaxed">
-                                "Las planificaciones están muy bien organizadas. Las uso en todos mis grados."
-                            </p>
-                        </div>
-
-                        {/* Testimonio 3 */}
-                        <div className="rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-[#8B3A52] text-white flex items-center justify-center font-bold text-sm">
-                                    S
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-[#8B3A52] text-sm">Sofía R.</p>
-                                    <div className="flex items-center gap-0.5 text-amber-400">
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="fill" />
-                                        <Star size={12} weight="regular" />
-                                    </div>
-                                </div>
-                            </div>
-                            <p className="text-slate-500 text-sm leading-relaxed">
-                                "Muy buen contenido, se nota que está hecho por alguien que conoce el aula."
                             </p>
                         </div>
                     </div>

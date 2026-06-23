@@ -1,46 +1,40 @@
-import { TrendUp, BookOpen, Star } from "@phosphor-icons/react"
-
-//! FALTA TRAER DATOS DE LAS VENTAS DEL MES , TODOS ESTOS DATOS VIENE DEL BACKEND, SOLO SE ESTAN USANDO DATOS DE PRUEBA PARA EL DISEÑO, FALTA CONECTAR CON EL BACKEND PARA TRAER LOS DATOS REALES
-const statCards = [
-    {
-        label: "Ventas del mes",
-        value: "$84.250",
-        icon: <TrendUp size={20} weight="bold" className="text-[#1A6B8A]" />,
-        iconBg: "bg-[#D7F0FA]",
-        badge: "+12,4%",
-    },
-    {
-        label: "Planificaciones",
-        value: "127",
-        icon: <TrendUp size={20} weight="bold" className="text-[#8B3A52]" />,
-        iconBg: "bg-[#FADADD]",
-        badge: "+8 nuevas",
-    },
-    {
-        label: "Clientes activos",
-        value: "342",
-        icon: <TrendUp size={20} weight="bold" className="text-[#1A7A4A]" />,
-        iconBg: "bg-[#D1F2EB]",
-        badge: "+24",
-    },
-    {
-        label: "Tasa de conversión",
-        value: "4,8%",
-        icon: <TrendUp size={20} weight="bold" className="text-[#5C3D7A]" />,
-        iconBg: "bg-[#E8DAEF]",
-        badge: "+0,6%",
-    },
-]
-
-//!ESTOS DATOS TAMBIEN VIENEN DEL BACKEN DE UN METODO Q FALTA IMPLEMENTAR
-
-const topPlanificaciones = [
-    { title: "Matemática 4° grado", ventas: "24 ventas", rating: "4.9" },
-    { title: "Lengua 6° grado", ventas: "19 ventas", rating: "4.8" },
-    { title: "Cs. Naturales 3°", ventas: "14 ventas", rating: "4.7" },
-]
+import { useCreator } from "@/hooks/useCreator"
+import { TrendUp, BookOpen, ShoppingCart } from "@phosphor-icons/react"
 
 export const DashboardHome = () => {
+    const { data, isLoading } = useCreator()
+
+    if (isLoading || !data) {
+        return (
+            <div className="flex items-center justify-center h-64 text-slate-400 text-sm">
+                Cargando dashboard...
+            </div>
+        )
+    }
+
+    const { totalPlanificaciones, totalRevenue, topPlanificaciones, ventasRecientes, usuariosActivos } = data
+
+    const statCards = [
+        {
+            label: "Ganancias totales",
+            value: `$${totalRevenue.toLocaleString("es-AR")}`,
+            icon: <TrendUp size={20} weight="bold" className="text-[#1A6B8A]" />,
+            iconBg: "bg-[#D7F0FA]",
+        },
+        {
+            label: "Planificaciones",
+            value: String(totalPlanificaciones),
+            icon: <BookOpen size={20} weight="bold" className="text-[#8B3A52]" />,
+            iconBg: "bg-[#FADADD]",
+        },
+        {
+            label: "Clientes activos",
+            value: String(usuariosActivos),
+            icon: <TrendUp size={20} weight="bold" className="text-[#1A7A4A]" />,
+            iconBg: "bg-[#D1F2EB]",
+        },
+    ]
+
     return (
         <>
             {/* Stat cards */}
@@ -60,10 +54,6 @@ export const DashboardHome = () => {
                         <p className="text-[2rem] font-bold text-[#8B3A52] leading-none">
                             {card.value}
                         </p>
-
-                        <span className="self-start bg-[#FADADD] text-[#8B3A52] text-xs font-medium px-2.5 py-1 rounded-full">
-                            {card.badge}
-                        </span>
                     </div>
                 ))}
             </section>
@@ -75,9 +65,32 @@ export const DashboardHome = () => {
                     <h2 className="text-base font-semibold text-[#8B3A52] mb-4">
                         Ventas recientes
                     </h2>
-                    <div className="flex-1 flex items-center justify-center min-h-64">
-                        <p className="text-slate-400 text-sm">Acá irá el gráfico de ventas</p>
-                    </div>
+                    {ventasRecientes.length === 0 ? (
+                        <div className="flex-1 flex items-center justify-center min-h-64">
+                            <p className="text-slate-400 text-sm">Todavía no tenés ventas.</p>
+                        </div>
+                    ) : (
+                        <ul className="divide-y divide-slate-50">
+                            {ventasRecientes.map((venta) => (
+                                <li key={venta.id} className="flex items-center gap-3 py-3">
+                                    <div className="w-9 h-9 rounded-full bg-[#D1F2EB] flex items-center justify-center shrink-0">
+                                        <ShoppingCart size={16} weight="duotone" className="text-[#1A7A4A]" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold text-[#8B3A52] truncate">
+                                            {venta.planificacion.title}
+                                        </p>
+                                        <p className="text-xs text-slate-400">
+                                            {new Date(venta.createdAt).toLocaleDateString("es-AR")}
+                                        </p>
+                                    </div>
+                                    <span className="text-sm font-bold text-[#8B3A52] shrink-0">
+                                        ${Number(venta.priceAtPurchase).toLocaleString("es-AR")}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
 
                 {/* Planificaciones top */}
@@ -99,11 +112,6 @@ export const DashboardHome = () => {
                                     </p>
                                     <p className="text-xs text-slate-400">{item.ventas}</p>
                                 </div>
-
-                                <span className="bg-[#FADADD] text-[#8B3A52] text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
-                                    <Star size={11} weight="fill" />
-                                    {item.rating}
-                                </span>
                             </li>
                         ))}
                     </ul>

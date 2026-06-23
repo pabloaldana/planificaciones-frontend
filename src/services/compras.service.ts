@@ -16,3 +16,8 @@ export const getCompras = async (): Promise<Compra[]> => {
     const { data } = await api.get<Compra[]>("/compras/mias")
     return data
 }
+
+export const getTotalVentas = async (): Promise<{ total: number }> => {
+    const { data } = await api.get<{ total: number }>("/compras/total-ventas")
+    return data
+}
