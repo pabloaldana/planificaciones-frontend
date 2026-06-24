@@ -1,16 +1,26 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
-import { loginRequest, registerRequest } from "@/services/auth.service"
+import { loginRequest, registerRequest, type AuthResponse } from "@/services/auth.service"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
+// Solo datos de perfil — el token/refreshToken NUNCA se guardan acá adentro,
+// viven aparte en localStorage["token"]/["refreshToken"] (los lee el interceptor de api.ts).
 type User = {
     id: string
     email: string
     name: string
     lastname: string
     isActive: boolean
-    token: string
     roles: string[]
 }
+
+const toProfile = (data: AuthResponse): User => ({
+    id: data.id,
+    email: data.email,
+    name: data.name,
+    lastname: data.lastname,
+    isActive: data.isActive,
+    roles: data.roles,
+})
 
 type AuthContextType = {
     user: User | null
@@ -40,10 +50,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setError(null)
         try {
             const data = await loginRequest({ email, password })
+            const profile = toProfile(data)
             localStorage.setItem("token", data.token)
-            localStorage.setItem("user", JSON.stringify(data))
-            setUser(data)
-            return data
+            localStorage.setItem("refreshToken", data.refreshToken)
+            localStorage.setItem("user", JSON.stringify(profile))
+            setUser(profile)
+            return profile
         } catch {
             setError("Credenciales incorrectas. Revisá tu email y contraseña.")
             throw new Error("Login failed")
@@ -54,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = () => {
         localStorage.removeItem("token")
+        localStorage.removeItem("refreshToken")
         localStorage.removeItem("user")
         setUser(null)
     }
@@ -64,10 +77,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setError(null)
         try {
             const data = await registerRequest({ name, lastname, email, password })
+            const profile = toProfile(data)
             localStorage.setItem("token", data.token)
-            localStorage.setItem("user", JSON.stringify(data))
-            setUser(data)
-            return data
+            localStorage.setItem("refreshToken", data.refreshToken)
+            localStorage.setItem("user", JSON.stringify(profile))
+            setUser(profile)
+            return profile
         } catch {
             setError("Error al registrarse. Intentá nuevamente.")
             throw new Error("Register failed")

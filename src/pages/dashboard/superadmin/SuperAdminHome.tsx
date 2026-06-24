@@ -2,7 +2,7 @@ import { Users, BookOpen, TrendUp, UserCheck } from "@phosphor-icons/react"
 
 const statCards = [
     { label: "Usuarios totales",    value: "412",      icon: <Users      size={20} weight="bold" className="text-[#1A5F7A]" />, iconBg: "bg-[#D7F0FA]", badge: "+18 este mes"  },
-    { label: "Planificaciones",     value: "127",      icon: <BookOpen   size={20} weight="bold" className="text-[#8B3A52]" />, iconBg: "bg-[#FADADD]", badge: "+8 nuevas"     },
+    { label: "Planificaciones",     value: "127",      icon: <BookOpen   size={20} weight="bold" className="text-[#1A6B4A]" />, iconBg: "bg-[#D1F2EB]", badge: "+8 nuevas"     },
     { label: "Ventas totales",      value: "$284.500", icon: <TrendUp    size={20} weight="bold" className="text-[#1A6B4A]" />, iconBg: "bg-[#D1F2EB]", badge: "+12,4%"        },
     { label: "Usuarios activos",    value: "389",      icon: <UserCheck  size={20} weight="bold" className="text-[#5C3D7A]" />, iconBg: "bg-[#E8DAEF]", badge: "94% del total" },
 ]
@@ -16,7 +16,7 @@ const recentUsers = [
 
 const rolBadge: Record<string, string> = {
     "super-admin": "bg-[#E8DAEF] text-[#5C3D7A]",
-    "admin":       "bg-[#FADADD] text-[#8B3A52]",
+    "admin":       "bg-[#D1F2EB] text-[#1A6B4A]",
     "user":        "bg-[#D7F0FA] text-[#1A5F7A]",
 }
 
@@ -32,8 +32,8 @@ export const SuperAdminHome = () => (
                             {card.icon}
                         </div>
                     </div>
-                    <p className="text-[2rem] font-bold text-[#8B3A52] leading-none">{card.value}</p>
-                    <span className="self-start bg-[#FADADD] text-[#8B3A52] text-xs font-medium px-2.5 py-1 rounded-full">
+                    <p className="text-[2rem] font-bold text-[#1A6B4A] leading-none">{card.value}</p>
+                    <span className="self-start bg-[#D1F2EB] text-[#1A6B4A] text-xs font-medium px-2.5 py-1 rounded-full">
                         {card.badge}
                     </span>
                 </div>
@@ -42,7 +42,7 @@ export const SuperAdminHome = () => (
 
         {/* Usuarios recientes */}
         <section className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-            <h2 className="text-base font-semibold text-[#8B3A52] mb-4">Usuarios recientes</h2>
+            <h2 className="text-base font-semibold text-[#1A6B4A] mb-4">Usuarios recientes</h2>
             <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                     <thead>
@@ -58,7 +58,7 @@ export const SuperAdminHome = () => (
                             <tr key={u.email}>
                                 <td className="py-3">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-[#8B3A52] flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                        <div className="w-8 h-8 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white text-xs font-bold shrink-0">
                                             {u.name.charAt(0)}
                                         </div>
                                         <span className="font-medium text-slate-700">{u.name}</span>

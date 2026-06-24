@@ -24,7 +24,7 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
     <div className="min-h-screen grid lg:grid-cols-2">
 
         {/* Panel izquierdo — branding */}
-        <div className="hidden lg:flex flex-col items-center justify-center bg-[#8B3A52] text-white px-12 gap-6">
+        <div className="hidden lg:flex flex-col items-center justify-center bg-[#1A6B4A] text-white px-12 gap-6">
             <div className="flex flex-col items-center gap-4 text-center">
                 <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
                     <BookBookmark size={36} weight="fill" className="text-white" />
@@ -51,14 +51,14 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#F2F2F2] px-6 py-10 gap-4">
             <NavLink
                 to="/"
-                className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#8B3A52] transition-colors self-start max-w-sm w-full"
+                className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors self-start max-w-sm w-full"
             >
                 ← Volver al inicio
             </NavLink>
 
             <Card className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white shadow-lg">
                 <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-[#8B3A52]">
+                    <CardTitle className="text-xl font-bold text-[#1A6B4A]">
                         {title}
                     </CardTitle>
                     <CardDescription className="text-slate-500 text-sm">

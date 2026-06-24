@@ -1,19 +1,6 @@
 import { api } from "@/config/api"
-
-type Materia = {
-    id: number
-    name: string
-    description: string
-    created_at: string
-}
-
-type Grado = {
-    id: number
-    name: string
-    numero: number
-    created_at: string
-    updated_at: string
-}
+import type { Materia } from "./materias.service"
+import type { Grado } from "./grados.service"
 
 export type Planificacion = {
     id: number
@@ -37,9 +24,17 @@ export type CreatePlanificacionPayload = {
     file: File
 }
 
+export type UpdatePlanificacionPayload = {
+    title?: string
+    description?: string
+    price?: number
+    materiaId?: number
+    gradoId?: number
+    file?: File
+}
+
 export const getPlanificaciones = async (): Promise<Planificacion[]> => {
     const { data } = await api.get<Planificacion[]>("/planificaciones")
-    // console.log("Planificaciones obtenidas:", data) // Agrega este log para verificar los datos obtenidos
     return data
 }
 
@@ -58,5 +53,18 @@ export const createPlanificacion = async (payload: CreatePlanificacionPayload): 
     formData.append("file", payload.file)
 
     const { data } = await api.post<Planificacion>("/planificaciones", formData)
+    return data
+}
+
+export const updatePlanificacion = async (id: number, payload: UpdatePlanificacionPayload): Promise<Planificacion> => {
+    const formData = new FormData()
+    if (payload.title !== undefined) formData.append("title", payload.title)
+    if (payload.description !== undefined) formData.append("description", payload.description)
+    if (payload.price !== undefined) formData.append("price", String(payload.price))
+    if (payload.materiaId !== undefined) formData.append("materiaId", String(payload.materiaId))
+    if (payload.gradoId !== undefined) formData.append("gradoId", String(payload.gradoId))
+    if (payload.file) formData.append("file", payload.file)
+
+    const { data } = await api.patch<Planificacion>(`/planificaciones/${id}`, formData)
     return data
 }

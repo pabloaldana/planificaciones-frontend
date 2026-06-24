@@ -24,8 +24,8 @@ export const DashboardHome = () => {
         {
             label: "Planificaciones",
             value: String(totalPlanificaciones),
-            icon: <BookOpen size={20} weight="bold" className="text-[#8B3A52]" />,
-            iconBg: "bg-[#FADADD]",
+            icon: <BookOpen size={20} weight="bold" className="text-[#1A6B4A]" />,
+            iconBg: "bg-[#D1F2EB]",
         },
         {
             label: "Clientes activos",
@@ -51,7 +51,7 @@ export const DashboardHome = () => {
                             </div>
                         </div>
 
-                        <p className="text-[2rem] font-bold text-[#8B3A52] leading-none">
+                        <p className="text-[2rem] font-bold text-[#1A6B4A] leading-none">
                             {card.value}
                         </p>
                     </div>
@@ -62,7 +62,7 @@ export const DashboardHome = () => {
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Ventas recientes */}
                 <div className="lg:col-span-2 bg-white rounded-xl border border-slate-100 shadow-sm p-6 flex flex-col">
-                    <h2 className="text-base font-semibold text-[#8B3A52] mb-4">
+                    <h2 className="text-base font-semibold text-[#1A6B4A] mb-4">
                         Ventas recientes
                     </h2>
                     {ventasRecientes.length === 0 ? (
@@ -77,14 +77,14 @@ export const DashboardHome = () => {
                                         <ShoppingCart size={16} weight="duotone" className="text-[#1A7A4A]" />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-semibold text-[#8B3A52] truncate">
+                                        <p className="text-sm font-semibold text-[#1A6B4A] truncate">
                                             {venta.planificacion.title}
                                         </p>
                                         <p className="text-xs text-slate-400">
                                             {new Date(venta.createdAt).toLocaleDateString("es-AR")}
                                         </p>
                                     </div>
-                                    <span className="text-sm font-bold text-[#8B3A52] shrink-0">
+                                    <span className="text-sm font-bold text-[#1A6B4A] shrink-0">
                                         ${Number(venta.priceAtPurchase).toLocaleString("es-AR")}
                                     </span>
                                 </li>
@@ -95,7 +95,7 @@ export const DashboardHome = () => {
 
                 {/* Planificaciones top */}
                 <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#8B3A52] mb-4">
+                    <h2 className="text-base font-semibold text-[#1A6B4A] mb-4">
                         Planificaciones top
                     </h2>
 
@@ -107,7 +107,7 @@ export const DashboardHome = () => {
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-[#8B3A52] truncate">
+                                    <p className="text-sm font-semibold text-[#1A6B4A] truncate">
                                         {item.title}
                                     </p>
                                     <p className="text-xs text-slate-400">{item.ventas}</p>

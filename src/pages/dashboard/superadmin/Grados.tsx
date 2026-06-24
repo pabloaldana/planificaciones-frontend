@@ -45,12 +45,12 @@ export const Grados = () => {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
-                    <h2 className="text-xl font-bold text-[#8B3A52]">Grados</h2>
+                    <h2 className="text-xl font-bold text-[#1A6B4A]">Grados</h2>
                     <p className="text-slate-500 text-sm mt-0.5">Agregá, editá o eliminá grados.</p>
                 </div>
                 <button
                     onClick={() => setAdding(true)}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#6E2D40] transition-colors"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
                 >
                     <Plus size={16} weight="bold" />
                     Nuevo grado
@@ -69,7 +69,7 @@ export const Grados = () => {
                             onChange={(e) => setNewLabel(e.target.value)}
                             onKeyDown={(e) => { if (e.key === "Enter") saveNew(); if (e.key === "Escape") setAdding(false) }}
                             placeholder="Ej: 8°"
-                            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#8B3A52] w-32"
+                            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#1A6B4A] w-32"
                         />
                         <button onClick={saveNew} className="p-1.5 rounded-md text-emerald-500 hover:bg-emerald-50 transition-colors">
                             <Check size={16} weight="bold" />
@@ -88,7 +88,7 @@ export const Grados = () => {
                                 value={editValue}
                                 onChange={(e) => setEditValue(e.target.value)}
                                 onKeyDown={(e) => { if (e.key === "Enter") saveEdit(g.id); if (e.key === "Escape") cancelEdit() }}
-                                className="border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-[#8B3A52] w-32"
+                                className="border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-[#1A6B4A] w-32"
                             />
                         ) : (
                             <span className="font-medium text-slate-700">{g.label} grado</span>
@@ -106,7 +106,7 @@ export const Grados = () => {
                                 </>
                             ) : (
                                 <>
-                                    <button onClick={() => startEdit(g)} className="p-1.5 rounded-md text-slate-400 hover:text-[#8B3A52] hover:bg-[#FADADD] transition-colors">
+                                    <button onClick={() => startEdit(g)} className="p-1.5 rounded-md text-slate-400 hover:text-[#1A6B4A] hover:bg-[#D1F2EB] transition-colors">
                                         <PencilSimple size={16} />
                                     </button>
                                     <button onClick={() => deleteGrado(g.id)} className="p-1.5 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">

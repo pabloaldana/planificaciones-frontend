@@ -37,45 +37,6 @@ type Row = {
     price: string
 }
 
-// ─── Column definitions ───────────────────────────────────────────────────────
-
-const columns: Column<Row>[] = [
-    {
-        key: "id",
-        label: "Id",
-        render: (row) => (
-            <span className="text-slate-400 text-xs font-mono">
-                #{String(row.id).padStart(3, "0")}
-            </span>
-        ),
-    },
-    { key: "title", label: "Título" },
-    {
-        key: "subject",
-        label: "Materia",
-        render: (row) => <SubjectBadge subject={row.subject} />,
-    },
-    { key: "grade", label: "Grado" },
-    { key: "date", label: "Fecha" },
-    { key: "price", label: "Precio" },
-    {
-        key: "acciones",
-        label: "Acciones",
-        render: (row) => (
-            <div className="flex items-center gap-1">
-                <a href={row.url} target="_blank" rel="noopener noreferrer">
-                    <button title="Ver" className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-                        <Eye size={16} weight="regular" />
-                    </button>
-                </a>
-                <button title="Editar" className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-                    <PencilSimple size={16} weight="regular" />
-                </button>
-            </div>
-        ),
-    },
-]
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export const Planificaciones = () => {
@@ -84,6 +45,48 @@ export const Planificaciones = () => {
     const { data: grados = [] } = useGrados()
 
     const navigate = useNavigate()
+
+    // Columnas adentro del componente: el botón "Editar" necesita navigate()
+    const columns: Column<Row>[] = [
+        {
+            key: "id",
+            label: "Id",
+            render: (row) => (
+                <span className="text-slate-400 text-xs font-mono">
+                    #{String(row.id).padStart(3, "0")}
+                </span>
+            ),
+        },
+        { key: "title", label: "Título" },
+        {
+            key: "subject",
+            label: "Materia",
+            render: (row) => <SubjectBadge subject={row.subject} />,
+        },
+        { key: "grade", label: "Grado" },
+        { key: "date", label: "Fecha" },
+        { key: "price", label: "Precio" },
+        {
+            key: "acciones",
+            label: "Acciones",
+            render: (row) => (
+                <div className="flex items-center gap-1">
+                    <a href={row.url} target="_blank" rel="noopener noreferrer">
+                        <button title="Ver" className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                            <Eye size={16} weight="regular" />
+                        </button>
+                    </a>
+                    <button
+                        title="Editar"
+                        onClick={() => navigate(`/dashboard/planificaciones/${row.id}/editar`)}
+                        className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                    >
+                        <PencilSimple size={16} weight="regular" />
+                    </button>
+                </div>
+            ),
+        },
+    ]
 
     // Mapeo al shape que espera useTable
     const tableData = useMemo<Row[]>(() => planificaciones.map(p => ({
@@ -128,13 +131,13 @@ export const Planificaciones = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 px-6 py-5 border-b border-slate-100">
                 <div>
-                    <h2 className="text-xl font-bold text-[#8B3A52]">Mis Planificaciones</h2>
+                    <h2 className="text-xl font-bold text-[#1A6B4A]">Mis Planificaciones</h2>
                     <p className="text-slate-500 text-sm mt-0.5">
                         Gestioná, editá y publicá tus contenidos.
                     </p>
                 </div>
                 <Button
-                    className="bg-[#8B3A52] hover:bg-[#6E2D40] text-white rounded-lg text-sm h-9 px-4 w-full sm:w-auto"
+                    className="bg-[#1A6B4A] hover:bg-[#134F37] text-white rounded-lg text-sm h-9 px-4 w-full sm:w-auto"
                     onClick={() => navigate("/dashboard/planificaciones/crear")}
                 >
                     + Crear planificación
@@ -211,7 +214,7 @@ export const Planificaciones = () => {
                             className={[
                                 "w-8 h-8 text-sm rounded-md border transition-colors",
                                 p === page
-                                    ? "bg-[#8B3A52] text-white border-[#8B3A52]"
+                                    ? "bg-[#1A6B4A] text-white border-[#1A6B4A]"
                                     : "border-slate-200 text-slate-600 hover:bg-slate-50",
                             ].join(" ")}
                         >

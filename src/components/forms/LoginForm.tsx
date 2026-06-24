@@ -80,7 +80,7 @@ export const LoginForm = () => {
                                 <FormLabel>Contraseña</FormLabel>
                                 <a
                                     href="#"
-                                    className="ml-auto text-sm hover:underline text-slate-500 hover:text-[#8B3A52]"
+                                    className="ml-auto text-sm hover:underline text-slate-500 hover:text-[#1A6B4A]"
                                 >
                                     ¿Olvidaste tu contraseña?
                                 </a>
@@ -106,14 +106,14 @@ export const LoginForm = () => {
                 <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-[#8B3A52] hover:bg-[#6E2D40] text-white"
+                    className="w-full bg-[#1A6B4A] hover:bg-[#134F37] text-white"
                 >
                     {isLoading ? "Ingresando..." : "Iniciar sesión"}
                 </Button>
 
                 <p className="text-center text-sm text-slate-500">
                     ¿No estás registrado?{" "}
-                    <NavLink to="/registro" className="text-[#8B3A52] hover:underline font-medium">
+                    <NavLink to="/registro" className="text-[#1A6B4A] hover:underline font-medium">
                         Registrarse
                     </NavLink>
                 </p>

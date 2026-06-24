@@ -34,7 +34,7 @@ export const MisCompras = () => {
 
             {/* Header */}
             <div className="px-6 py-5 border-b border-slate-100">
-                <h2 className="text-xl font-bold text-[#8B3A52]">Mis compras</h2>
+                <h2 className="text-xl font-bold text-[#1A6B4A]">Mis compras</h2>
                 <p className="text-slate-500 text-sm mt-0.5">
                     {compras.length} {compras.length === 1 ? "planificación comprada" : "planificaciones compradas"}
                 </p>
@@ -63,7 +63,7 @@ export const MisCompras = () => {
                             </div>
 
                             {/* Precio */}
-                            <span className="text-sm font-bold text-[#8B3A52] shrink-0">
+                            <span className="text-sm font-bold text-[#1A6B4A] shrink-0">
                                 ${Number(compra.priceAtPurchase).toLocaleString("es-AR")}
                             </span>
 
@@ -83,7 +83,7 @@ export const MisCompras = () => {
                                     href={planificacion.url}
                                     download
                                     title="Descargar"
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#8B3A52] text-white text-xs font-medium hover:bg-[#6E2D40] transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1A6B4A] text-white text-xs font-medium hover:bg-[#134F37] transition-colors"
                                 >
                                     <DownloadSimple size={14} />
                                     Descargar

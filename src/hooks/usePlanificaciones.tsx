@@ -2,7 +2,9 @@ import {
     getPlanificaciones,
     getPlanificacionById,
     createPlanificacion,
+    updatePlanificacion,
     type CreatePlanificacionPayload,
+    type UpdatePlanificacionPayload,
 } from "@/services/planificaciones.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -27,6 +29,17 @@ export const useCreatePlanificacion = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (payload: CreatePlanificacionPayload) => createPlanificacion(payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
+        },
+    })
+}
+
+export const useUpdatePlanificacion = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id, payload }: { id: number; payload: UpdatePlanificacionPayload }) =>
+            updatePlanificacion(id, payload),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
         },

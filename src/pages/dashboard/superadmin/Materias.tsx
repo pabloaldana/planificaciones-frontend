@@ -42,12 +42,12 @@ export const Materias = () => {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
-                    <h2 className="text-xl font-bold text-[#8B3A52]">Materias</h2>
+                    <h2 className="text-xl font-bold text-[#1A6B4A]">Materias</h2>
                     <p className="text-slate-500 text-sm mt-0.5">Agregá, editá o eliminá materias.</p>
                 </div>
                 <button
                     onClick={() => setAdding(true)}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#6E2D40] transition-colors"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
                 >
                     <Plus size={16} weight="bold" />
                     Nueva materia
@@ -77,7 +77,7 @@ export const Materias = () => {
                                         onChange={(e) => setNewLabel(e.target.value)}
                                         onKeyDown={(e) => { if (e.key === "Enter") saveNew(); if (e.key === "Escape") setAdding(false) }}
                                         placeholder="Nombre de la materia"
-                                        className="w-full max-w-xs border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#8B3A52]"
+                                        className="w-full max-w-xs border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#1A6B4A]"
                                     />
                                 </td>
                                 <td className="px-6 py-3">
@@ -102,14 +102,14 @@ export const Materias = () => {
                                             value={editValue}
                                             onChange={(e) => setEditValue(e.target.value)}
                                             onKeyDown={(e) => { if (e.key === "Enter") saveEdit(m.id); if (e.key === "Escape") cancelEdit() }}
-                                            className="border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-[#8B3A52]"
+                                            className="border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-[#1A6B4A]"
                                         />
                                     ) : (
                                         <span className="font-medium text-slate-700">{m.name}</span>
                                     )}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FADADD] text-[#8B3A52]">
+                                    <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#D1F2EB] text-[#1A6B4A]">
                                         {m.name}
                                     </span>
                                 </td>
@@ -126,7 +126,7 @@ export const Materias = () => {
                                             </>
                                         ) : (
                                             <>
-                                                <button onClick={() => startEdit(m)} className="p-1.5 rounded-md text-slate-400 hover:text-[#8B3A52] hover:bg-[#FADADD] transition-colors">
+                                                <button onClick={() => startEdit(m)} className="p-1.5 rounded-md text-slate-400 hover:text-[#1A6B4A] hover:bg-[#D1F2EB] transition-colors">
                                                     <PencilSimple size={16} />
                                                 </button>
                                                 <button onClick={() => deleteMateria(m.id)} className="p-1.5 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">

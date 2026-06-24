@@ -40,7 +40,7 @@ const FiltersPanel = ({
         <div className="flex items-center justify-between">
             <span className="font-semibold text-slate-700 text-sm">Filtros</span>
             {activeCount > 0 && (
-                <button onClick={onClear} className="text-xs text-[#8B3A52] hover:underline">
+                <button onClick={onClear} className="text-xs text-[#1A6B4A] hover:underline">
                     Limpiar todo
                 </button>
             )}
@@ -55,7 +55,7 @@ const FiltersPanel = ({
                             <Checkbox
                                 checked={selectedSubjects.includes(s.id)}
                                 onCheckedChange={() => onToggleSubject(s.id)}
-                                className="border-slate-300 data-[state=checked]:bg-[#8B3A52] data-[state=checked]:border-[#8B3A52]"
+                                className="border-slate-300 data-[state=checked]:bg-[#1A6B4A] data-[state=checked]:border-[#1A6B4A]"
                             />
                             <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
                                 {s.label}
@@ -79,7 +79,7 @@ const FiltersPanel = ({
                             <Checkbox
                                 checked={selectedGrades.includes(g.id)}
                                 onCheckedChange={() => onToggleGrade(g.id)}
-                                className="border-slate-300 data-[state=checked]:bg-[#8B3A52] data-[state=checked]:border-[#8B3A52]"
+                                className="border-slate-300 data-[state=checked]:bg-[#1A6B4A] data-[state=checked]:border-[#1A6B4A]"
                             />
                             <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
                                 {g.label}
@@ -155,7 +155,7 @@ export const CatalogPage = () => {
     const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
     return (
-        <div className="min-h-screen bg-[#F2F2F2] font-mono">
+        <div className="min-h-screen bg-[#F2F2F2]">
 
             <PublicNavbar />
 
@@ -172,7 +172,7 @@ export const CatalogPage = () => {
                         placeholder="Buscar planificaciones..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#8B3A52] transition-colors shadow-sm"
+                        className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#1A6B4A] transition-colors shadow-sm"
                     />
                 </div>
 
@@ -199,7 +199,7 @@ export const CatalogPage = () => {
                             <Funnel size={15} />
                             Filtros
                             {activeCount > 0 && (
-                                <span className="ml-0.5 w-4 h-4 rounded-full bg-[#8B3A52] text-white text-[10px] flex items-center justify-center">
+                                <span className="ml-0.5 w-4 h-4 rounded-full bg-[#1A6B4A] text-white text-[10px] flex items-center justify-center">
                                     {activeCount}
                                 </span>
                             )}
@@ -264,7 +264,7 @@ export const CatalogPage = () => {
                                 <p className="text-slate-400 text-sm">
                                     No hay planificaciones con los filtros seleccionados.
                                 </p>
-                                <button onClick={clearFilters} className="text-sm text-[#8B3A52] hover:underline">
+                                <button onClick={clearFilters} className="text-sm text-[#1A6B4A] hover:underline">
                                     Limpiar filtros
                                 </button>
                             </div>

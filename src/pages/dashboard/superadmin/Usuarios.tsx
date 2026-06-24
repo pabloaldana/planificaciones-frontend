@@ -5,7 +5,7 @@ import { usePagination } from "@/hooks/usePagination"
 
 const rolBadge: Record<string, string> = {
     "super-admin": "bg-[#E8DAEF] text-[#5C3D7A]",
-    "admin": "bg-[#FADADD] text-[#8B3A52]",
+    "admin": "bg-[#D1F2EB] text-[#1A6B4A]",
     "user": "bg-[#D7F0FA] text-[#1A5F7A]",
 }
 
@@ -25,7 +25,7 @@ export const Usuarios = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-slate-100">
                 <div>
-                    <h2 className="text-xl font-bold text-[#8B3A52]">Usuarios</h2>
+                    <h2 className="text-xl font-bold text-[#1A6B4A]">Usuarios</h2>
                     <p className="text-slate-500 text-sm mt-0.5">Gestioná roles y estado de los usuarios.</p>
                 </div>
             </div>
@@ -75,7 +75,7 @@ export const Usuarios = () => {
                             <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-[#8B3A52] flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                        <div className="w-8 h-8 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white text-xs font-bold shrink-0">
                                             {u.name.charAt(0)}
                                         </div>
                                         <span className="font-medium text-slate-700">{u.name} {u.lastname}</span>
@@ -98,7 +98,7 @@ export const Usuarios = () => {
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-1">
-                                        <button title="Editar rol" className="p-1.5 rounded-md text-slate-400 hover:text-[#8B3A52] hover:bg-[#FADADD] transition-colors">
+                                        <button title="Editar rol" className="p-1.5 rounded-md text-slate-400 hover:text-[#1A6B4A] hover:bg-[#D1F2EB] transition-colors">
                                             <PencilSimple size={16} />
                                         </button>
                                         <button title={u.isActive ? "Desactivar" : "Activar"} className="p-1.5 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
@@ -134,7 +134,7 @@ export const Usuarios = () => {
                             className={[
                                 "w-8 h-8 text-sm rounded-md border transition-colors",
                                 p === page
-                                    ? "bg-[#8B3A52] text-white border-[#8B3A52]"
+                                    ? "bg-[#1A6B4A] text-white border-[#1A6B4A]"
                                     : "border-slate-200 text-slate-600 hover:bg-slate-50",
                             ].join(" ")}
                         >

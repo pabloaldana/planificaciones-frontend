@@ -92,7 +92,7 @@ const BarTooltip = ({ active, payload, label }: { active?: boolean; payload?: { 
     return (
         <div className="bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm text-sm">
             <p className="text-slate-500 mb-0.5">{label}</p>
-            <p className="font-semibold text-[#8B3A52]">{payload[0].value} ventas</p>
+            <p className="font-semibold text-[#1A6B4A]">{payload[0].value} ventas</p>
         </div>
     )
 }
@@ -115,8 +115,8 @@ export const Estadisticas = () => {
                                 {card.icon}
                             </div>
                         </div>
-                        <p className="text-[1.75rem] font-bold text-[#8B3A52] leading-none">{card.value}</p>
-                        <span className="self-start bg-[#FADADD] text-[#8B3A52] text-xs font-medium px-2.5 py-1 rounded-full">
+                        <p className="text-[1.75rem] font-bold text-[#1A6B4A] leading-none">{card.value}</p>
+                        <span className="self-start bg-[#D1F2EB] text-[#1A6B4A] text-xs font-medium px-2.5 py-1 rounded-full">
                             {card.badge}
                         </span>
                     </div>
@@ -127,7 +127,7 @@ export const Estadisticas = () => {
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
                 {/* Ventas por mes — ocupa 2/3 */}
                 <div className="lg:col-span-2 bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#8B3A52] mb-5">Ventas por mes</h2>
+                    <h2 className="text-base font-semibold text-[#1A6B4A] mb-5">Ventas por mes</h2>
                     <ResponsiveContainer width="100%" height={220}>
                         <BarChart data={ventasPorMes} barSize={36}>
                             <XAxis
@@ -143,14 +143,14 @@ export const Estadisticas = () => {
                                 width={24}
                             />
                             <Tooltip content={<BarTooltip />} cursor={{ fill: "#F2F2F2" }} />
-                            <Bar dataKey="ventas" fill="#8B3A52" radius={[6, 6, 0, 0]} />
+                            <Bar dataKey="ventas" fill="#1A6B4A" radius={[6, 6, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
                 {/* Ventas por materia — ocupa 1/3 */}
                 <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#8B3A52] mb-5">Por materia</h2>
+                    <h2 className="text-base font-semibold text-[#1A6B4A] mb-5">Por materia</h2>
                     <ResponsiveContainer width="100%" height={220}>
                         <PieChart>
                             <Pie
@@ -180,7 +180,7 @@ export const Estadisticas = () => {
                                     />
                                     <span className="text-slate-600">{item.name}</span>
                                 </div>
-                                <span className="font-semibold text-[#8B3A52]">{item.value}</span>
+                                <span className="font-semibold text-[#1A6B4A]">{item.value}</span>
                             </li>
                         ))}
                     </ul>
@@ -191,7 +191,7 @@ export const Estadisticas = () => {
             <section className="bg-white rounded-xl border border-slate-100 shadow-sm">
                 {/* Header */}
                 <div className="px-6 py-5 border-b border-slate-100">
-                    <h2 className="text-xl font-bold text-[#8B3A52]">Planificaciones vendidas</h2>
+                    <h2 className="text-xl font-bold text-[#1A6B4A]">Planificaciones vendidas</h2>
                     <p className="text-slate-500 text-sm mt-0.5">
                         Solo las que registran al menos una venta
                     </p>
@@ -216,13 +216,13 @@ export const Estadisticas = () => {
                                     key={row.title}
                                     className={i < vendidas.length - 1 ? "border-b border-slate-100" : ""}
                                 >
-                                    <td className="px-6 py-4 font-medium text-[#8B3A52]">{row.title}</td>
+                                    <td className="px-6 py-4 font-medium text-[#1A6B4A]">{row.title}</td>
                                     <td className="px-6 py-4">
                                         <SubjectBadge subject={row.subject} />
                                     </td>
                                     <td className="px-6 py-4 text-slate-600">{row.grade}</td>
                                     <td className="px-6 py-4">
-                                        <span className="font-bold text-[#8B3A52]">{row.ventas}</span>
+                                        <span className="font-bold text-[#1A6B4A]">{row.ventas}</span>
                                     </td>
                                     <td className="px-6 py-4 text-slate-600">{row.ingresos}</td>
                                     <td className="px-6 py-4">

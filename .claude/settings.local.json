@@ -6,7 +6,12 @@
       "Bash(powershell -Command \"Get-Content 'node_modules/@phosphor-icons/react/dist/csr/BookBookmark.d.ts'\")",
       "mcp__plugin_engram_engram__mem_search",
       "Bash(npm install *)",
-      "mcp__plugin_engram_engram__mem_save"
+      "mcp__plugin_engram_engram__mem_save",
+      "Bash(cd \"c:/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-frontend\" && sed -i 's/#8B3A52/#1A6B4A/g' src/components/Header.tsx && grep -n \"8B3A52\\\\|1A6B4A\" src/components/Header.tsx)",
+      "Bash(grep -v \"^\\\\./\\\\.git\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\components"
     ]
   }
 }

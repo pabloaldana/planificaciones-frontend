@@ -23,7 +23,7 @@ const menuItems: { id: Section; label: string; icon: React.ElementType }[] = [
 const SeccionPerfil = () => (
     <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#8B3A52]">Perfil</h2>
+            <h2 className="text-base font-semibold text-[#1A6B4A]">Perfil</h2>
             <p className="text-slate-500 text-sm mt-0.5">Tu información pública como creadora</p>
         </div>
 
@@ -31,7 +31,7 @@ const SeccionPerfil = () => (
         <div className="flex items-center gap-4 mb-6">
             <div
                 className="w-20 h-20 rounded-full flex items-center justify-center text-white text-xl font-semibold shrink-0"
-                style={{ backgroundColor: "#8B3A52" }}
+                style={{ backgroundColor: "#1A6B4A" }}
             >
                 PR
             </div>
@@ -90,7 +90,7 @@ const SeccionPerfil = () => (
         <div className="flex justify-end">
             <button
                 onClick={() => console.log("Guardar cambios - perfil")}
-                className="bg-[#8B3A52] text-white hover:bg-[#6E2D40] rounded-lg px-4 py-2 text-sm transition-colors"
+                className="bg-[#1A6B4A] text-white hover:bg-[#134F37] rounded-lg px-4 py-2 text-sm transition-colors"
             >
                 Guardar cambios
             </button>
@@ -103,7 +103,7 @@ const SeccionPerfil = () => (
 const SeccionCuenta = () => (
     <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#8B3A52]">Datos de la cuenta</h2>
+            <h2 className="text-base font-semibold text-[#1A6B4A]">Datos de la cuenta</h2>
             <p className="text-slate-500 text-sm mt-0.5">Gestioná tu acceso a la plataforma</p>
         </div>
 
@@ -138,7 +138,7 @@ const SeccionCuenta = () => (
         </div>
 
         <div className="flex justify-end">
-            <button className="bg-[#8B3A52] text-white hover:bg-[#6E2D40] rounded-lg px-4 py-2 text-sm transition-colors">
+            <button className="bg-[#1A6B4A] text-white hover:bg-[#134F37] rounded-lg px-4 py-2 text-sm transition-colors">
                 Cambiar contraseña
             </button>
         </div>
@@ -151,7 +151,7 @@ const SeccionCuenta = () => (
 const SeccionCobro = () => (
     <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#8B3A52]">Medios de cobro</h2>
+            <h2 className="text-base font-semibold text-[#1A6B4A]">Medios de cobro</h2>
             <p className="text-slate-500 text-sm mt-0.5">Configurá cómo recibís tus pagos</p>
         </div>
 
@@ -194,7 +194,7 @@ const NotificationRow = ({ icon, title, description }: NotificationRowProps) => 
 const SeccionNotificaciones = () => (
     <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#8B3A52]">Notificaciones</h2>
+            <h2 className="text-base font-semibold text-[#1A6B4A]">Notificaciones</h2>
             <p className="text-slate-500 text-sm mt-0.5">Controlá qué avisos recibís</p>
         </div>
 
@@ -261,7 +261,7 @@ export const Configuracion = () => {
                             onClick={() => setActiveSection(id)}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left w-full ${
                                 activeSection === id
-                                    ? "bg-[#FADADD] text-[#8B3A52]"
+                                    ? "bg-[#D1F2EB] text-[#1A6B4A]"
                                     : "text-slate-500 hover:bg-slate-100"
                             }`}
                         >

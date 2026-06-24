@@ -19,7 +19,7 @@ export const PublicNavbar = () => {
             <header className="sticky top-0 z-50 bg-white border-b border-slate-100">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
 
-                    <NavLink to="/" className="flex items-center gap-2 text-[#8B3A52] font-bold text-lg">
+                    <NavLink to="/" className="flex items-center gap-2 text-[#1A6B4A] font-bold text-lg">
                         <GraduationCap size={28} weight="duotone" />
                         <span>Aula</span>
                     </NavLink>
@@ -29,7 +29,7 @@ export const PublicNavbar = () => {
                             to="/"
                             end
                             className={({ isActive }) =>
-                                isActive ? "text-[#8B3A52] font-semibold" : "hover:text-[#8B3A52] transition-colors"
+                                isActive ? "text-[#1A6B4A] font-semibold" : "hover:text-[#1A6B4A] transition-colors"
                             }
                         >
                             Inicio
@@ -37,12 +37,12 @@ export const PublicNavbar = () => {
                         <NavLink
                             to="/catalogo"
                             className={({ isActive }) =>
-                                isActive ? "text-[#8B3A52] font-semibold" : "hover:text-[#8B3A52] transition-colors"
+                                isActive ? "text-[#1A6B4A] font-semibold" : "hover:text-[#1A6B4A] transition-colors"
                             }
                         >
                             Planificaciones
                         </NavLink>
-                        <a href="#sobre-nosotros" className="hover:text-[#8B3A52] transition-colors">
+                        <a href="#sobre-nosotros" className="hover:text-[#1A6B4A] transition-colors">
                             Sobre nosotros
                         </a>
                     </nav>
@@ -51,11 +51,11 @@ export const PublicNavbar = () => {
                         {/* Carrito */}
                         <button
                             onClick={openCart}
-                            className="relative p-2 rounded-xl text-slate-500 hover:text-[#8B3A52] hover:bg-slate-50 transition-colors"
+                            className="relative p-2 rounded-xl text-slate-500 hover:text-[#1A6B4A] hover:bg-slate-50 transition-colors"
                         >
                             <ShoppingCart size={22} weight="duotone" />
                             {count > 0 && (
-                                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#8B3A52] text-white text-[10px] font-bold flex items-center justify-center">
+                                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#1A6B4A] text-white text-[10px] font-bold flex items-center justify-center">
                                     {count}
                                 </span>
                             )}
@@ -67,7 +67,7 @@ export const PublicNavbar = () => {
                                 to={getDashboardPath(user.roles)}
                                 className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
                             >
-                                <div className="w-7 h-7 rounded-full bg-[#8B3A52] flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                <div className="w-7 h-7 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white text-xs font-bold shrink-0">
                                     {user.name?.charAt(0).toUpperCase()}
                                 </div>
                                 <span className="hidden sm:block text-sm font-medium text-slate-700">
@@ -79,13 +79,13 @@ export const PublicNavbar = () => {
                             <>
                                 <NavLink
                                     to="/login"
-                                    className="hidden sm:inline-flex text-sm px-4 py-2 rounded-xl border border-slate-200 text-[#8B3A52] hover:bg-slate-50 transition-colors"
+                                    className="hidden sm:inline-flex text-sm px-4 py-2 rounded-xl border border-slate-200 text-[#1A6B4A] hover:bg-slate-50 transition-colors"
                                 >
                                     Iniciar sesión
                                 </NavLink>
                                 <NavLink
                                     to="/registro"
-                                    className="text-sm px-4 py-2 rounded-xl bg-[#8B3A52] text-white hover:bg-[#6E2D40] transition-colors"
+                                    className="text-sm px-4 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
                                 >
                                     Registrarse
                                 </NavLink>

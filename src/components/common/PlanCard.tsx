@@ -30,11 +30,11 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
             </div>
 
             <div className="flex-1">
-                <h3 className="font-bold text-[#8B3A52] text-sm leading-snug">{plan.title}</h3>
+                <h3 className="font-bold text-[#1A6B4A] text-sm leading-snug">{plan.title}</h3>
             </div>
 
             <div className="flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
-                <span className="text-lg font-bold text-[#8B3A52]">
+                <span className="text-lg font-bold text-[#1A6B4A]">
                     ${plan.price.toLocaleString("es-AR")}
                 </span>
                 <div className="flex items-center gap-1.5">
@@ -45,14 +45,14 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
                             "p-2 rounded-xl border transition-colors",
                             inCart
                                 ? "border-emerald-200 text-emerald-600 bg-emerald-50 hover:bg-emerald-100"
-                                : "border-slate-200 text-slate-500 hover:border-[#8B3A52] hover:text-[#8B3A52] hover:bg-[#8B3A52]/5",
+                                : "border-slate-200 text-slate-500 hover:border-[#1A6B4A] hover:text-[#1A6B4A] hover:bg-[#1A6B4A]/5",
                         ].join(" ")}
                     >
                         {inCart ? <Check size={14} weight="bold" /> : <ShoppingCart size={14} />}
                     </button>
                     <Link
                         to={`/catalogo/${plan.id}`}
-                        className="text-xs px-3 py-2 rounded-xl bg-[#8B3A52] text-white hover:bg-[#6E2D40] transition-colors"
+                        className="text-xs px-3 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
                     >
                         Ver
                     </Link>

@@ -58,15 +58,15 @@ const PdfPreview = ({ file }: { file: string }) => {
 
             {/* CTA en el overlay */}
             <div className="absolute inset-x-0 bottom-0 h-[35%] flex flex-col items-center justify-center gap-3 px-6">
-                <div className="w-10 h-10 rounded-full bg-[#8B3A52]/10 flex items-center justify-center">
-                    <LockSimple size={20} weight="fill" className="text-[#8B3A52]" />
+                <div className="w-10 h-10 rounded-full bg-[#1A6B4A]/10 flex items-center justify-center">
+                    <LockSimple size={20} weight="fill" className="text-[#1A6B4A]" />
                 </div>
                 <p className="text-slate-700 font-semibold text-sm text-center">
                     Comprá para ver el contenido completo
                 </p>
                 <NavLink
                     to="#"
-                    className="px-5 py-2.5 rounded-xl bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#6E2D40] transition-colors shadow-md"
+                    className="px-5 py-2.5 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors shadow-md"
                 >
                     Comprar ahora
                 </NavLink>
@@ -83,7 +83,7 @@ export const PlanDetailPage = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#F2F2F2] font-mono">
+            <div className="min-h-screen bg-[#F2F2F2]">
                 <PublicNavbar />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 animate-pulse">
@@ -102,11 +102,11 @@ export const PlanDetailPage = () => {
 
     if (!plan) {
         return (
-            <div className="min-h-screen bg-[#F2F2F2] font-mono">
+            <div className="min-h-screen bg-[#F2F2F2]">
                 <PublicNavbar />
                 <div className="max-w-6xl mx-auto px-4 py-20 text-center text-slate-500">
                     Planificación no encontrada.{" "}
-                    <NavLink to="/catalogo" className="text-[#8B3A52] hover:underline">
+                    <NavLink to="/catalogo" className="text-[#1A6B4A] hover:underline">
                         Volver al catálogo
                     </NavLink>
                 </div>
@@ -124,7 +124,7 @@ export const PlanDetailPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#F2F2F2] font-mono">
+        <div className="min-h-screen bg-[#F2F2F2]">
             <PublicNavbar />
 
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
@@ -132,7 +132,7 @@ export const PlanDetailPage = () => {
                 {/* Breadcrumb */}
                 <NavLink
                     to="/catalogo"
-                    className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#8B3A52] transition-colors mb-6"
+                    className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors mb-6"
                 >
                     ← Volver al catálogo
                 </NavLink>
@@ -157,7 +157,7 @@ export const PlanDetailPage = () => {
                         </div>
 
                         {/* Título */}
-                        <h1 className="text-2xl font-bold text-[#8B3A52] leading-snug">
+                        <h1 className="text-2xl font-bold text-[#1A6B4A] leading-snug">
                             {plan.title}
                         </h1>
 
@@ -172,7 +172,7 @@ export const PlanDetailPage = () => {
 
                         {/* Precio */}
                         <div className="flex flex-col gap-1">
-                            <span className="text-3xl font-bold text-[#8B3A52]">
+                            <span className="text-3xl font-bold text-[#1A6B4A]">
                                 ${plan.price.toLocaleString("es-AR")}
                             </span>
                             <span className="text-sm text-slate-500">
@@ -207,7 +207,7 @@ export const PlanDetailPage = () => {
                         <div className="flex flex-col gap-3">
                             <button
                                 onClick={handleAddToCart}
-                                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#6E2D40] transition-colors"
+                                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
                             >
                                 Comprar ahora
                             </button>
@@ -217,7 +217,7 @@ export const PlanDetailPage = () => {
                                     "w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl border text-sm font-semibold transition-colors",
                                     inCart
                                         ? "border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
-                                        : "border-[#8B3A52] text-[#8B3A52] hover:bg-[#8B3A52]/5",
+                                        : "border-[#1A6B4A] text-[#1A6B4A] hover:bg-[#1A6B4A]/5",
                                 ].join(" ")}
                             >
                                 {inCart ? (

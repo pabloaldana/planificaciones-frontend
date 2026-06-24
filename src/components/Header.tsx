@@ -24,7 +24,7 @@ export const Header = ({ onToggleSidebar }: Props) => {
             <NavLink
                 to="/"
                 title="Ir al inicio"
-                className="text-slate-400 hover:text-[#8B3A52] hover:bg-slate-100 transition-colors p-2 rounded-md"
+                className="text-slate-400 hover:text-[#1A6B4A] hover:bg-slate-100 transition-colors p-2 rounded-md"
             >
                 <House size={20} weight="duotone" />
             </NavLink>

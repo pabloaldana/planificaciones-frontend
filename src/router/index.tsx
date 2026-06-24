@@ -13,6 +13,7 @@ import { DashboardLayout } from "../pages/dashboard/creator/DashboardLayout"
 import { DashboardHome } from "../pages/dashboard/creator/DashboardHome"
 import { Planificaciones } from "../pages/dashboard/creator/Planifiaciones"
 import { CrearPlanificacion } from "../pages/dashboard/creator/CrearPlanificacion"
+import { EditarPlanificacion } from "../pages/dashboard/creator/EditarPlanificacion"
 import { Estadisticas } from "../pages/dashboard/creator/Estadisticas"
 import { Configuracion } from "@/pages/dashboard/creator/Configuracion"
 import { UserLayout } from "@/pages/dashboard/user/UserLayout"
@@ -46,6 +47,7 @@ export const AppRouter = () => {
                                 <Route index element={<DashboardHome />} />
                                 <Route path="planificaciones" element={<Planificaciones />} />
                                 <Route path="planificaciones/crear" element={<CrearPlanificacion />} />
+                                <Route path="planificaciones/:id/editar" element={<EditarPlanificacion />} />
                                 <Route path="estadisticas" element={<Estadisticas />} />
                                 <Route path="configuracion" element={<Configuracion />} />
                             </Route>

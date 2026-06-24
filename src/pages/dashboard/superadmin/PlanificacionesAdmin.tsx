@@ -16,7 +16,7 @@ export const PlanificacionesAdmin = () => {
 
             {/* Header */}
             <div className="px-6 py-5 border-b border-slate-100">
-                <h2 className="text-xl font-bold text-[#8B3A52]">Planificaciones</h2>
+                <h2 className="text-xl font-bold text-[#1A6B4A]">Planificaciones</h2>
                 <p className="text-slate-500 text-sm mt-0.5">Moderá y eliminá contenido de la plataforma.</p>
             </div>
 
@@ -69,7 +69,7 @@ export const PlanificacionesAdmin = () => {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-slate-500">{p.grado.name}</td>
-                                        <td className="px-6 py-4 font-semibold text-[#8B3A52]">
+                                        <td className="px-6 py-4 font-semibold text-[#1A6B4A]">
                                             ${p.price.toLocaleString("es-AR")}
                                         </td>
                                         <td className="px-6 py-4">

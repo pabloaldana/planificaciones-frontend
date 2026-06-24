@@ -8,7 +8,7 @@ export const MiPerfil = () => {
 
             {/* Header */}
             <div className="px-6 py-5 border-b border-slate-100">
-                <h2 className="text-xl font-bold text-[#8B3A52]">Mi perfil</h2>
+                <h2 className="text-xl font-bold text-[#1A6B4A]">Mi perfil</h2>
                 <p className="text-slate-500 text-sm mt-0.5">Tus datos personales</p>
             </div>
 
@@ -16,12 +16,12 @@ export const MiPerfil = () => {
 
                 {/* Avatar */}
                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-[#8B3A52] flex items-center justify-center text-white font-bold text-2xl">
+                    <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white font-bold text-2xl">
                         {user?.email?.charAt(0).toUpperCase()}
                     </div>
                     <div>
                         <p className="font-semibold text-slate-700">{user?.email}</p>
-                        <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-[#FADADD] text-[#8B3A52] text-xs font-semibold capitalize">
+                        <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-[#D1F2EB] text-[#1A6B4A] text-xs font-semibold capitalize">
                             {user?.rol}
                         </span>
                     </div>

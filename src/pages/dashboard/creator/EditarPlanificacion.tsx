@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FilePdf, UploadSimple, X, ArrowLeft } from "@phosphor-icons/react"
+import { FilePdf, UploadSimple, X, ArrowLeft, Eye } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -12,9 +12,10 @@ import {
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/Select"
-import { useMaterias, useGrados, useCreatePlanificacion } from "@/hooks/index"
+import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion } from "@/hooks/index"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
+// A diferencia de "crear", el PDF es opcional: solo se valida si se elige uno nuevo.
 
 const formSchema = z.object({
     title: z.string().min(3, "Mínimo 3 caracteres"),
@@ -24,24 +25,27 @@ const formSchema = z.object({
     materiaId: z.string().min(1, "Seleccioná una materia"),
     gradoId: z.string().min(1, "Seleccioná un grado"),
     pdf: z.custom<FileList>()
-        .refine(files => files?.length > 0, "El archivo PDF es requerido")
-        .refine(files => files?.[0]?.type === "application/pdf", "Solo se aceptan archivos PDF")
-        .refine(files => files?.[0]?.size <= 10 * 1024 * 1024, "El archivo no puede superar 10MB"),
+        .refine(files => !files || files.length === 0 || files[0]?.type === "application/pdf", "Solo se aceptan archivos PDF")
+        .refine(files => !files || files.length === 0 || files[0]?.size <= 10 * 1024 * 1024, "El archivo no puede superar 10MB")
+        .optional(),
 })
 
-// z.coerce.number() acepta cualquier cosa como entrada (Input) y devuelve number recién
-// después de validar (Output) — react-hook-form necesita los dos tipos por separado,
-// si no, el resolver de Zod no calza con lo que useForm espera.
+// Mismo motivo que en CrearPlanificacion.tsx: z.coerce.number() tiene un tipo de
+// entrada (Input) distinto al de salida (Output), y useForm necesita los dos.
 type FormInput = z.input<typeof formSchema>
 type FormValues = z.output<typeof formSchema>
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export const CrearPlanificacion = () => {
+export const EditarPlanificacion = () => {
     const navigate = useNavigate()
+    const { id } = useParams()
+    const planificacionId = Number(id)
+
+    const { data: plan, isLoading: isLoadingPlan } = usePlanificacion(planificacionId)
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
-    const { mutate: crearPlanificacion, isPending } = useCreatePlanificacion()
+    const { mutate: editarPlanificacion, isPending } = useUpdatePlanificacion()
     const [fileName, setFileName] = useState<string | null>(null)
 
     const form = useForm<FormInput, any, FormValues>({
@@ -55,19 +59,42 @@ export const CrearPlanificacion = () => {
         },
     })
 
+    // El plan llega async (useQuery) — recién cuando está disponible podemos precargar el form
+    useEffect(() => {
+        if (!plan) return
+        form.reset({
+            title: plan.title,
+            description: plan.description,
+            price: plan.price,
+            materiaId: String(plan.materia.id),
+            gradoId: String(plan.grado.id),
+        })
+    }, [plan, form])
+
     const onSubmit = (values: FormValues) => {
-        crearPlanificacion(
+        editarPlanificacion(
             {
-                title: values.title,
-                description: values.description,
-                price: values.price,
-                materiaId: Number(values.materiaId),
-                gradoId: Number(values.gradoId),
-                file: values.pdf[0],
+                id: planificacionId,
+                payload: {
+                    title: values.title,
+                    description: values.description,
+                    price: values.price,
+                    materiaId: Number(values.materiaId),
+                    gradoId: Number(values.gradoId),
+                    file: values.pdf?.[0],
+                },
             },
             {
                 onSuccess: () => navigate("/dashboard/planificaciones"),
             }
+        )
+    }
+
+    if (isLoadingPlan || !plan) {
+        return (
+            <div className="max-w-2xl mx-auto text-center text-slate-400 text-sm py-20">
+                Cargando planificación...
+            </div>
         )
     }
 
@@ -87,9 +114,9 @@ export const CrearPlanificacion = () => {
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-[#1A6B4A]">Nueva planificación</h1>
+                    <h1 className="text-2xl font-bold text-[#1A6B4A]">Editar planificación</h1>
                     <p className="text-slate-500 text-sm mt-1">
-                        Completá los datos y subí el archivo PDF del material.
+                        Modificá los datos que quieras cambiar.
                     </p>
                 </div>
 
@@ -216,6 +243,17 @@ export const CrearPlanificacion = () => {
                             render={({ field: { onChange, ref } }) => (
                                 <FormItem>
                                     <FormLabel>Archivo PDF</FormLabel>
+
+                                    <a
+                                        href={plan.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] hover:underline mb-2"
+                                    >
+                                        <Eye size={13} />
+                                        Ver el PDF actual
+                                    </a>
+
                                     <FormControl>
                                         <label
                                             htmlFor="pdf-upload"
@@ -253,10 +291,10 @@ export const CrearPlanificacion = () => {
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
                                                         <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá el PDF o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                            Arrastrá un PDF nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
-                                                            Solo PDF · Máximo 10MB
+                                                            Opcional · dejalo vacío para mantener el actual · Máximo 10MB
                                                         </p>
                                                     </div>
                                                 </>
@@ -295,7 +333,7 @@ export const CrearPlanificacion = () => {
                                 disabled={isPending}
                                 className="bg-[#1A6B4A] hover:bg-[#134F37] text-white disabled:opacity-60"
                             >
-                                {isPending ? "Creando..." : "Crear planificación"}
+                                {isPending ? "Guardando..." : "Guardar cambios"}
                             </Button>
                         </div>
 

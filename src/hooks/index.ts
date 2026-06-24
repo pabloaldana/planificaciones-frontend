@@ -1,5 +1,5 @@
 // ── Peticiones al backend ─────────────────────────────────────────────────────
-export { usePlanificaciones, usePlanificacion, useCreatePlanificacion } from "./usePlanificaciones"
+export { usePlanificaciones, usePlanificacion, useCreatePlanificacion, useUpdatePlanificacion } from "./usePlanificaciones"
 export { useMaterias } from "./useMaterias"
 export { useGrados } from "./useGrados"
 export { useCompras } from "./useCompras"

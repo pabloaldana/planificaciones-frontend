@@ -7,13 +7,14 @@ type LoginPayload = {
 }
 
 // respuesta que recibo del backend al hacer login o registro exitoso
-type AuthResponse = {
+export type AuthResponse = {
     id: string
     email: string
     name: string
     lastname: string
     isActive: boolean
     token: string
+    refreshToken: string
     roles: string[]
 }
 

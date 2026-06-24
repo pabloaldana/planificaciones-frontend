@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e \"const icons = require\\('@phosphor-icons/react'\\); console.log\\(Object.keys\\(icons\\).slice\\(0,20\\)\\)\")",
       "Bash(node --input-type=module -e ' *)",
-      "Bash(npx shadcn@latest add checkbox --yes)"
+      "Bash(npx shadcn@latest add checkbox --yes)",
+      "Bash(npx tsc *)"
     ]
   }
 }

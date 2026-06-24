@@ -29,12 +29,12 @@ export const CartDrawer = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
                     <div className="flex items-center gap-2">
-                        <ShoppingCart size={20} weight="duotone" className="text-[#8B3A52]" />
+                        <ShoppingCart size={20} weight="duotone" className="text-[#1A6B4A]" />
                         <span className="font-bold text-slate-700">
                             Mi carrito
                         </span>
                         {count > 0 && (
-                            <span className="w-5 h-5 rounded-full bg-[#8B3A52] text-white text-[11px] font-bold flex items-center justify-center">
+                            <span className="w-5 h-5 rounded-full bg-[#1A6B4A] text-white text-[11px] font-bold flex items-center justify-center">
                                 {count}
                             </span>
                         )}
@@ -57,7 +57,7 @@ export const CartDrawer = () => {
                             <p className="text-slate-500 text-sm">Tu carrito está vacío</p>
                             <button
                                 onClick={closeCart}
-                                className="text-sm text-[#8B3A52] hover:underline"
+                                className="text-sm text-[#1A6B4A] hover:underline"
                             >
                                 Explorar planificaciones
                             </button>
@@ -84,7 +84,7 @@ export const CartDrawer = () => {
                                             <p className="text-sm font-semibold text-slate-700 leading-snug truncate">
                                                 {item.title}
                                             </p>
-                                            <p className="text-sm font-bold text-[#8B3A52] mt-1">
+                                            <p className="text-sm font-bold text-[#1A6B4A] mt-1">
                                                 ${item.price.toLocaleString("es-AR")}
                                             </p>
                                         </div>
@@ -125,7 +125,7 @@ export const CartDrawer = () => {
                         <NavLink
                             to="/checkout"
                             onClick={closeCart}
-                            className="w-full flex items-center justify-center py-3 rounded-xl bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#6E2D40] transition-colors"
+                            className="w-full flex items-center justify-center py-3 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
                         >
                             Ir al pago — ${total.toLocaleString("es-AR")}
                         </NavLink>

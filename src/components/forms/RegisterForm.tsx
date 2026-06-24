@@ -47,17 +47,13 @@ export const RegisterForm = () => {
         },
     })
 
-    const onSubmit = (values: FormValues) => {
-        console.log("onsubmit del registro")
-
-
+    const onSubmit = async (values: FormValues) => {
         try {
-            const newUser = register(values.nombre, values.apellido, values.email, values.password)
-            console.log("Usuario registrado:", newUser)
+            await register(values.nombre, values.apellido, values.email, values.password)
             //como los nuevos usuarios siempre son user navego directamnte a su dashboar
             navigate("/mi-cuenta")
         } catch {
-
+            // el error ya lo maneja AuthContext en `error`
         }
     }
 
@@ -166,12 +162,18 @@ export const RegisterForm = () => {
                     )}
                 />
 
+                {/* Error del servidor */}
+                {error && (
+                    <p className="text-xs text-red-500 text-center">{error}</p>
+                )}
+
                 {/* Submit */}
                 <Button
                     type="submit"
-                    className="w-full bg-[#8B3A52] hover:bg-[#6E2D40] text-white mt-2"
+                    disabled={isLoading}
+                    className="w-full bg-[#1A6B4A] hover:bg-[#134F37] text-white mt-2"
                 >
-                    Crear cuenta
+                    {isLoading ? "Creando cuenta..." : "Crear cuenta"}
                 </Button>
 
                 {/* Link al login */}
@@ -179,7 +181,7 @@ export const RegisterForm = () => {
                     ¿Ya tenés una cuenta?{" "}
                     <NavLink
                         to="/login"
-                        className="text-[#8B3A52] hover:underline font-medium"
+                        className="text-[#1A6B4A] hover:underline font-medium"
                     >
                         Iniciá sesión
                     </NavLink>
