@@ -17,7 +17,7 @@ export const PaymentSuccess = () => {
         <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
             <PublicNavbar />
 
-            <div className="flex-1 max-w-2xl mx-auto px-4 sm:px-6 py-10 flex items-center">
+            <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10 flex items-center">
                 <div className="w-full bg-white rounded-xl border border-slate-100 shadow-sm p-12 text-center flex flex-col items-center gap-4">
                     <CheckCircle size={56} weight="duotone" className="text-[#1A6B4A]" />
                     <h1 className="text-2xl font-bold text-[#1A6B4A]">¡Pago exitoso!</h1>

@@ -24,7 +24,7 @@ export const Checkout = () => {
         <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
             <PublicNavbar />
 
-            <div className="flex-1 max-w-2xl mx-auto px-4 sm:px-6 py-10">
+            <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10">
                 <h1 className="text-2xl font-bold text-[#1A6B4A] mb-6">Confirmar compra</h1>
 
                 <div className="bg-white rounded-xl border border-slate-100 shadow-sm">

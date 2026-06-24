@@ -6,7 +6,7 @@ import type { Materia } from "@/services/materias.service"
 export const Materias = () => {
     const { data: materias = [], isLoading, isError } = useMaterias()
 
-    const [editingId, setEditingId] = useState<string | null>(null)
+    const [editingId, setEditingId] = useState<number | null>(null)
     const [editValue, setEditValue] = useState("")
     const [adding, setAdding] = useState(false)
     const [newLabel, setNewLabel] = useState("")
@@ -15,14 +15,14 @@ export const Materias = () => {
     const cancelEdit = () => { setEditingId(null); setEditValue("") }
 
     // TODO: conectar con PUT /materias/:id
-    const saveEdit = (id: string) => {
+    const saveEdit = (id: number) => {
         if (!editValue.trim()) return
         console.log("editar", id, editValue)
         cancelEdit()
     }
 
     // TODO: conectar con DELETE /materias/:id
-    const deleteMateria = (id: string) => {
+    const deleteMateria = (id: number) => {
         console.log("eliminar", id)
     }
 

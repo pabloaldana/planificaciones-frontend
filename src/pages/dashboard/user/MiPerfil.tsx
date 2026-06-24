@@ -22,7 +22,7 @@ export const MiPerfil = () => {
                     <div>
                         <p className="font-semibold text-slate-700">{user?.email}</p>
                         <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-[#D1F2EB] text-[#1A6B4A] text-xs font-semibold capitalize">
-                            {user?.rol}
+                            {user?.roles?.[0]}
                         </span>
                     </div>
                 </div>
@@ -32,7 +32,7 @@ export const MiPerfil = () => {
                 {/* Campos */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field label="Email" value={user?.email ?? "-"} />
-                    <Field label="Rol"   value={user?.rol ?? "-"} />
+                    <Field label="Rol"   value={user?.roles?.[0] ?? "-"} />
                     <Field label="ID"    value={user?.id ?? "-"} />
                 </div>
 

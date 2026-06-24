@@ -1,4 +1,4 @@
-import { MagnifyingGlass, Bell, TextColumns, House } from "@phosphor-icons/react"
+import { Bell, TextColumns, House } from "@phosphor-icons/react"
 import { NavLink } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 

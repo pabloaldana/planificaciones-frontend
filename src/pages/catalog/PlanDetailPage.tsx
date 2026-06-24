@@ -64,12 +64,6 @@ const PdfPreview = ({ file }: { file: string }) => {
                 <p className="text-slate-700 font-semibold text-sm text-center">
                     Comprá para ver el contenido completo
                 </p>
-                <NavLink
-                    to="#"
-                    className="px-5 py-2.5 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors shadow-md"
-                >
-                    Comprar ahora
-                </NavLink>
             </div>
         </div>
     )
@@ -127,7 +121,7 @@ export const PlanDetailPage = () => {
         <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
             <PublicNavbar />
 
-            <div className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-6">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6">
 
                 {/* Breadcrumb */}
                 <NavLink

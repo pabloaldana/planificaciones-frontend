@@ -107,7 +107,7 @@ export const NuevaPlanificacionForm = () => {
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
+                            render={() => (
                                 <FormItem className="grid gap-2">
 
                                     <div className="flex items-center">
