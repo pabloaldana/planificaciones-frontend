@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { NavLink, useNavigate } from "react-router-dom"
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,6 +15,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { useAuth } from "@/context/AuthContext"
+import type { User } from "@/context/AuthContext"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 const formSchema = z.object({
@@ -25,7 +27,7 @@ type FormValues = z.infer<typeof formSchema>
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export const LoginForm = () => {
-    const { login, isLoading, error } = useAuth()
+    const { login, loginWithGoogle, isLoading, error } = useAuth()
     const navigate = useNavigate()
 
     const form = useForm<FormValues>({
@@ -33,16 +35,31 @@ export const LoginForm = () => {
         defaultValues: { email: "", password: "" },
     })
 
+    // Login normal y con Google terminan en el mismo lugar según el rol
+    const redirectByRole = (loggedUser: User) => {
+        if (loggedUser.roles.includes("super-admin")) {
+            navigate("/admin")
+        } else if (loggedUser.roles.includes("admin")) {
+            navigate("/dashboard")
+        } else {
+            navigate("/mi-cuenta")
+        }
+    }
+
     const onSubmit = async (values: FormValues) => {
         try {
             const loggedUser = await login(values.email, values.password)
-            if (loggedUser.roles.includes("super-admin")) {
-                navigate("/admin")
-            } else if (loggedUser.roles.includes("admin")) {
-                navigate("/dashboard")
-            } else {
-                navigate("/mi-cuenta")
-            }
+            redirectByRole(loggedUser)
+        } catch {
+            // el error ya lo maneja AuthContext en `error`
+        }
+    }
+
+    const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+        if (!credentialResponse.credential) return
+        try {
+            const loggedUser = await loginWithGoogle(credentialResponse.credential)
+            redirectByRole(loggedUser)
         } catch {
             // el error ya lo maneja AuthContext en `error`
         }
@@ -110,6 +127,20 @@ export const LoginForm = () => {
                 >
                     {isLoading ? "Ingresando..." : "Iniciar sesión"}
                 </Button>
+
+                {/* Divisor */}
+                <div className="flex items-center gap-3">
+                    <div className="h-px flex-1 bg-slate-200" />
+                    <span className="text-xs text-slate-400">o continuá con</span>
+                    <div className="h-px flex-1 bg-slate-200" />
+                </div>
+
+                <div className="flex justify-center">
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => { /* el botón de Google ya muestra su propio error visual */ }}
+                    />
+                </div>
 
                 <p className="text-center text-sm text-slate-500">
                     ¿No estás registrado?{" "}

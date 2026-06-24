@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
-import { loginRequest, registerRequest, type AuthResponse } from "@/services/auth.service"
+import { loginRequest, registerRequest, googleLoginRequest, type AuthResponse } from "@/services/auth.service"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 // Solo datos de perfil — el token/refreshToken NUNCA se guardan acá adentro,
 // viven aparte en localStorage["token"]/["refreshToken"] (los lee el interceptor de api.ts).
-type User = {
+export type User = {
     id: string
     email: string
     name: string
@@ -22,12 +22,23 @@ const toProfile = (data: AuthResponse): User => ({
     roles: data.roles,
 })
 
+// Guarda token/refreshToken/perfil en localStorage — login, register y Google
+// terminan todos en el mismo estado, esto evita triplicar esas 4 líneas.
+const persistSession = (data: AuthResponse): User => {
+    const profile = toProfile(data)
+    localStorage.setItem("token", data.token)
+    localStorage.setItem("refreshToken", data.refreshToken)
+    localStorage.setItem("user", JSON.stringify(profile))
+    return profile
+}
+
 type AuthContextType = {
     user: User | null
     isAuthenticated: boolean
     isLoading: boolean
     error: string | null
     login: (email: string, password: string) => Promise<User>
+    loginWithGoogle: (credential: string) => Promise<User>
     logout: () => void
     register: (name: string, lastname: string, email: string, password: string) => Promise<User>
 }
@@ -50,15 +61,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setError(null)
         try {
             const data = await loginRequest({ email, password })
-            const profile = toProfile(data)
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("refreshToken", data.refreshToken)
-            localStorage.setItem("user", JSON.stringify(profile))
+            const profile = persistSession(data)
             setUser(profile)
             return profile
         } catch {
             setError("Credenciales incorrectas. Revisá tu email y contraseña.")
             throw new Error("Login failed")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const loginWithGoogle = async (credential: string) => {
+        setIsLoading(true)
+        setError(null)
+        try {
+            const data = await googleLoginRequest(credential)
+            const profile = persistSession(data)
+            setUser(profile)
+            return profile
+        } catch {
+            setError("No pudimos iniciar sesión con Google. Probá de nuevo.")
+            throw new Error("Google login failed")
         } finally {
             setIsLoading(false)
         }
@@ -77,10 +101,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setError(null)
         try {
             const data = await registerRequest({ name, lastname, email, password })
-            const profile = toProfile(data)
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("refreshToken", data.refreshToken)
-            localStorage.setItem("user", JSON.stringify(profile))
+            const profile = persistSession(data)
             setUser(profile)
             return profile
         } catch {
@@ -98,6 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             isLoading,
             error,
             login,
+            loginWithGoogle,
             logout,
             register,
         }}>

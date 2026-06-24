@@ -35,3 +35,11 @@ export const registerRequest = async (payload: RegisterPayload): Promise<AuthRes
     const { data } = await api.post<AuthResponse>("/auth/register", payload)
     return data
 }
+
+// "credential" es el ID token (JWT) que devuelve Google al loguearse.
+// El backend lo verifica con google-auth-library y busca o crea el usuario.
+// Ruta propuesta por convención (/auth/login, /auth/register) — ajustala si en el backend la armaste distinto.
+export const googleLoginRequest = async (credential: string): Promise<AuthResponse> => {
+    const { data } = await api.post<AuthResponse>("/auth/google", { credential })
+    return data
+}

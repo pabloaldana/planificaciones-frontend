@@ -8,6 +8,9 @@ import { LoginPage } from "@/pages/auth/LoginPage"
 import { RegisterPage } from "@/pages/auth/RegisterPage"
 import { CatalogPage } from "@/pages/catalog/CatalogPage"
 import { PlanDetailPage } from "@/pages/catalog/PlanDetailPage"
+import { Checkout } from "@/pages/checkout/Checkout"
+import { PaymentSuccess } from "@/pages/checkout/PaymentSuccess"
+import { PaymentFailure } from "@/pages/checkout/PaymentFailure"
 
 import { DashboardLayout } from "../pages/dashboard/creator/DashboardLayout"
 import { DashboardHome } from "../pages/dashboard/creator/DashboardHome"
@@ -40,6 +43,13 @@ export const AppRouter = () => {
                         <Route path="/registro" element={<RegisterPage />} />
                         <Route path="/catalogo" element={<CatalogPage />} />
                         <Route path="/catalogo/:id" element={<PlanDetailPage />} />
+
+                        {/* ── Checkout — requiere estar logueado, cualquier rol ── */}
+                        <Route element={<ProtectedRoute allowedRoles={["user", "admin", "super-admin"]} />}>
+                            <Route path="/checkout" element={<Checkout />} />
+                            <Route path="/checkout/success" element={<PaymentSuccess />} />
+                            <Route path="/checkout/failure" element={<PaymentFailure />} />
+                        </Route>
 
                         {/* ── Dashboard admin - creador ──────────────── */}
                         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>

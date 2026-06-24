@@ -155,11 +155,11 @@ export const CatalogPage = () => {
     const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
     return (
-        <div className="min-h-screen bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
 
             <PublicNavbar />
 
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-8">
 
                 {/* ── Search ──────────────────────────────────────────────── */}
                 <div className="relative mb-6">

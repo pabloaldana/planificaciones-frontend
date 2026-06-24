@@ -8,7 +8,8 @@
       "Bash(npm install *)",
       "mcp__plugin_engram_engram__mem_save",
       "Bash(cd \"c:/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-frontend\" && sed -i 's/#8B3A52/#1A6B4A/g' src/components/Header.tsx && grep -n \"8B3A52\\\\|1A6B4A\" src/components/Header.tsx)",
-      "Bash(grep -v \"^\\\\./\\\\.git\")"
+      "Bash(grep -v \"^\\\\./\\\\.git\")",
+      "mcp__plugin_engram_engram__mem_session_summary"
     ],
     "additionalDirectories": [
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\components"

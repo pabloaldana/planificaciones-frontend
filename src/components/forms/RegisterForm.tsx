@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { NavLink, useNavigate } from "react-router-dom"
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,7 +34,7 @@ type FormValues = z.infer<typeof formSchema>
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export const RegisterForm = () => {
-    const { register, isLoading, error } = useAuth()
+    const { register, loginWithGoogle, isLoading, error } = useAuth()
     const navigate = useNavigate()
 
     const form = useForm<FormValues>({
@@ -51,6 +52,16 @@ export const RegisterForm = () => {
         try {
             await register(values.nombre, values.apellido, values.email, values.password)
             //como los nuevos usuarios siempre son user navego directamnte a su dashboar
+            navigate("/mi-cuenta")
+        } catch {
+            // el error ya lo maneja AuthContext en `error`
+        }
+    }
+
+    const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+        if (!credentialResponse.credential) return
+        try {
+            await loginWithGoogle(credentialResponse.credential)
             navigate("/mi-cuenta")
         } catch {
             // el error ya lo maneja AuthContext en `error`
@@ -175,6 +186,20 @@ export const RegisterForm = () => {
                 >
                     {isLoading ? "Creando cuenta..." : "Crear cuenta"}
                 </Button>
+
+                {/* Divisor */}
+                <div className="flex items-center gap-3">
+                    <div className="h-px flex-1 bg-slate-200" />
+                    <span className="text-xs text-slate-400">o continuá con</span>
+                    <div className="h-px flex-1 bg-slate-200" />
+                </div>
+
+                <div className="flex justify-center">
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => { /* el botón de Google ya muestra su propio error visual */ }}
+                    />
+                </div>
 
                 {/* Link al login */}
                 <p className="text-center text-sm text-slate-500">
