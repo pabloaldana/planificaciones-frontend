@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react"
 import {
     BarChart,
     Bar,
@@ -9,9 +10,15 @@ import {
     Pie,
     Cell,
 } from "recharts"
-import { CurrencyDollar, ShoppingCart, Trophy, CalendarCheck } from "@phosphor-icons/react"
+import { CurrencyDollar, ShoppingCart, Trophy, CalendarCheck, MagnifyingGlass } from "@phosphor-icons/react"
+import { DataTable, type Column } from "@/components/common/DataTable"
+import {
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/Select"
 import { useEstadisticas } from "@/hooks/useCreator"
+import { usePagination } from "@/hooks/usePagination"
 import { getSubjectConfig } from "@/constants/subjects"
+import type { PlanificacionVendida } from "@/services/creator.service"
 
 // ─── Colores del gráfico de torta por materia ────────────────────────────────
 // Mismos tonos oscuros que ya usa getSubjectConfig para esa materia en badges.
@@ -40,10 +47,71 @@ const BarTooltip = ({ active, payload, label }: { active?: boolean; payload?: { 
     )
 }
 
+// ─── Columnas de la tabla de planificaciones vendidas ────────────────────────
+
+const columns: Column<PlanificacionVendida>[] = [
+    {
+        key: "title",
+        label: "Planificación",
+        render: (row) => <span className="font-medium text-[#1A6B4A]">{row.title}</span>,
+    },
+    {
+        key: "materia",
+        label: "Materia",
+        render: (row) => {
+            const subject = getSubjectConfig(row.materia)
+            return (
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${subject.badge}`}>
+                    {subject.label}
+                </span>
+            )
+        },
+    },
+    { key: "grado", label: "Grado", render: (row) => <span className="text-slate-600">{row.grado}</span> },
+    { key: "ventas", label: "Ventas", render: (row) => <span className="font-bold text-[#1A6B4A]">{row.ventas}</span> },
+    {
+        key: "ingresos",
+        label: "Ingresos",
+        render: (row) => <span className="text-slate-600">${row.ingresos.toLocaleString("es-AR")}</span>,
+    },
+]
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export const Estadisticas = () => {
     const { data, isLoading } = useEstadisticas()
+    const [search, setSearch] = useState("")
+    const [materiaFilter, setMateriaFilter] = useState("all")
+    const [gradoFilter, setGradoFilter] = useState("all")
+
+    const planificacionesVendidas = data?.planificacionesVendidas ?? []
+
+    // Materias/grados únicos presentes en las ventas, para los selects de filtro
+    const materiaOptions = useMemo(() => {
+        const seen = new Set<string>()
+        return planificacionesVendidas
+            .filter(p => { if (seen.has(p.materia)) return false; seen.add(p.materia); return true })
+            .map(p => p.materia)
+            .sort((a, b) => a.localeCompare(b, "es"))
+    }, [planificacionesVendidas])
+
+    const gradoOptions = useMemo(() => {
+        const seen = new Set<string>()
+        return planificacionesVendidas
+            .filter(p => { if (seen.has(p.grado)) return false; seen.add(p.grado); return true })
+            .map(p => p.grado)
+    }, [planificacionesVendidas])
+
+    const filtered = useMemo(() => {
+        return planificacionesVendidas.filter(p => {
+            const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())
+            const matchMateria = materiaFilter === "all" || p.materia === materiaFilter
+            const matchGrado = gradoFilter === "all" || p.grado === gradoFilter
+            return matchSearch && matchMateria && matchGrado
+        })
+    }, [planificacionesVendidas, search, materiaFilter, gradoFilter])
+
+    const { rows, page, setPage, totalPages } = usePagination(filtered)
 
     if (isLoading || !data) {
         return (
@@ -53,7 +121,7 @@ export const Estadisticas = () => {
         )
     }
 
-    const { ingresosTotales, totalVentas, masVendida, mejorMes, ventasPorMes, ventasPorMateria, planificacionesVendidas } = data
+    const { ingresosTotales, totalVentas, masVendida, mejorMes, ventasPorMes, ventasPorMateria } = data
 
     const statCards = [
         {
@@ -93,7 +161,7 @@ export const Estadisticas = () => {
                 {statCards.map((card) => (
                     <div
                         key={card.label}
-                        className="bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col gap-3"
+                        className="min-w-0 bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col gap-3"
                     >
                         <div className="flex items-start justify-between">
                             <p className="text-slate-500 text-sm">{card.label}</p>
@@ -101,7 +169,12 @@ export const Estadisticas = () => {
                                 {card.icon}
                             </div>
                         </div>
-                        <p className="text-[1.75rem] font-bold text-[#1A6B4A] leading-none truncate">{card.value}</p>
+                        <p
+                            title={card.value}
+                            className="min-w-0 text-[1.75rem] font-bold text-[#1A6B4A] leading-none truncate"
+                        >
+                            {card.value}
+                        </p>
                         {card.badge && (
                             <span className="self-start bg-[#D1F2EB] text-[#1A6B4A] text-xs font-medium px-2.5 py-1 rounded-full">
                                 {card.badge}
@@ -199,52 +272,90 @@ export const Estadisticas = () => {
                     </p>
                 </div>
 
+                {/* Filtros */}
+                <div className="flex flex-wrap items-center gap-3 px-6 py-4 border-b border-slate-100">
+                    <div className="relative flex-1 min-w-40 sm:min-w-52">
+                        <MagnifyingGlass
+                            size={15}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Buscar por título..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full border border-slate-200 rounded-lg pl-8 pr-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 transition-colors"
+                        />
+                    </div>
+
+                    <Select value={gradoFilter} onValueChange={setGradoFilter}>
+                        <SelectTrigger className="w-full sm:w-44">
+                            <SelectValue placeholder="Todos los grados" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Todos los grados</SelectItem>
+                            {gradoOptions.map((g) => (
+                                <SelectItem key={g} value={g}>{g}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    <Select value={materiaFilter} onValueChange={setMateriaFilter}>
+                        <SelectTrigger className="w-full sm:w-44">
+                            <SelectValue placeholder="Todas las materias" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Todas las materias</SelectItem>
+                            {materiaOptions.map((m) => (
+                                <SelectItem key={m} value={m}>{getSubjectConfig(m).label}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 {/* Tabla */}
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                        <thead>
-                            <tr className="border-b border-slate-100">
-                                <th className="text-left px-6 py-3 text-slate-500 font-medium">Planificación</th>
-                                <th className="text-left px-6 py-3 text-slate-500 font-medium">Materia</th>
-                                <th className="text-left px-6 py-3 text-slate-500 font-medium">Grado</th>
-                                <th className="text-left px-6 py-3 text-slate-500 font-medium">Ventas</th>
-                                <th className="text-left px-6 py-3 text-slate-500 font-medium">Ingresos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {planificacionesVendidas.length === 0 ? (
-                                <tr>
-                                    <td colSpan={5} className="px-6 py-8 text-center text-slate-400">
-                                        Todavía no vendiste ninguna planificación.
-                                    </td>
-                                </tr>
-                            ) : (
-                                planificacionesVendidas.map((row, i) => {
-                                    const subject = getSubjectConfig(row.materia)
-                                    return (
-                                        <tr
-                                            key={row.title}
-                                            className={i < planificacionesVendidas.length - 1 ? "border-b border-slate-100" : ""}
-                                        >
-                                            <td className="px-6 py-4 font-medium text-[#1A6B4A]">{row.title}</td>
-                                            <td className="px-6 py-4">
-                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${subject.badge}`}>
-                                                    {subject.label}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 text-slate-600">{row.grado}</td>
-                                            <td className="px-6 py-4">
-                                                <span className="font-bold text-[#1A6B4A]">{row.ventas}</span>
-                                            </td>
-                                            <td className="px-6 py-4 text-slate-600">
-                                                ${row.ingresos.toLocaleString("es-AR")}
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            )}
-                        </tbody>
-                    </table>
+                <div className="px-6 py-2 overflow-x-auto">
+                    <DataTable columns={columns} data={rows} />
+                </div>
+
+                {/* Footer: count + paginado */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-slate-100">
+                    <p className="text-slate-400 text-sm">
+                        Mostrando {rows.length} de {filtered.length} resultados
+                    </p>
+
+                    <div className="flex items-center gap-1">
+                        <button
+                            onClick={() => setPage(page - 1)}
+                            disabled={page === 1}
+                            className="px-3 py-1.5 text-sm rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                        >
+                            &lt; Previous
+                        </button>
+
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                            <button
+                                key={p}
+                                onClick={() => setPage(p)}
+                                className={[
+                                    "w-8 h-8 text-sm rounded-md border transition-colors",
+                                    p === page
+                                        ? "bg-[#1A6B4A] text-white border-[#1A6B4A]"
+                                        : "border-slate-200 text-slate-600 hover:bg-slate-50",
+                                ].join(" ")}
+                            >
+                                {p}
+                            </button>
+                        ))}
+
+                        <button
+                            onClick={() => setPage(page + 1)}
+                            disabled={page === totalPages}
+                            className="px-3 py-1.5 text-sm rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                        >
+                            Next &gt;
+                        </button>
+                    </div>
                 </div>
             </section>
         </>
