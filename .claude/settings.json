@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const icons = require\\('@phosphor-icons/react'\\); console.log\\(Object.keys\\(icons\\).slice\\(0,20\\)\\)\")",
+      "Bash(node --input-type=module -e ' *)",
+      "Bash(npx shadcn@latest add checkbox --yes)",
+      "Bash(npx tsc *)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/register -H 'Content-Type: application/json' -d '{\"name\":\"Test\",\"lastname\":\"Debug\",\"email\":\"debug-checkout-test@example.com\",\"password\":\"Test12345\"}' -w '\\\\nHTTP_STATUS:%{http_code}\\\\n')",
+      "Bash(curl -s -X POST http://localhost:3000/api/cart/items -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NDFkN2JjLTRkZGUtNDZjNi1hZjFkLTgxZDAzMjRjNzY5MyIsImlhdCI6MTc4MjMyNTEzMCwiZXhwIjoxNzgyMzI2MDMwfQ.eLACdCbi59JkUaF4Xs4rq7b9VrkqN_5dKnfnf5GndgY' -H 'Content-Type: application/json' -d '{\"planificacionId\":1}' -w '\\\\nHTTP_STATUS:%{http_code}\\\\n')",
+      "Bash(curl -s http://localhost:3000/api/cart -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NDFkN2JjLTRkZGUtNDZjNi1hZjFkLTgxZDAzMjRjNzY5MyIsImlhdCI6MTc4MjMyNTEzMCwiZXhwIjoxNzgyMzI2MDMwfQ.eLACdCbi59JkUaF4Xs4rq7b9VrkqN_5dKnfnf5GndgY' -w '\\\\nHTTP_STATUS:%{http_code}\\\\n')",
+      "Bash(curl -s -X POST http://localhost:3000/api/payments/create-preference -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NDFkN2JjLTRkZGUtNDZjNi1hZjFkLTgxZDAzMjRjNzY5MyIsImlhdCI6MTc4MjMyNTEzMCwiZXhwIjoxNzgyMzI2MDMwfQ.eLACdCbi59JkUaF4Xs4rq7b9VrkqN_5dKnfnf5GndgY' -w '\\\\nHTTP_STATUS:%{http_code}\\\\n')",
+      "Bash(curl -s http://localhost:3000/api/compras/mias -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NDFkN2JjLTRkZGUtNDZjNi1hZjFkLTgxZDAzMjRjNzY5MyIsImlhdCI6MTc4MjMyNTEzMCwiZXhwIjoxNzgyMzI2MDMwfQ.eLACdCbi59JkUaF4Xs4rq7b9VrkqN_5dKnfnf5GndgY' -w '\\\\nHTTP_STATUS:%{http_code}\\\\n')",
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-frontend\" && sed -i '6s/^type User = {/export type User = {/' src/services/user.service.ts && cat -A src/services/user.service.ts | sed -n '6p')",
+      "Bash(python3 -c ' *)",
+      "Bash(sed -i 's/import { getGrados, createGrado, updateGrado } from \"@\\\\/services\\\\/grados.service\"/import { getGrados, createGrado, updateGrado, type GradoUpdate } from \"@\\\\/services\\\\/grados.service\"/' src/hooks/useGrados.tsx)",
+      "Bash(sed -i 's/grado: any/grado: GradoUpdate/' src/hooks/useGrados.tsx)",
+      "mcp__plugin_engram_engram__mem_session_summary",
+      "mcp__plugin_engram_engram__mem_context"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\services"
+    ]
+  }
+}

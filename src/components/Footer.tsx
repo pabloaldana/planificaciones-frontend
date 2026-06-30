@@ -1,50 +1,45 @@
-import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { MdEmail, MdPhone } from "react-icons/md";
+import { GraduationCap } from "@phosphor-icons/react"
+import { Link } from "react-router-dom"
+import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
+import { MdEmail, MdPhone } from "react-icons/md"
 
 export const Footer = () => {
-
     return (
-        <footer className="bg-[#D7F0FA] border-t border-white/40 text-gray-700">
-            <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <footer className="bg-[#D7F0FA] border-t border-[#A8D8EE]">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
 
-                {/* Redes */}
+                {/* Logo + links */}
                 <div className="flex flex-col items-center md:items-start gap-3">
-                    <p className="text-lg font-semibold tracking-wide">
-                        Redes Sociales
-                    </p>
-
-                    <div className="flex gap-4 text-2xl">
-                        <FaInstagram className="cursor-pointer transition hover:scale-110 hover:text-pink-500" />
-                        <FaWhatsapp className="cursor-pointer transition hover:scale-110 hover:text-green-500" />
-                        <FaFacebook className="cursor-pointer transition hover:scale-110 hover:text-blue-600" />
-                    </div>
+                    <Link to="/" className="flex items-center gap-2 text-[#1A6B4A] font-bold text-base">
+                        <GraduationCap size={22} weight="duotone" />
+                        <span>Aula</span>
+                    </Link>
+                    <nav className="flex items-center gap-4 text-sm text-slate-500">
+                        <Link to="/" className="hover:text-[#1A6B4A] transition-colors">Inicio</Link>
+                        <Link to="/catalogo" className="hover:text-[#1A6B4A] transition-colors">Planificaciones</Link>
+                    </nav>
                 </div>
 
-                {/* Centro */}
+                {/* Copyright */}
                 <div className="text-center">
-                    <p className="text-sm md:text-base font-medium">
-                        © 2026 My App
-                    </p>
-
-                    <p className="text-xs text-gray-500 mt-1">
-                        Todos los derechos reservados
-                    </p>
+                    <p className="text-sm font-medium text-slate-700">© 2026 Aula</p>
+                    <p className="text-xs text-slate-400 mt-1">Todos los derechos reservados</p>
                 </div>
 
-                {/* Contacto */}
-                <div className="flex flex-col items-center md:items-end gap-3">
-                    <p className="text-lg font-semibold tracking-wide">
-                        Contacto
-                    </p>
-
-                    <div className="space-y-2 text-sm items-center">
+                {/* Redes + Contacto */}
+                <div className="flex flex-col items-center md:items-end gap-4">
+                    <div className="flex gap-4 text-2xl text-slate-600">
+                        <FaInstagram className="cursor-pointer transition hover:scale-110 hover:text-[#1A6B4A]" />
+                        <FaWhatsapp className="cursor-pointer transition hover:scale-110 hover:text-[#1A7A4A]" />
+                        <FaFacebook className="cursor-pointer transition hover:scale-110 hover:text-[#1A6B8A]" />
+                    </div>
+                    <div className="space-y-1 text-sm text-slate-600">
                         <div className="flex items-center gap-2">
-                            <MdEmail className="text-lg text-blue-500" />
-                            <span>prueba@gmail.com</span>
+                            <MdEmail className="text-[#1A6B4A]" />
+                            <span>contacto@aula.com</span>
                         </div>
-
                         <div className="flex items-center gap-2">
-                            <MdPhone className="text-lg text-green-500" />
+                            <MdPhone className="text-[#1A7A4A]" />
                             <span>+123 456 7890</span>
                         </div>
                     </div>
@@ -52,5 +47,5 @@ export const Footer = () => {
 
             </div>
         </footer>
-    );
-};
+    )
+}

@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(node -e \"const icons = require\\('@phosphor-icons/react'\\); const matches = Object.keys\\(icons\\).filter\\(k => k.toLowerCase\\(\\).includes\\('mortarboard'\\) || k.toLowerCase\\(\\).includes\\('student'\\) || k.toLowerCase\\(\\).includes\\('academ'\\) || k.toLowerCase\\(\\).includes\\('school'\\)\\); console.log\\(matches\\)\")",
+      "Bash(powershell -Command \"Get-Content 'node_modules/@phosphor-icons/react/dist/csr/BookBookmark.d.ts'\")",
+      "mcp__plugin_engram_engram__mem_search",
+      "Bash(npm install *)",
+      "mcp__plugin_engram_engram__mem_save",
+      "Bash(cd \"c:/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-frontend\" && sed -i 's/#8B3A52/#1A6B4A/g' src/components/Header.tsx && grep -n \"8B3A52\\\\|1A6B4A\" src/components/Header.tsx)",
+      "Bash(grep -v \"^\\\\./\\\\.git\")",
+      "mcp__plugin_engram_engram__mem_session_summary",
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-frontend\" && rm src/pages/checkout/CheckoutSuccess.tsx src/pages/checkout/CheckoutPending.tsx src/pages/checkout/CheckoutFailure.tsx)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(chromium-cli --help)",
+      "Bash(npm ls *)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(curl -sf http://localhost:3000/api/planificaciones -o /tmp/plans.json -w \"%{http_code}\\\\n\")",
+      "Read(//tmp/**)",
+      "Bash(curl -sI \"https://res.cloudinary.com/demo/raw/upload/v1/planificaciones/lengua-1er-grado.pdf\")",
+      "Bash(curl -sf -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173)",
+      "Bash(node -e \"const {chromium}=require\\('playwright'\\); chromium.launch\\(\\).then\\(b=>{console.log\\('OK'\\); b.close\\(\\);}\\).catch\\(e=>console.error\\('ERR', e.message\\)\\)\")",
+      "Bash(npx -y -p playwright node -e \"const {chromium}=require\\('playwright'\\); chromium.launch\\({args:['--no-sandbox']}\\).then\\(b=>{console.log\\('LAUNCH_OK'\\); b.close\\(\\);}\\).catch\\(e=>console.error\\('LAUNCH_ERR', e.message\\)\\)\")",
+      "Bash(mkdir -p C:/Users/Pablo/AppData/Local/Temp/claude/c--Users-Pablo-Documents-Programacion-planificaciones-educativas-planificaciones-frontend/5f0acc02-6216-429e-b751-8476c91432e6/scratchpad/pw-debug)",
+      "Bash(npm init *)",
+      "Bash(npx playwright *)",
+      "Bash(node check.js)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\components",
+      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\pages\\checkout"
+    ]
+  }
+}
