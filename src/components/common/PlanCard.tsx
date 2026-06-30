@@ -23,11 +23,10 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
     return (
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
 
-            {/* Imagen de portada — placeholder con el color de la materia hasta que el backend la sume */}
             <div className={`w-full aspect-4/3 flex items-center justify-center ${subjectCfg.badge}`}>
-                {plan.coverImageUrl ? (
+                {plan.images?.[0]?.url ? (
                     <img
-                        src={plan.coverImageUrl}
+                        src={plan.images[0].url}
                         alt={plan.title}
                         className="w-full h-full object-cover"
                     />

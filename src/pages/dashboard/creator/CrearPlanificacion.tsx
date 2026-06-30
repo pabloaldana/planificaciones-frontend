@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FilePdf, UploadSimple, X, ArrowLeft } from "@phosphor-icons/react"
+import { FilePdf, UploadSimple, X, ArrowLeft, Image } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -43,6 +43,28 @@ export const CrearPlanificacion = () => {
     const { data: grados = [] } = useGrados()
     const { mutate: crearPlanificacion, isPending } = useCreatePlanificacion()
     const [fileName, setFileName] = useState<string | null>(null)
+    const [imageFiles, setImageFiles] = useState<{ file: File; preview: string }[]>([])
+    const [imageError, setImageError] = useState<string | null>(null)
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = Array.from(e.target.files ?? [])
+        const invalid = selected.filter(f => !f.type.startsWith("image/"))
+        if (invalid.length) { setImageError("Solo se aceptan archivos de imagen"); return }
+        const oversized = selected.filter(f => f.size > 5 * 1024 * 1024)
+        if (oversized.length) { setImageError("Cada imagen no puede superar 5MB"); return }
+        setImageError(null)
+        const remaining = 3 - imageFiles.length
+        const toAdd = selected.slice(0, remaining).map(f => ({ file: f, preview: URL.createObjectURL(f) }))
+        setImageFiles(prev => [...prev, ...toAdd])
+        e.target.value = ""
+    }
+
+    const removeImage = (index: number) => {
+        setImageFiles(prev => {
+            URL.revokeObjectURL(prev[index].preview)
+            return prev.filter((_, i) => i !== index)
+        })
+    }
 
     const form = useForm<FormInput, any, FormValues>({
         resolver: zodResolver(formSchema),
@@ -64,6 +86,7 @@ export const CrearPlanificacion = () => {
                 materiaId: Number(values.materiaId),
                 gradoId: Number(values.gradoId),
                 file: values.pdf[0],
+                images: imageFiles.map(i => i.file),
             },
             {
                 onSuccess: () => navigate("/dashboard/planificaciones"),
@@ -279,6 +302,54 @@ export const CrearPlanificacion = () => {
                                 </FormItem>
                             )}
                         />
+
+                        {/* Imágenes del catálogo */}
+                        <div className="space-y-3">
+                            <div>
+                                <p className="text-sm font-medium text-slate-700">
+                                    Imágenes del catálogo <span className="text-slate-400 font-normal">(opcional · hasta 3)</span>
+                                </p>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Se muestran en la card del catálogo y la página de detalle.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-3">
+                                {imageFiles.map((img, i) => (
+                                    <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                        <img src={img.preview} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(i)}
+                                            className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            aria-label="Quitar imagen"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {imageFiles.length < 3 && (
+                                    <label
+                                        htmlFor="image-upload"
+                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
+                                    >
+                                        <Image size={20} className="text-slate-300" />
+                                        <span className="text-xs text-slate-400">Agregar</span>
+                                        <input
+                                            id="image-upload"
+                                            type="file"
+                                            multiple
+                                            accept="image/*"
+                                            className="sr-only"
+                                            onChange={handleImageChange}
+                                        />
+                                    </label>
+                                )}
+                            </div>
+
+                            {imageError && <p className="text-xs text-red-500">{imageError}</p>}
+                        </div>
 
                         {/* Acciones */}
                         <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100">

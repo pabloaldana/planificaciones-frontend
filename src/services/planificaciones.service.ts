@@ -2,6 +2,13 @@ import { api } from "@/config/api"
 import type { Materia } from "./materias.service"
 import type { Grado } from "./grados.service"
 
+export type PlanImage = {
+    id: number
+    url: string
+    public_id: string
+    orden: number
+}
+
 export type Planificacion = {
     id: number
     title: string
@@ -13,10 +20,9 @@ export type Planificacion = {
     updated_at: string
     materia: Materia
     grado: Grado
-    // Todavía no existe en el backend — la card ya está lista para usarla
-    // apenas se agregue una imagen de portada por planificación.
-    coverImageUrl?: string
+    images?: PlanImage[]
 }
+
 export type CreatePlanificacionPayload = {
     title: string
     description: string
@@ -24,6 +30,7 @@ export type CreatePlanificacionPayload = {
     materiaId: number
     gradoId: number
     file: File
+    images?: File[]
 }
 
 export type UpdatePlanificacionPayload = {
@@ -55,6 +62,14 @@ export const getDownloadUrl = async (id: number): Promise<DownloadLink> => {
     return data
 }
 
+//aca es donde se sube la imagen y se asocia a la planificacion
+export const uploadPlanificacionImage = async (id: number, file: File): Promise<PlanImage> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    const { data } = await api.post<PlanImage>(`/planificaciones/${id}/imagenes`, formData)
+    return data
+}
+//primero viene aca a crear la planificacion
 export const createPlanificacion = async (payload: CreatePlanificacionPayload): Promise<Planificacion> => {
     const formData = new FormData()
     formData.append("title", payload.title)
@@ -65,6 +80,13 @@ export const createPlanificacion = async (payload: CreatePlanificacionPayload): 
     formData.append("file", payload.file)
 
     const { data } = await api.post<Planificacion>("/planificaciones", formData)
+    //una vez que se crea la planificacion, si tiene imagenes, se suben una por una
+    if (payload.images?.length) {
+        for (const imageFile of payload.images) {
+            await uploadPlanificacionImage(data.id, imageFile)
+        }
+    }
+
     return data
 }
 

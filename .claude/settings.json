@@ -16,7 +16,9 @@
       "Bash(sed -i 's/import { getGrados, createGrado, updateGrado } from \"@\\\\/services\\\\/grados.service\"/import { getGrados, createGrado, updateGrado, type GradoUpdate } from \"@\\\\/services\\\\/grados.service\"/' src/hooks/useGrados.tsx)",
       "Bash(sed -i 's/grado: any/grado: GradoUpdate/' src/hooks/useGrados.tsx)",
       "mcp__plugin_engram_engram__mem_session_summary",
-      "mcp__plugin_engram_engram__mem_context"
+      "mcp__plugin_engram_engram__mem_context",
+      "mcp__plugin_engram_engram__mem_search",
+      "mcp__plugin_engram_engram__mem_save"
     ],
     "additionalDirectories": [
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\services"
