@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
-import { ShoppingBag, User } from "@phosphor-icons/react"
+import { ShoppingBag, User, BookOpen } from "@phosphor-icons/react"
 import { Header } from "@/components/Header"
-import { Footer } from "@/components/Footer"
 import { Sidebar, type NavItem } from "@/components/ui/Sidebar"
 
 const navItems: NavItem[] = [
+    { label: "Catálogo",    to: "/catalogo",         icon: <BookOpen    size={18} weight="duotone" /> },
     { label: "Mis compras", to: "/mi-cuenta",        icon: <ShoppingBag size={18} weight="duotone" />, end: true },
     { label: "Mi perfil",   to: "/mi-cuenta/perfil", icon: <User        size={18} weight="duotone" /> },
 ]
@@ -27,7 +27,6 @@ export const UserLayout = () => {
                 <main className="flex-1 p-6 overflow-auto">
                     <Outlet />
                 </main>
-                <Footer />
             </div>
         </div>
     )

@@ -6,7 +6,6 @@ interface BaseRow {
     subject: string;
     grade: string;
     date: string;
-    url: string;
 }
 
 interface Props<T extends BaseRow> {

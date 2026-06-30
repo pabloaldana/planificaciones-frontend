@@ -12,7 +12,7 @@ import {
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/Select"
-import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion } from "@/hooks/index"
+import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion } from "@/hooks/index"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 // A diferencia de "crear", el PDF es opcional: solo se valida si se elige uno nuevo.
@@ -46,7 +46,14 @@ export const EditarPlanificacion = () => {
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
     const { mutate: editarPlanificacion, isPending } = useUpdatePlanificacion()
+    const { mutate: getDownloadLink } = useDownloadPlanificacion()
     const [fileName, setFileName] = useState<string | null>(null)
+
+    const handleVerPdfActual = () => {
+        getDownloadLink(planificacionId, {
+            onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
+        })
+    }
 
     const form = useForm<FormInput, any, FormValues>({
         resolver: zodResolver(formSchema),
@@ -244,15 +251,14 @@ export const EditarPlanificacion = () => {
                                 <FormItem>
                                     <FormLabel>Archivo PDF</FormLabel>
 
-                                    <a
-                                        href={plan.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                    <button
+                                        type="button"
+                                        onClick={handleVerPdfActual}
                                         className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] hover:underline mb-2"
                                     >
                                         <Eye size={13} />
                                         Ver el PDF actual
-                                    </a>
+                                    </button>
 
                                     <FormControl>
                                         <label

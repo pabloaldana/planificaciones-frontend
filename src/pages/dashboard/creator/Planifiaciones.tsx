@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { useTable } from "@/hooks/index"
 import { getSubjectConfig } from "@/constants/subjects"
-import { useMaterias, useGrados, usePlanificaciones } from "@/hooks/index"
+import { useMaterias, useGrados, usePlanificaciones, useDownloadPlanificacion } from "@/hooks/index"
 import { useNavigate } from "react-router-dom"
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
@@ -33,7 +33,6 @@ type Row = {
     subject: string
     grade: string
     date: string
-    url: string
     price: string
 }
 
@@ -45,6 +44,13 @@ export const Planificaciones = () => {
     const { data: grados = [] } = useGrados()
 
     const navigate = useNavigate()
+    const { mutate: getDownloadLink } = useDownloadPlanificacion()
+
+    const handleVer = (id: number) => {
+        getDownloadLink(id, {
+            onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
+        })
+    }
 
     // Columnas adentro del componente: el botón "Editar" necesita navigate()
     const columns: Column<Row>[] = [
@@ -71,11 +77,13 @@ export const Planificaciones = () => {
             label: "Acciones",
             render: (row) => (
                 <div className="flex items-center gap-1">
-                    <a href={row.url} target="_blank" rel="noopener noreferrer">
-                        <button title="Ver" className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-                            <Eye size={16} weight="regular" />
-                        </button>
-                    </a>
+                    <button
+                        title="Ver"
+                        onClick={() => handleVer(row.id)}
+                        className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                    >
+                        <Eye size={16} weight="regular" />
+                    </button>
                     <button
                         title="Editar"
                         onClick={() => navigate(`/dashboard/planificaciones/${row.id}/editar`)}
@@ -95,7 +103,6 @@ export const Planificaciones = () => {
         subject: p.materia.name,
         grade: p.grado.name,
         date: new Date(p.created_at).toLocaleDateString("es-AR"),
-        url: p.url,
         price: `$${p.price.toLocaleString("es-AR")}`,
     })), [planificaciones])
 

@@ -19,6 +19,7 @@ export const Usuarios = () => {
 
     const { rows, page, setPage, totalPages } = usePagination(filtered)
 
+
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
 

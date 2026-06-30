@@ -1,5 +1,4 @@
 import {
-    GraduationCap,
     ChalkboardTeacher,
     BookOpen,
     Plant,
@@ -11,10 +10,9 @@ import {
     Desktop,
     type Icon,
 } from "@phosphor-icons/react"
-import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
-import { MdEmail, MdPhone } from "react-icons/md"
 import { Link, NavLink } from "react-router-dom"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
+import { Footer } from "@/components/Footer"
 import { useMaterias } from "@/hooks/useMaterias"
 
 
@@ -292,50 +290,7 @@ export const LandingPage = () => {
                 </div>
             </section>
 
-            {/* ===== FOOTER ===== */}
-            <footer className="bg-[#D7F0FA] border-t border-[#A8D8EE] py-10">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-
-                    {/* Logo + links */}
-                    <div className="flex flex-col items-center md:items-start gap-3">
-                        <a href="#" className="flex items-center gap-2 text-[#1A6B4A] font-bold text-base">
-                            <GraduationCap size={22} weight="duotone" />
-                            <span>Aula</span>
-                        </a>
-                        <nav className="flex items-center gap-4 text-sm text-slate-500">
-                            <a href="#" className="hover:text-[#1A6B4A] transition-colors">Inicio</a>
-                            <a href="#" className="hover:text-[#1A6B4A] transition-colors">Planificaciones</a>
-                            <a href="#" className="hover:text-[#1A6B4A] transition-colors">Contacto</a>
-                        </nav>
-                    </div>
-
-                    {/* Copyright */}
-                    <div className="text-center">
-                        <p className="text-sm font-medium text-slate-700">© 2026 Aula</p>
-                        <p className="text-xs text-slate-400 mt-1">Todos los derechos reservados</p>
-                    </div>
-
-                    {/* Redes + Contacto */}
-                    <div className="flex flex-col items-center md:items-end gap-4">
-                        <div className="flex gap-4 text-2xl text-slate-600">
-                            <FaInstagram className="cursor-pointer transition hover:scale-110 hover:text-[#1A6B4A]" />
-                            <FaWhatsapp className="cursor-pointer transition hover:scale-110 hover:text-[#1A7A4A]" />
-                            <FaFacebook className="cursor-pointer transition hover:scale-110 hover:text-[#1A6B8A]" />
-                        </div>
-                        <div className="space-y-1 text-sm text-slate-600">
-                            <div className="flex items-center gap-2">
-                                <MdEmail className="text-[#1A6B4A]" />
-                                <span>contacto@aula.com</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <MdPhone className="text-[#1A7A4A]" />
-                                <span>+123 456 7890</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </footer>
+            <Footer />
         </div>
     )
 }

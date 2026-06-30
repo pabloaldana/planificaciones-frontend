@@ -1,9 +1,10 @@
 // ── Peticiones al backend ─────────────────────────────────────────────────────
-export { usePlanificaciones, usePlanificacion, useCreatePlanificacion, useUpdatePlanificacion } from "./usePlanificaciones"
-export { useMaterias } from "./useMaterias"
-export { useGrados } from "./useGrados"
+export { usePlanificaciones, usePlanificacion, useCreatePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion } from "./usePlanificaciones"
+export { useMaterias, useCreateMateria } from "./useMaterias"
+export { useGrados, useCreateGrado } from "./useGrados"
 export { useCompras } from "./useCompras"
 export { useUsers } from "./useUsers"
+export { useAdminSummary } from "./useSuperAdmin"
 
 // ── UI / lógica local ─────────────────────────────────────────────────────────
 export { useTable } from "./useTable"

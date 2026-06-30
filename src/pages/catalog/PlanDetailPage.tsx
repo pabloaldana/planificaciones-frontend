@@ -1,70 +1,48 @@
-import { useRef, useState, useEffect } from "react"
+import { useState } from "react"
 import { useParams, NavLink } from "react-router-dom"
-import { ShoppingCart, LockSimple, Check } from "@phosphor-icons/react"
-import { Document, Page, pdfjs } from "react-pdf"
-import "react-pdf/dist/Page/AnnotationLayer.css"
-import "react-pdf/dist/Page/TextLayer.css"
+import { ShoppingCart, Check, FileText } from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { getSubjectConfig } from "@/constants/subjects"
 import { useCart } from "@/context/CartContext"
 import { usePlanificacion } from "@/hooks/usePlanificaciones"
 import { Footer } from "@/components/Footer"
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.min.mjs",
-    import.meta.url,
-).toString()
+// ── Galería de imágenes de referencia ─────────────────────────────────────────
+// Reemplaza al viejo preview del PDF real: el backend ahora protege el PDF
+// (link firmado, solo para quien compró) así que acá mostramos imágenes
+// públicas que el creador sube para mostrar de qué trata la planificación
+// (estilo Mercado Libre). Hoy solo tenemos `coverImageUrl` (una sola imagen);
+// cuando el backend sume un array de imágenes, esto ya está listo para recibirlo.
+const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: string }) => {
+    const [active, setActive] = useState(0)
 
-// ── PDF Preview con overlay ───────────────────────────────────────────────────
-const PdfPreview = ({ file }: { file: string }) => {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const [pageWidth, setPageWidth] = useState(0)
-
-    useEffect(() => {
-        if (!containerRef.current) return
-        const observer = new ResizeObserver(([entry]) => {
-            setPageWidth(entry.contentRect.width)
-        })
-        observer.observe(containerRef.current)
-        return () => observer.disconnect()
-    }, [])
+    if (images.length === 0) {
+        return (
+            <div className={`rounded-2xl border border-slate-200 shadow-sm aspect-square lg:aspect-4/3 flex items-center justify-center ${badgeClass}`}>
+                <FileText size={64} weight="duotone" className="opacity-40" />
+            </div>
+        )
+    }
 
     return (
-        <div
-            ref={containerRef}
-            className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm"
-        >
-            {pageWidth > 0 && (
-                <Document
-                    file={file}
-                    loading={
-                        <div className="flex items-center justify-center h-96 text-slate-400 text-sm">
-                            Cargando preview...
-                        </div>
-                    }
-                    error={
-                        <div className="flex items-center justify-center h-96 text-slate-400 text-sm">
-                            No se pudo cargar el PDF.
-                        </div>
-                    }
-                >
-                    <Page pageNumber={1} width={pageWidth} />
-                    <Page pageNumber={2} width={pageWidth} />
-                </Document>
-            )}
-
-            {/* Gradient overlay */}
-            <div className="absolute inset-x-0 bottom-0 h-[55%] bg-linear-to-b from-transparent via-white/70 to-white" />
-
-            {/* CTA en el overlay */}
-            <div className="absolute inset-x-0 bottom-0 h-[35%] flex flex-col items-center justify-center gap-3 px-6">
-                <div className="w-10 h-10 rounded-full bg-[#1A6B4A]/10 flex items-center justify-center">
-                    <LockSimple size={20} weight="fill" className="text-[#1A6B4A]" />
-                </div>
-                <p className="text-slate-700 font-semibold text-sm text-center">
-                    Comprá para ver el contenido completo
-                </p>
+        <div className="flex flex-col gap-3">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm aspect-square lg:aspect-4/3">
+                <img src={images[active]} alt="" className="w-full h-full object-cover" />
             </div>
+
+            {images.length > 1 && (
+                <div className="flex gap-2">
+                    {images.map((img, i) => (
+                        <button
+                            key={img}
+                            onClick={() => setActive(i)}
+                            className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${i === active ? "border-[#1A6B4A]" : "border-transparent"}`}
+                        >
+                            <img src={img} alt="" className="w-full h-full object-cover" />
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -134,8 +112,11 @@ export const PlanDetailPage = () => {
                 {/* Layout principal */}
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
 
-                    {/* ── PDF Preview ───────────────────────────── */}
-                    <PdfPreview file={plan.url} />
+                    {/* ── Galería de imágenes ───────────────────── */}
+                    <PlanGallery
+                        images={plan.coverImageUrl ? [plan.coverImageUrl] : []}
+                        badgeClass={subjectCfg.badge}
+                    />
 
                     {/* ── Info del producto ─────────────────────── */}
                     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col gap-5 lg:sticky lg:top-24">

@@ -3,6 +3,7 @@ import {
     getPlanificacionById,
     createPlanificacion,
     updatePlanificacion,
+    getDownloadUrl,
     type CreatePlanificacionPayload,
     type UpdatePlanificacionPayload,
 } from "@/services/planificaciones.service"
@@ -43,5 +44,13 @@ export const useUpdatePlanificacion = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
         },
+    })
+}
+
+// Mutation (no query) a propósito: el link vence en 10 minutos, no tiene sentido cachearlo.
+// Cada componente que necesite "ver" o "descargar" llama a esto en el momento del click.
+export const useDownloadPlanificacion = () => {
+    return useMutation({
+        mutationFn: getDownloadUrl,
     })
 }

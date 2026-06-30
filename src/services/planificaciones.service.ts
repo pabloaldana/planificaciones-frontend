@@ -7,13 +7,15 @@ export type Planificacion = {
     title: string
     description: string
     price: number
-    url: string
     public_id: string
     is_active: boolean
     created_at: string
     updated_at: string
     materia: Materia
     grado: Grado
+    // Todavía no existe en el backend — la card ya está lista para usarla
+    // apenas se agregue una imagen de portada por planificación.
+    coverImageUrl?: string
 }
 export type CreatePlanificacionPayload = {
     title: string
@@ -40,6 +42,16 @@ export const getPlanificaciones = async (): Promise<Planificacion[]> => {
 
 export const getPlanificacionById = async (id: number): Promise<Planificacion> => {
     const { data } = await api.get<Planificacion>(`/planificaciones/${id}`)
+    return data
+}
+
+export type DownloadLink = {
+    url: string
+}
+
+// Link firmado, vence en 10 minutos — no cachear ni guardar, pedirlo de nuevo cada vez que se necesite.
+export const getDownloadUrl = async (id: number): Promise<DownloadLink> => {
+    const { data } = await api.get<DownloadLink>(`/planificaciones/${id}/download`)
     return data
 }
 

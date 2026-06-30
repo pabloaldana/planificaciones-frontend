@@ -2,7 +2,6 @@ import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import { SquaresFour, FileText, ChartBar, Gear } from "@phosphor-icons/react"
 import { Header } from "../../../components/Header"
-import { Footer } from "../../../components/Footer"
 import { Sidebar, type NavItem } from "../../../components/ui/Sidebar"
 
 const navItems: NavItem[] = [
@@ -29,7 +28,6 @@ export const DashboardLayout = () => {
                 <main className="flex-1 p-6 overflow-auto">
                     <Outlet />
                 </main>
-                <Footer />
             </div>
         </div>
     )

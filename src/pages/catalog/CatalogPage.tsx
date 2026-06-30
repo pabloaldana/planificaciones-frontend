@@ -159,7 +159,7 @@ export const CatalogPage = () => {
 
             <PublicNavbar />
 
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
                 {/* ── Search ──────────────────────────────────────────────── */}
                 <div className="relative mb-6">
@@ -220,7 +220,7 @@ export const CatalogPage = () => {
                 <div className="flex gap-6 items-start">
 
                     {/* ── Sidebar desktop ──────────────────────────────────── */}
-                    <aside className="hidden lg:block w-56 shrink-0 bg-white rounded-xl border border-slate-100 shadow-sm p-5 sticky top-24">``
+                    <aside className="hidden lg:block w-56 shrink-0 bg-white rounded-xl border border-slate-100 shadow-sm p-5 sticky top-24">
                         <FiltersPanel
                             subjectOptions={subjectOptions}
                             gradeOptions={gradeOptions}
@@ -236,7 +236,7 @@ export const CatalogPage = () => {
                     {/* ── Grid ─────────────────────────────────────────────── */}
                     <div className="flex-1">
                         {isLoading ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                                 {[...Array(6)].map((_, i) => (
                                     <div key={i} className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-col gap-3 animate-pulse">
                                         <div className="h-5 bg-slate-100 rounded-full w-24" />
@@ -252,7 +252,7 @@ export const CatalogPage = () => {
                             </div>
                         ) : paginated.length > 0 ? (
                             <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                                     {paginated.map((p) => <PlanCard key={p.id} plan={p} />)}
                                 </div>
                                 {totalPages > 1 && (

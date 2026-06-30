@@ -1,9 +1,29 @@
-import { DownloadSimple, Eye } from "@phosphor-icons/react"
+import { DownloadSimple, Eye, ShoppingBag } from "@phosphor-icons/react"
+import { Link } from "react-router-dom"
 import { getSubjectConfig } from "@/constants/subjects"
-import { useCompras } from "@/hooks"
+import { useCompras, useDownloadPlanificacion } from "@/hooks"
 
 export const MisCompras = () => {
     const { data: compras = [], isLoading } = useCompras()
+    const { mutate: getDownloadLink } = useDownloadPlanificacion()
+
+    // El link vence en 10 minutos — lo pedimos recién en el momento del click, nunca antes.
+    const handleVer = (id: number) => {
+        getDownloadLink(id, {
+            onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
+        })
+    }
+
+    const handleDescargar = (id: number) => {
+        getDownloadLink(id, {
+            onSuccess: (data) => {
+                const a = document.createElement("a")
+                a.href = data.url
+                a.download = ""
+                a.click()
+            },
+        })
+    }
 
     if (isLoading) {
         return (
@@ -23,8 +43,15 @@ export const MisCompras = () => {
 
     if (compras.length === 0) {
         return (
-            <section className="bg-white rounded-xl shadow-sm border border-slate-100 p-12 text-center">
+            <section className="bg-white rounded-xl shadow-sm border border-slate-100 p-12 text-center flex flex-col items-center gap-4">
                 <p className="text-slate-400 text-sm">Todavía no compraste ninguna planificación.</p>
+                <Link
+                    to="/catalogo"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
+                >
+                    <ShoppingBag size={16} weight="duotone" />
+                    Ir al catálogo
+                </Link>
             </section>
         )
     }
@@ -33,11 +60,20 @@ export const MisCompras = () => {
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
 
             {/* Header */}
-            <div className="px-6 py-5 border-b border-slate-100">
-                <h2 className="text-xl font-bold text-[#1A6B4A]">Mis compras</h2>
-                <p className="text-slate-500 text-sm mt-0.5">
-                    {compras.length} {compras.length === 1 ? "planificación comprada" : "planificaciones compradas"}
-                </p>
+            <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-slate-100">
+                <div>
+                    <h2 className="text-xl font-bold text-[#1A6B4A]">Mis compras</h2>
+                    <p className="text-slate-500 text-sm mt-0.5">
+                        {compras.length} {compras.length === 1 ? "planificación comprada" : "planificaciones compradas"}
+                    </p>
+                </div>
+                <Link
+                    to="/catalogo"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[#1A6B4A] text-[#1A6B4A] text-sm font-semibold hover:bg-[#1A6B4A]/5 transition-colors shrink-0"
+                >
+                    <ShoppingBag size={16} weight="duotone" />
+                    Seguir comprando
+                </Link>
             </div>
 
             {/* Lista */}
@@ -69,25 +105,22 @@ export const MisCompras = () => {
 
                             {/* Acciones */}
                             <div className="flex items-center gap-2 shrink-0">
-                                <a
-                                    href={planificacion.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <button
+                                    onClick={() => handleVer(planificacion.id)}
                                     title="Ver"
                                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:bg-slate-50 transition-colors"
                                 >
                                     <Eye size={14} />
                                     Ver
-                                </a>
-                                <a
-                                    href={planificacion.url}
-                                    download
+                                </button>
+                                <button
+                                    onClick={() => handleDescargar(planificacion.id)}
                                     title="Descargar"
                                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1A6B4A] text-white text-xs font-medium hover:bg-[#134F37] transition-colors"
                                 >
                                     <DownloadSimple size={14} />
                                     Descargar
-                                </a>
+                                </button>
                             </div>
 
                         </div>

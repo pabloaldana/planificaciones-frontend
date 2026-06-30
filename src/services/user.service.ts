@@ -3,7 +3,7 @@ import { api } from "@/config/api"
 //datos que vienen del backend
 
 
-type User = {
+export type User = {
     id: string
     email: string
     name: string
