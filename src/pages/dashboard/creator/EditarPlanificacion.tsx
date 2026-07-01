@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FilePdf, UploadSimple, X, ArrowLeft, Eye } from "@phosphor-icons/react"
+import { FilePdf, UploadSimple, X, ArrowLeft, Eye, Image } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -12,7 +12,8 @@ import {
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/Select"
-import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion } from "@/hooks/index"
+import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion, useDeletePlanificacionImagen } from "@/hooks/index"
+import { uploadPlanificacionImage } from "@/services/planificaciones.service"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 // A diferencia de "crear", el PDF es opcional: solo se valida si se elige uno nuevo.
@@ -47,12 +48,55 @@ export const EditarPlanificacion = () => {
     const { data: grados = [] } = useGrados()
     const { mutate: editarPlanificacion, isPending } = useUpdatePlanificacion()
     const { mutate: getDownloadLink } = useDownloadPlanificacion()
+    const { mutate: eliminarImagen } = useDeletePlanificacionImagen()
     const [fileName, setFileName] = useState<string | null>(null)
+    const [imageFiles, setImageFiles] = useState<{ file: File; preview: string }[]>([])
+    const [imageError, setImageError] = useState<string | null>(null)
+    const [isUploadingImages, setIsUploadingImages] = useState(false)
+    const [removedImageIds, setRemovedImageIds] = useState<number[]>([])
+    const [deletingImageId, setDeletingImageId] = useState<number | null>(null)
+
+    // Imágenes ya persistidas (vienen del plan cargado), sin las que se borraron en esta sesión.
+    const existingImages = (plan?.imagenes ?? []).filter(img => !removedImageIds.includes(img.id))
+    const totalImageCount = existingImages.length + imageFiles.length
 
     const handleVerPdfActual = () => {
         getDownloadLink(planificacionId, {
             onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
         })
+    }
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = Array.from(e.target.files ?? [])
+        const invalid = selected.filter(f => !f.type.startsWith("image/"))
+        if (invalid.length) { setImageError("Solo se aceptan archivos de imagen"); return }
+        const oversized = selected.filter(f => f.size > 5 * 1024 * 1024)
+        if (oversized.length) { setImageError("Cada imagen no puede superar 5MB"); return }
+        setImageError(null)
+        const remaining = 3 - totalImageCount
+        const toAdd = selected.slice(0, remaining).map(f => ({ file: f, preview: URL.createObjectURL(f) }))
+        setImageFiles(prev => [...prev, ...toAdd])
+        e.target.value = ""
+    }
+
+    const removeImage = (index: number) => {
+        setImageFiles(prev => {
+            URL.revokeObjectURL(prev[index].preview)
+            return prev.filter((_, i) => i !== index)
+        })
+    }
+
+    const removeExistingImage = (imagenId: number) => {
+        setImageError(null)
+        setDeletingImageId(imagenId)
+        eliminarImagen(
+            { id: planificacionId, imagenId },
+            {
+                onSuccess: () => setRemovedImageIds(prev => [...prev, imagenId]),
+                onError: () => setImageError("No se pudo borrar la imagen. Probá de nuevo."),
+                onSettled: () => setDeletingImageId(null),
+            }
+        )
     }
 
     const form = useForm<FormInput, any, FormValues>({
@@ -66,9 +110,12 @@ export const EditarPlanificacion = () => {
         },
     })
 
-    // El plan llega async (useQuery) — recién cuando está disponible podemos precargar el form
+    // El plan llega async (useQuery) — recién cuando está disponible podemos precargar el form.
+    // Esperamos también a materias/grados: el <select> nativo oculto que usa Radix Select
+    // dispara un onValueChange("") espontáneo si sus <option> aparecen DESPUÉS de fijar el
+    // value, pisando el materiaId/gradoId ya seteado.
     useEffect(() => {
-        if (!plan) return
+        if (!plan || materias.length === 0 || grados.length === 0) return
         form.reset({
             title: plan.title,
             description: plan.description,
@@ -76,7 +123,7 @@ export const EditarPlanificacion = () => {
             materiaId: String(plan.materia.id),
             gradoId: String(plan.grado.id),
         })
-    }, [plan, form])
+    }, [plan, form, materias.length, grados.length])
 
     const onSubmit = (values: FormValues) => {
         editarPlanificacion(
@@ -92,7 +139,18 @@ export const EditarPlanificacion = () => {
                 },
             },
             {
-                onSuccess: () => navigate("/dashboard/planificaciones"),
+                onSuccess: async () => {
+                    // Igual que en CrearPlanificacion: el endpoint de imágenes es aparte,
+                    // se suben una por una respetando el orden.
+                    if (imageFiles.length) {
+                        setIsUploadingImages(true)
+                        for (const imageFile of imageFiles) {
+                            await uploadPlanificacionImage(planificacionId, imageFile.file)
+                        }
+                        setIsUploadingImages(false)
+                    }
+                    navigate("/dashboard/planificaciones")
+                },
             }
         )
     }
@@ -324,6 +382,69 @@ export const EditarPlanificacion = () => {
                             )}
                         />
 
+                        {/* Imágenes del catálogo */}
+                        <div className="space-y-3">
+                            <div>
+                                <p className="text-sm font-medium text-slate-700">
+                                    Imágenes del catálogo <span className="text-slate-400 font-normal">(opcional · hasta 3)</span>
+                                </p>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Se muestran en la card del catálogo y la página de detalle.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-3">
+                                {existingImages.map((img) => (
+                                    <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                        <img src={img.url} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeExistingImage(img.id)}
+                                            disabled={deletingImageId === img.id}
+                                            className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-60"
+                                            aria-label="Quitar imagen"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {imageFiles.map((img, i) => (
+                                    <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                        <img src={img.preview} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(i)}
+                                            className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            aria-label="Quitar imagen"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {totalImageCount < 3 && (
+                                    <label
+                                        htmlFor="image-upload"
+                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
+                                    >
+                                        <Image size={20} className="text-slate-300" />
+                                        <span className="text-xs text-slate-400">Agregar</span>
+                                        <input
+                                            id="image-upload"
+                                            type="file"
+                                            multiple
+                                            accept="image/*"
+                                            className="sr-only"
+                                            onChange={handleImageChange}
+                                        />
+                                    </label>
+                                )}
+                            </div>
+
+                            {imageError && <p className="text-xs text-red-500">{imageError}</p>}
+                        </div>
+
                         {/* Acciones */}
                         <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100">
                             <Button
@@ -336,10 +457,10 @@ export const EditarPlanificacion = () => {
                             </Button>
                             <Button
                                 type="submit"
-                                disabled={isPending}
+                                disabled={isPending || isUploadingImages}
                                 className="bg-[#1A6B4A] hover:bg-[#134F37] text-white disabled:opacity-60"
                             >
-                                {isPending ? "Guardando..." : "Guardar cambios"}
+                                {isPending || isUploadingImages ? "Guardando..." : "Guardar cambios"}
                             </Button>
                         </div>
 

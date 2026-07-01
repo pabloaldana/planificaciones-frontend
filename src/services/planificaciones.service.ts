@@ -20,7 +20,7 @@ export type Planificacion = {
     updated_at: string
     materia: Materia
     grado: Grado
-    images?: PlanImage[]
+    imagenes?: PlanImage[]
 }
 
 export type CreatePlanificacionPayload = {
@@ -68,6 +68,11 @@ export const uploadPlanificacionImage = async (id: number, file: File): Promise<
     formData.append("file", file)
     const { data } = await api.post<PlanImage>(`/planificaciones/${id}/imagenes`, formData)
     return data
+}
+
+//borra una imagen ya asociada a la planificacion
+export const deletePlanificacionImagen = async (id: number, imagenId: number): Promise<void> => {
+    await api.delete(`/planificaciones/${id}/imagenes/${imagenId}`)
 }
 //primero viene aca a crear la planificacion
 export const createPlanificacion = async (payload: CreatePlanificacionPayload): Promise<Planificacion> => {

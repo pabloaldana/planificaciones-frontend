@@ -1,7 +1,36 @@
+import { useState } from "react"
+import { Camera } from "@phosphor-icons/react"
 import { useAuth } from "@/context/AuthContext"
 
 export const MiPerfil = () => {
-    const { user } = useAuth()
+    const { user, updateAvatar } = useAuth()
+    const [isUploading, setIsUploading] = useState(false)
+    const [avatarError, setAvatarError] = useState<string | null>(null)
+
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        e.target.value = ""
+        if (!file) return
+
+        if (!file.type.startsWith("image/")) {
+            setAvatarError("Solo se aceptan archivos de imagen")
+            return
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            setAvatarError("La imagen no puede superar 5MB")
+            return
+        }
+
+        setAvatarError(null)
+        setIsUploading(true)
+        try {
+            await updateAvatar(file)
+        } catch {
+            setAvatarError("No se pudo subir la imagen. Probá de nuevo.")
+        } finally {
+            setIsUploading(false)
+        }
+    }
 
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
@@ -16,9 +45,33 @@ export const MiPerfil = () => {
 
                 {/* Avatar */}
                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white font-bold text-2xl">
-                        {user?.email?.charAt(0).toUpperCase()}
-                    </div>
+                    <label
+                        htmlFor="avatar-upload"
+                        className="relative w-16 h-16 rounded-full cursor-pointer group shrink-0"
+                    >
+                        {user?.avatarUrl ? (
+                            <img
+                                src={user.avatarUrl}
+                                alt=""
+                                className="w-16 h-16 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white font-bold text-2xl">
+                                {user?.email?.charAt(0).toUpperCase()}
+                            </div>
+                        )}
+                        <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Camera size={20} className="text-white" />
+                        </div>
+                        <input
+                            id="avatar-upload"
+                            type="file"
+                            accept="image/*"
+                            className="sr-only"
+                            disabled={isUploading}
+                            onChange={handleAvatarChange}
+                        />
+                    </label>
                     <div>
                         <p className="font-semibold text-slate-700">{user?.email}</p>
                         <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-[#D1F2EB] text-[#1A6B4A] text-xs font-semibold capitalize">
@@ -26,6 +79,9 @@ export const MiPerfil = () => {
                         </span>
                     </div>
                 </div>
+
+                {isUploading && <p className="text-xs text-slate-400">Subiendo imagen...</p>}
+                {avatarError && <p className="text-xs text-red-500">{avatarError}</p>}
 
                 <div className="border-t border-slate-100" />
 

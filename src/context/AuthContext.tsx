@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
-import { loginRequest, registerRequest, googleLoginRequest, type AuthResponse } from "@/services/auth.service"
+import { loginRequest, registerRequest, googleLoginRequest, uploadAvatarRequest, type AuthResponse, type UserProfile } from "@/services/auth.service"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 // Solo datos de perfil — el token/refreshToken NUNCA se guardan acá adentro,
@@ -11,15 +11,17 @@ export type User = {
     lastname: string
     isActive: boolean
     roles: string[]
+    avatarUrl: string | null
 }
 
-const toProfile = (data: AuthResponse): User => ({
+const toProfile = (data: AuthResponse | UserProfile): User => ({
     id: data.id,
     email: data.email,
     name: data.name,
     lastname: data.lastname,
     isActive: data.isActive,
     roles: data.roles,
+    avatarUrl: data.avatarUrl,
 })
 
 // Guarda token/refreshToken/perfil en localStorage — login, register y Google
@@ -41,6 +43,7 @@ type AuthContextType = {
     loginWithGoogle: (credential: string) => Promise<User>
     logout: () => void
     register: (name: string, lastname: string, email: string, password: string) => Promise<User>
+    updateAvatar: (file: File) => Promise<User>
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -95,6 +98,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null)
     }
 
+    // No emite token nuevo (no es login) — solo actualiza el perfil ya persistido.
+    const updateAvatar = async (file: File) => {
+        const data = await uploadAvatarRequest(file)
+        const profile = toProfile(data)
+        localStorage.setItem("user", JSON.stringify(profile))
+        setUser(profile)
+        return profile
+    }
+
 
     const register = async (name: string, lastname: string, email: string, password: string) => {
         setIsLoading(true)
@@ -122,6 +134,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             loginWithGoogle,
             logout,
             register,
+            updateAvatar,
         }}>
             {children}
         </AuthContext.Provider>

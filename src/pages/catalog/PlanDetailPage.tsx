@@ -1,20 +1,18 @@
 import { useState } from "react"
 import { useParams, NavLink } from "react-router-dom"
-import { ShoppingCart, Check, FileText } from "@phosphor-icons/react"
+import { ShoppingCart, Check, FileText, CaretLeft, CaretRight } from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { getSubjectConfig } from "@/constants/subjects"
 import { useCart } from "@/context/CartContext"
 import { usePlanificacion } from "@/hooks/usePlanificaciones"
 import { Footer } from "@/components/Footer"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 
 // ── Galería de imágenes de referencia ─────────────────────────────────────────
-// Reemplaza al viejo preview del PDF real: el backend ahora protege el PDF
-// (link firmado, solo para quien compró) así que acá mostramos imágenes
-// públicas que el creador sube para mostrar de qué trata la planificación
-// (estilo Mercado Libre). Hoy solo tenemos `coverImageUrl` (una sola imagen);
-// cuando el backend sume un array de imágenes, esto ya está listo para recibirlo.
+
 const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: string }) => {
     const [active, setActive] = useState(0)
+    const [lightboxOpen, setLightboxOpen] = useState(false)
 
     if (images.length === 0) {
         return (
@@ -24,17 +22,25 @@ const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: str
         )
     }
 
+    const goPrev = () => setActive((i) => (i - 1 + images.length) % images.length)
+    const goNext = () => setActive((i) => (i + 1) % images.length)
+
     return (
         <div className="flex flex-col gap-3">
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm aspect-square lg:aspect-4/3">
+            <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm aspect-square lg:aspect-4/3 cursor-zoom-in"
+            >
                 <img src={images[active]} alt="" className="w-full h-full object-cover" />
-            </div>
+            </button>
 
             {images.length > 1 && (
                 <div className="flex gap-2">
                     {images.map((img, i) => (
                         <button
                             key={img}
+                            type="button"
                             onClick={() => setActive(i)}
                             className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${i === active ? "border-[#1A6B4A]" : "border-transparent"}`}
                         >
@@ -43,6 +49,52 @@ const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: str
                     ))}
                 </div>
             )}
+
+            <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+                <DialogContent className="max-w-4xl w-[92vw] bg-transparent border-none shadow-none p-2">
+                    <DialogTitle className="sr-only">Imagen ampliada</DialogTitle>
+                    <div className="relative flex items-center justify-center">
+                        {images.length > 1 && (
+                            <button
+                                type="button"
+                                onClick={goPrev}
+                                aria-label="Imagen anterior"
+                                className="absolute left-2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-colors"
+                            >
+                                <CaretLeft size={20} />
+                            </button>
+                        )}
+
+                        <img src={images[active]} alt="" className="max-h-[75vh] max-w-full rounded-xl object-contain" />
+
+                        {images.length > 1 && (
+                            <button
+                                type="button"
+                                onClick={goNext}
+                                aria-label="Imagen siguiente"
+                                className="absolute right-2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-colors"
+                            >
+                                <CaretRight size={20} />
+                            </button>
+                        )}
+                    </div>
+
+                    {images.length > 1 && (
+                        <div className="flex justify-center gap-2 mt-3">
+                            {images.map((img, i) => (
+                                <button
+                                    key={img}
+                                    type="button"
+                                    onClick={() => setActive(i)}
+                                    className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === active ? "border-[#1A6B4A]" : "border-white/60"}`}
+                                >
+                                    <img src={img} alt="" className="w-full h-full object-cover" />
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
@@ -114,7 +166,7 @@ export const PlanDetailPage = () => {
 
                     {/* ── Galería de imágenes ───────────────────── */}
                     <PlanGallery
-                        images={plan.coverImageUrl ? [plan.coverImageUrl] : []}
+                        images={plan.imagenes?.map((img) => img.url) ?? []}
                         badgeClass={subjectCfg.badge}
                     />
 

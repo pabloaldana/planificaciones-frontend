@@ -24,9 +24,9 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
 
             <div className={`w-full aspect-4/3 flex items-center justify-center ${subjectCfg.badge}`}>
-                {plan.images?.[0]?.url ? (
+                {plan.imagenes?.[0]?.url ? (
                     <img
-                        src={plan.images[0].url}
+                        src={plan.imagenes[0].url}
                         alt={plan.title}
                         className="w-full h-full object-cover"
                     />

@@ -4,6 +4,7 @@ import {
     createPlanificacion,
     updatePlanificacion,
     getDownloadUrl,
+    deletePlanificacionImagen,
     type CreatePlanificacionPayload,
     type UpdatePlanificacionPayload,
 } from "@/services/planificaciones.service"
@@ -52,5 +53,16 @@ export const useUpdatePlanificacion = () => {
 export const useDownloadPlanificacion = () => {
     return useMutation({
         mutationFn: getDownloadUrl,
+    })
+}
+
+export const useDeletePlanificacionImagen = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id, imagenId }: { id: number; imagenId: number }) =>
+            deletePlanificacionImagen(id, imagenId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
+        },
     })
 }
