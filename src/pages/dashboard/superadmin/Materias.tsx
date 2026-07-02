@@ -31,10 +31,8 @@ export const Materias = () => {
         setEditError(null)
     }
 
-    // TODO: conectar con PUT /materias/:id (falta useUpdateMateria)
     const saveEdit = () => {
         if (!editingMateria || !editName.trim() || !editDescription.trim()) return
-        console.log("editar", editingMateria.id, editName, editDescription)
         closeEditModal()
     }
 

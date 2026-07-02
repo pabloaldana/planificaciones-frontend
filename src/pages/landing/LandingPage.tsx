@@ -34,7 +34,6 @@ export const LandingPage = () => {
     const { data: masVendidas = [], isLoading: masVendidasLoading } = useMasVendidas()
 
 
-    console.log({ masVendidas })
     const top4Materias = [...materias]
         .sort((a, b) => b.planificacionesCount - a.planificacionesCount)
         .slice(0, 4)

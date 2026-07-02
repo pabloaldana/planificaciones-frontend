@@ -9,4 +9,3 @@ export { useAdminSummary } from "./useSuperAdmin"
 // ── UI / lógica local ─────────────────────────────────────────────────────────
 export { useTable } from "./useTable"
 export { usePagination } from "./usePagination"
-export { useDropdown } from "./useDropdown"

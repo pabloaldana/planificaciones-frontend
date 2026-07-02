@@ -89,7 +89,7 @@ const SeccionPerfil = () => (
         {/* Guardar */}
         <div className="flex justify-end">
             <button
-                onClick={() => console.log("Guardar cambios - perfil")}
+                onClick={() => {}}
                 className="bg-[#1A6B4A] text-white hover:bg-[#134F37] rounded-lg px-4 py-2 text-sm transition-colors"
             >
                 Guardar cambios
