@@ -1,18 +1,20 @@
-import { DownloadSimple, Eye, ShoppingBag } from "@phosphor-icons/react"
+import { DownloadSimple, ShoppingBag } from "@phosphor-icons/react"
 import { Link } from "react-router-dom"
 import { getSubjectConfig } from "@/constants/subjects"
-import { useCompras, useDownloadPlanificacion } from "@/hooks"
+import { Pagination } from "@/components/ui/Pagination"
+import { useCompras, useDownloadPlanificacion, usePagination } from "@/hooks"
 
 export const MisCompras = () => {
     const { data: compras = [], isLoading } = useCompras()
     const { mutate: getDownloadLink } = useDownloadPlanificacion()
+    const { rows, page, setPage, totalPages } = usePagination(compras, 10)
 
     // El link vence en 10 minutos — lo pedimos recién en el momento del click, nunca antes.
-    const handleVer = (id: number) => {
-        getDownloadLink(id, {
-            onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
-        })
-    }
+    // const handleVer = (id: number) => {
+    //     getDownloadLink(id, {
+    //         onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
+    //     })
+    // }
 
     const handleDescargar = (id: number) => {
         getDownloadLink(id, {
@@ -78,7 +80,7 @@ export const MisCompras = () => {
 
             {/* Lista */}
             <div className="divide-y divide-slate-100">
-                {compras.map((compra) => {
+                {rows.map((compra) => {
                     const { planificacion } = compra
                     const subject = getSubjectConfig(planificacion.materia.name)
                     return (
@@ -106,14 +108,6 @@ export const MisCompras = () => {
                             {/* Acciones */}
                             <div className="flex items-center gap-2 shrink-0">
                                 <button
-                                    onClick={() => handleVer(planificacion.id)}
-                                    title="Ver"
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:bg-slate-50 transition-colors"
-                                >
-                                    <Eye size={14} />
-                                    Ver
-                                </button>
-                                <button
                                     onClick={() => handleDescargar(planificacion.id)}
                                     title="Descargar"
                                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1A6B4A] text-white text-xs font-medium hover:bg-[#134F37] transition-colors"
@@ -127,6 +121,12 @@ export const MisCompras = () => {
                     )
                 })}
             </div>
+
+            {totalPages > 1 && (
+                <div className="px-6 py-4">
+                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                </div>
+            )}
 
         </section>
     )

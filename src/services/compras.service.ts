@@ -21,3 +21,17 @@ export const getTotalVentas = async (): Promise<{ total: number }> => {
     const { data } = await api.get<{ total: number }>("/compras/total-ventas")
     return data
 }
+
+export type PlanificacionMasVendida = {
+    id: number
+    title: string
+    materia: string
+    grado: string
+    price: number
+    ventas: number
+}
+
+export const getMasVendidas = async (): Promise<PlanificacionMasVendida[]> => {
+    const { data } = await api.get<PlanificacionMasVendida[]>("/compras/mas-vendidas")
+    return data
+}

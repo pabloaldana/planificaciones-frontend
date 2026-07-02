@@ -99,14 +99,37 @@
       "Bash(cd \"c:/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-backend\" && grep -n \"cors\\\\|origin\" src/main.ts)",
       "Bash(curl -s -o /dev/null -w \"3000:%{http_code}\\\\n\" --max-time 5 http://localhost:3000/api/grados)",
       "Bash(taskkill //PID 2904 //F)",
-      "Bash(taskkill //PID 15464 //F)"
+      "Bash(taskkill //PID 15464 //F)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\" -maxdepth 3 -type d -name \"*backend*\" -o -type d -name \"*api*\" -o -type d -name \"*server*\" 2>/dev/null | head -20)",
+      "Bash(ls -la \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" | grep -E \"package.json|Dockerfile|docker-compose\" | head -20)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" -type f \\\\\\( -name \"*seed*\" -o -name \"*migration*\" -o -name \"Dockerfile*\" -o -name \"docker-compose*\" \\\\\\) 2>/dev/null)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" -type f \\\\\\( -name \".env*\" -o -name \"*.env\" \\\\\\) 2>/dev/null)",
+      "Bash(grep -r \"SUPERADMIN\\\\|ADMIN_\\\\|DEFAULT_ADMIN\\\\|seed\" \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" --include=\"*.ts\" --include=\"*.js\" --include=\".env*\" 2>/dev/null | head -30)",
+      "Bash(grep -r \"roles\\\\|ValidRoles\\\\|SUPERADMIN\\\\|super-admin\" \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\\\\src\" --include=\"*.ts\" 2>/dev/null | grep -E \"\\(interface|enum|const\\)\" | head -20)",
+      "Read(//c/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-backend/src/**)",
+      "Read(//c/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-backend/src/auth/interfaces/**)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\\\\src\" -type f -name \"main.ts\" -o -name \"app.module.ts\" 2>/dev/null)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" -type f \\\\\\( -name \"README*\" -o -name \"Dockerfile*\" -o -name \"*.sh\" \\\\\\) 2>/dev/null)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\" -type f -name \".github\" -o -type d -name \".github\" 2>/dev/null)",
+      "Bash(ls -la \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" | grep -v node_modules)",
+      "Bash(find \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\" -maxdepth 1 -type f 2>/dev/null)",
+      "Bash(cat \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\\\\src\\\\app.module.ts\" | head -80)",
+      "Bash(grep -r \"POST\\\\|GET\" \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\\\\src\\\\seed\" --include=\"*.ts\" 2>/dev/null)",
+      "Bash(grep -A 5 -B 5 \"seed\\\\|SEED\\\\|bootstrap\\\\|BOOTSTRAP\" \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\\\\src\\\\auth\\\\auth.service.ts\" 2>/dev/null | head -40)",
+      "Bash(cat \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\\\\src\\\\seed\\\\seed.controller.ts\")",
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\" && ls)",
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && find src -iname \"*planificacion*\" -o -iname \"*compra*\" | grep -v node_modules)",
+      "Read(//c/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-backend/src/compra/**)",
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && grep -n \"getSoldPlanificacionesBySeller\" src/compra/compra.service.ts)",
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && file src/compra/compra.service.ts; sed -n '265,270p' src/compra/compra.service.ts | cat -A | head -20)"
     ],
     "additionalDirectories": [
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\services",
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-backend\\src\\planificacion",
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-backend\\src\\grado",
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-backend\\src\\auth\\entities",
-      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-backend\\src\\auth"
+      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-backend\\src\\auth",
+      "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-backend\\src\\compra"
     ]
   }
 }
