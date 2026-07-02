@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { PencilSimple, Trash, Plus } from "@phosphor-icons/react"
-import { useMaterias, useCreateMateria } from "@/hooks/useMaterias"
+import { useMaterias, useCreateMateria, useUpdateMateria } from "@/hooks/useMaterias"
 import type { Materia } from "@/services/materias.service"
 import { FormDialog } from "@/components/common/FormDialog"
 
 export const Materias = () => {
     const { data: materias = [], isLoading, isError } = useMaterias()
     const { mutate: crearMateria, isPending: creando } = useCreateMateria()
+    const { mutate: editarMateria, isPending: editando } = useUpdateMateria()
 
     const [adding, setAdding] = useState(false)
     const [newLabel, setNewLabel] = useState("")
@@ -33,7 +34,14 @@ export const Materias = () => {
 
     const saveEdit = () => {
         if (!editingMateria || !editName.trim() || !editDescription.trim()) return
-        closeEditModal()
+        setEditError(null)
+        editarMateria(
+            { id: editingMateria.id, name: editName, description: editDescription },
+            {
+                onSuccess: closeEditModal,
+                onError: () => setEditError("No pudimos guardar los cambios. Probá de nuevo."),
+            }
+        )
     }
 
     const closeModal = () => {
@@ -160,6 +168,7 @@ export const Materias = () => {
                 description="Modificá el nombre y la descripción."
                 onSubmit={saveEdit}
                 submitLabel="Guardar cambios"
+                isSubmitting={editando}
                 submitDisabled={!editName.trim() || !editDescription.trim()}
                 error={editError}
             >

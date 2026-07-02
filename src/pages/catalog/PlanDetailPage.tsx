@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useParams, NavLink } from "react-router-dom"
 import { ShoppingCart, Check, FileText, CaretLeft, CaretRight } from "@phosphor-icons/react"
+import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { getSubjectConfig } from "@/constants/subjects"
 import { useCart } from "@/context/CartContext"
@@ -101,9 +102,17 @@ const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: str
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export const PlanDetailPage = () => {
-    const { id } = useParams() //para sacar la id que viene en la url
+    const { id } = useParams()
     const { addItem, isInCart, openCart } = useCart()
-    const { data: plan, isLoading } = usePlanificacion(Number(id)) //sacamos la info de la planificacion usando el id que sacamos de la url
+    const { data: plan, isLoading } = usePlanificacion(Number(id))
+
+    useDocumentMeta({
+        title: plan?.title ?? "Planificación",
+        description: plan
+            ? `${plan.materia.name} · ${plan.grado.name} — Descargá esta planificación educativa lista para usar en el aula.`
+            : undefined,
+        ogImage: plan?.imagenes?.[0]?.url,
+    })
 
     if (isLoading) {
         return (

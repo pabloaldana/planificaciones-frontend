@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getMaterias, createMateria } from "@/services/materias.service"
+import { getMaterias, createMateria, updateMateria } from "@/services/materias.service"
 
 export const useMaterias = () => {
     return useQuery({
@@ -10,10 +10,19 @@ export const useMaterias = () => {
 }
 
 export const useCreateMateria = () => {
-    //queryclient es un objeto que nos permite interactuar con la cache de react-query, en este caso lo usamos para invalidar la cache de materias cuando se crea una nueva materia
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: createMateria,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["materias"] })
+        },
+    })
+}
+
+export const useUpdateMateria = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: updateMateria,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["materias"] })
         },

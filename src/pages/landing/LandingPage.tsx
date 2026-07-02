@@ -14,6 +14,7 @@ import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { Footer } from "@/components/Footer"
 import { useMaterias } from "@/hooks/useMaterias"
 import { useMasVendidas } from "@/hooks"
+import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 
 
 // ── Estilos por materia (clave = nombre exacto del backend en minúsculas) ──────
@@ -30,6 +31,11 @@ const subjectStyles: Record<string, SubjectStyle> = {
 const defaultStyle: SubjectStyle = { icon: BookOpen, bg: "bg-slate-100", color: "text-slate-500" }
 
 export const LandingPage = () => {
+    useDocumentMeta({
+        title: "Planificaciones educativas para docentes",
+        description: "Encontrá planificaciones educativas listas para usar en el aula. Organizadas por materia y grado, creadas por docentes para docentes.",
+    })
+
     const { data: materias = [], isLoading: materiasLoading } = useMaterias()
     const { data: masVendidas = [], isLoading: masVendidasLoading } = useMasVendidas()
 

@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react"
+import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 import { useSearchParams } from "react-router-dom"
 import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
@@ -94,6 +95,11 @@ const FiltersPanel = ({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export const CatalogPage = () => {
+    useDocumentMeta({
+        title: "Catálogo de planificaciones",
+        description: "Explorá nuestro catálogo de planificaciones educativas. Filtrá por materia y grado para encontrar exactamente lo que necesitás.",
+    })
+
     const [searchParams] = useSearchParams()
     const [filtersOpen, setFiltersOpen] = useState(false)
     const [search, setSearch] = useState("")
