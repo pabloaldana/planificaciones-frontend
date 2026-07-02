@@ -42,8 +42,10 @@ export type UpdatePlanificacionPayload = {
     file?: File
 }
 
-export const getPlanificaciones = async (): Promise<Planificacion[]> => {
-    const { data } = await api.get<Planificacion[]>("/planificaciones")
+export const getPlanificaciones = async (search?: string): Promise<Planificacion[]> => {
+    const { data } = await api.get<Planificacion[]>("/planificaciones", {
+        params: search ? { search } : undefined,
+    })
     return data
 }
 

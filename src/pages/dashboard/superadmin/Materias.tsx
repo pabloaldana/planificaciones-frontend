@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { PencilSimple, Trash, Plus } from "@phosphor-icons/react"
+import { PencilSimple, Plus } from "@phosphor-icons/react"
 import { useMaterias, useCreateMateria, useUpdateMateria } from "@/hooks/useMaterias"
 import type { Materia } from "@/services/materias.service"
 import { FormDialog } from "@/components/common/FormDialog"

@@ -13,7 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 export const usePlanificaciones = () => {
     return useQuery({
         queryKey: ["planificaciones"],
-        queryFn: getPlanificaciones,
+        queryFn: () => getPlanificaciones(),
         staleTime: 10 * 60 * 1000,
     })
 }

@@ -4,6 +4,7 @@ export { useMaterias, useCreateMateria, useUpdateMateria } from "./useMaterias"
 export { useGrados, useCreateGrado } from "./useGrados"
 export { useCompras, useMasVendidas } from "./useCompras"
 export { useUsers, useUpdateUserStatus, useUpdateUserRoles } from "./useUsers"
+export { useFavoritos, useCheckFavorito, useToggleFavorito } from "./useFavoritos"
 export { useAdminSummary } from "./useSuperAdmin"
 
 // ── UI / lógica local ─────────────────────────────────────────────────────────

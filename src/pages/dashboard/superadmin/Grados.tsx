@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { PencilSimple, Trash, Plus } from "@phosphor-icons/react"
+import { PencilSimple, Plus } from "@phosphor-icons/react"
 import { useGrados, useCreateGrado, useUpdateGrado } from "@/hooks/useGrados"
 import type { Grado } from "@/services/grados.service"
 import { FormDialog } from "@/components/common/FormDialog"
