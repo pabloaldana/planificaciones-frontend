@@ -42,10 +42,29 @@ export type UpdatePlanificacionPayload = {
     file?: File
 }
 
-export const getPlanificaciones = async (search?: string): Promise<Planificacion[]> => {
-    const { data } = await api.get<Planificacion[]>("/planificaciones", {
-        params: search ? { search } : undefined,
-    })
+export type PaginatedResponse<T> = {
+    data: T[]
+    total: number
+    page: number
+    totalPages: number
+}
+
+export type PlanificacionesParams = {
+    search?: string
+    page?: number
+    limit?: number
+    materiaIds?: string
+    gradoIds?: string
+    sortBy?: string
+}
+
+export const getPlanificaciones = async (params?: PlanificacionesParams): Promise<PaginatedResponse<Planificacion>> => {
+    const { data } = await api.get<PaginatedResponse<Planificacion>>("/planificaciones", { params })
+    return data
+}
+
+export const getPlanificacionesAdmin = async (params?: Pick<PlanificacionesParams, 'search' | 'page' | 'limit' | 'sortBy'>): Promise<PaginatedResponse<Planificacion>> => {
+    const { data } = await api.get<PaginatedResponse<Planificacion>>("/planificaciones/admin", { params })
     return data
 }
 

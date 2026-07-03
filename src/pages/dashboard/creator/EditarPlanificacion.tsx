@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/Select"
 import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion, useDeletePlanificacionImagen } from "@/hooks/index"
 import { uploadPlanificacionImage } from "@/services/planificaciones.service"
+import { useQueryClient } from "@tanstack/react-query"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 // A diferencia de "crear", el PDF es opcional: solo se valida si se elige uno nuevo.
@@ -40,6 +41,7 @@ type FormValues = z.output<typeof formSchema>
 
 export const EditarPlanificacion = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { id } = useParams()
     const planificacionId = Number(id)
 
@@ -140,8 +142,6 @@ export const EditarPlanificacion = () => {
             },
             {
                 onSuccess: async () => {
-                    // Igual que en CrearPlanificacion: el endpoint de imágenes es aparte,
-                    // se suben una por una respetando el orden.
                     if (imageFiles.length) {
                         setIsUploadingImages(true)
                         for (const imageFile of imageFiles) {
@@ -149,6 +149,8 @@ export const EditarPlanificacion = () => {
                         }
                         setIsUploadingImages(false)
                     }
+                    queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
+                    queryClient.invalidateQueries({ queryKey: ["planificaciones-admin"] })
                     navigate("/dashboard/planificaciones")
                 },
             }

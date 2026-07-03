@@ -1,5 +1,6 @@
 import {
     getPlanificaciones,
+    getPlanificacionesAdmin,
     getPlanificacionById,
     createPlanificacion,
     updatePlanificacion,
@@ -7,13 +8,22 @@ import {
     deletePlanificacionImagen,
     type CreatePlanificacionPayload,
     type UpdatePlanificacionPayload,
+    type PlanificacionesParams,
 } from "@/services/planificaciones.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export const usePlanificaciones = (search?: string) => {
+export const usePlanificaciones = (params?: PlanificacionesParams) => {
     return useQuery({
-        queryKey: ["planificaciones", search ?? ""],
-        queryFn: () => getPlanificaciones(search),
+        queryKey: ["planificaciones", params?.search ?? "", params?.page ?? 1, params?.materiaIds ?? "", params?.gradoIds ?? "", params?.sortBy ?? ""],
+        queryFn: () => getPlanificaciones(params),
+        staleTime: 5 * 60 * 1000,
+    })
+}
+
+export const usePlanificacionesAdmin = (params?: { search?: string; sortBy?: string }) => {
+    return useQuery({
+        queryKey: ["planificaciones-admin", params?.search ?? "", params?.sortBy ?? ""],
+        queryFn: () => getPlanificacionesAdmin({ ...params, limit: 1000 }),
         staleTime: 5 * 60 * 1000,
     })
 }

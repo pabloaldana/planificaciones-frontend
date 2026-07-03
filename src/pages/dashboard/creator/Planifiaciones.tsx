@@ -11,7 +11,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { useTable } from "@/hooks/index"
 import { getSubjectConfig } from "@/constants/subjects"
-import { useMaterias, useGrados, usePlanificaciones, useDownloadPlanificacion } from "@/hooks/index"
+import { useMaterias, useGrados, useDownloadPlanificacion } from "@/hooks/index"
+import { usePlanificacionesAdmin } from "@/hooks/usePlanificaciones"
 import { useNavigate } from "react-router-dom"
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
@@ -39,7 +40,8 @@ type Row = {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export const Planificaciones = () => {
-    const { data: planificaciones = [] } = usePlanificaciones()
+    const { data: response } = usePlanificacionesAdmin()
+    const planificaciones = response?.data ?? []
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
 

@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { MagnifyingGlass, Eye, Trash } from "@phosphor-icons/react"
 import { getSubjectConfig } from "@/constants/subjects"
-import { usePlanificaciones } from "@/hooks/usePlanificaciones"
+import { usePlanificacionesAdmin } from "@/hooks/usePlanificaciones"
 
 export const PlanificacionesAdmin = () => {
     const [search, setSearch] = useState("")
-    const { data: planificaciones = [], isLoading } = usePlanificaciones()
+    const { data: response, isLoading } = usePlanificacionesAdmin()
+    const planificaciones = response?.data ?? []
 
     const filtered = planificaciones.filter((p) =>
         p.title.toLowerCase().includes(search.toLowerCase())
