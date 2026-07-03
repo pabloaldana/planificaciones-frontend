@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { addFavorito, removeFavorito, getFavoritos, checkFavorito } from "@/services/favoritos.service"
 
-export const useFavoritos = () => {
+export const useFavoritos = (enabled = true) => {
     return useQuery({
         queryKey: ["favoritos"],
         queryFn: getFavoritos,
         staleTime: 5 * 60 * 1000,
+        enabled,
     })
 }
 

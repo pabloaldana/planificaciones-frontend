@@ -9,7 +9,7 @@ type Props = {
 
 export const FavoritoButton = ({ planificacionId, size = 16 }: Props) => {
     const { isAuthenticated } = useAuth()
-    const { data: favoritos = [] } = useFavoritos()
+    const { data: favoritos = [] } = useFavoritos(isAuthenticated)
     const { add, remove } = useToggleFavorito(planificacionId)
 
     if (!isAuthenticated) return null
