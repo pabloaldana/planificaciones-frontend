@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
-import { loginRequest, registerRequest, googleLoginRequest, uploadAvatarRequest, type AuthResponse, type UserProfile } from "@/services/auth.service"
+import { loginRequest, registerRequest, googleLoginRequest, uploadAvatarRequest, updateProfileRequest, type AuthResponse, type UserProfile } from "@/services/auth.service"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 // Solo datos de perfil — el token/refreshToken NUNCA se guardan acá adentro,
@@ -44,6 +44,7 @@ type AuthContextType = {
     logout: () => void
     register: (name: string, lastname: string, email: string, password: string) => Promise<User>
     updateAvatar: (file: File) => Promise<User>
+    updateProfile: (data: { name?: string; lastname?: string }) => Promise<User>
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -98,9 +99,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null)
     }
 
-    // No emite token nuevo (no es login) — solo actualiza el perfil ya persistido.
     const updateAvatar = async (file: File) => {
         const data = await uploadAvatarRequest(file)
+        const profile = toProfile(data)
+        localStorage.setItem("user", JSON.stringify(profile))
+        setUser(profile)
+        return profile
+    }
+
+    const updateProfile = async (payload: { name?: string; lastname?: string }) => {
+        const data = await updateProfileRequest(payload)
         const profile = toProfile(data)
         localStorage.setItem("user", JSON.stringify(profile))
         setUser(profile)
@@ -135,6 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             logout,
             register,
             updateAvatar,
+            updateProfile,
         }}>
             {children}
         </AuthContext.Provider>

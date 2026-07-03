@@ -34,3 +34,7 @@ export const updateMateria = async ({ id, ...body }: MateriaUpdate): Promise<Mat
     const { data } = await api.patch<Materia>(`/materias/${id}`, body)
     return data
 }
+
+export const deleteMateria = async (id: number): Promise<void> => {
+    await api.delete(`/materias/${id}`)
+}

@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { PencilSimple, Plus } from "@phosphor-icons/react"
-import { useGrados, useCreateGrado, useUpdateGrado } from "@/hooks/useGrados"
+import { PencilSimple, Plus, Trash } from "@phosphor-icons/react"
+import { useGrados, useCreateGrado, useUpdateGrado, useDeleteGrado } from "@/hooks/useGrados"
 import type { Grado } from "@/services/grados.service"
 import { FormDialog } from "@/components/common/FormDialog"
 
@@ -8,11 +8,14 @@ export const Grados = () => {
     const { data: grados = [], isLoading, isError } = useGrados()
     const { mutate: crearGrado, isPending: creando } = useCreateGrado()
     const { mutate: actualizarGrado, isPending: actualizando } = useUpdateGrado()
+    const { mutate: eliminarGrado, isPending: eliminando, variables: eliminandoId } = useDeleteGrado()
 
     const [adding, setAdding] = useState(false)
     const [newName, setNewName] = useState("")
     const [newNumero, setNewNumero] = useState("")
     const [createError, setCreateError] = useState<string | null>(null)
+
+    const [deleteError, setDeleteError] = useState<string | null>(null)
 
     const [editingGrado, setEditingGrado] = useState<Grado | null>(null)
     const [editName, setEditName] = useState("")
@@ -85,6 +88,12 @@ export const Grados = () => {
                     </button>
                 </div>
 
+                {deleteError && (
+                    <div className="mx-6 mt-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                        {deleteError}
+                    </div>
+                )}
+
                 {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
@@ -106,6 +115,23 @@ export const Grados = () => {
                                         <div className="flex items-center gap-1">
                                             <button onClick={() => startEdit(g)} className="p-1.5 rounded-md text-slate-400 hover:text-[#1A6B4A] hover:bg-[#D1F2EB] transition-colors">
                                                 <PencilSimple size={16} />
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    if (window.confirm(`¿Eliminás el grado "${g.name}"? Esta acción no se puede deshacer.`)) {
+                                                        setDeleteError(null)
+                                                        eliminarGrado(g.id, {
+                                                            onError: (error: any) => {
+                                                                const msg = error?.response?.data?.message
+                                                                setDeleteError(msg || 'No pudimos eliminar el grado. Probá de nuevo.')
+                                                            }
+                                                        })
+                                                    }
+                                                }}
+                                                disabled={eliminando && eliminandoId === g.id}
+                                                className="p-1.5 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
+                                            >
+                                                <Trash size={16} />
                                             </button>
                                         </div>
                                     </td>

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getMaterias, createMateria, updateMateria } from "@/services/materias.service"
+import { getMaterias, createMateria, updateMateria, deleteMateria } from "@/services/materias.service"
 
 export const useMaterias = () => {
     return useQuery({
@@ -23,6 +23,16 @@ export const useUpdateMateria = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: updateMateria,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["materias"] })
+        },
+    })
+}
+
+export const useDeleteMateria = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: deleteMateria,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["materias"] })
         },

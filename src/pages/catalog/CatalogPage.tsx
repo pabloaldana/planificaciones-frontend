@@ -103,6 +103,7 @@ export const CatalogPage = () => {
     const [searchParams] = useSearchParams()
     const [filtersOpen, setFiltersOpen] = useState(false)
     const [search, setSearch] = useState("")
+    const [debouncedSearch, setDebouncedSearch] = useState("")
     const [sortBy, setSortBy] = useState("featured")
 
     const [selectedSubjects, setSelectedSubjects] = useState<string[]>(() => {
@@ -112,7 +113,12 @@ export const CatalogPage = () => {
     const [selectedGrades, setSelectedGrades] = useState<string[]>([])
     const [page, setPage] = useState(1)
 
-    const { data: planificaciones = [], isLoading, error } = usePlanificaciones()
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 400)
+        return () => clearTimeout(timer)
+    }, [search])
+
+    const { data: planificaciones = [], isLoading, error } = usePlanificaciones(debouncedSearch || undefined)
 
     const toggleSubject = (id: string) =>
         setSelectedSubjects((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
@@ -122,7 +128,7 @@ export const CatalogPage = () => {
 
     const clearFilters = () => { setSelectedSubjects([]); setSelectedGrades([]) }
 
-    useEffect(() => { setPage(1) }, [selectedSubjects, selectedGrades, search])
+    useEffect(() => { setPage(1) }, [selectedSubjects, selectedGrades, debouncedSearch])
 
     // Materias únicas del backend, ordenadas alfabéticamente
     const subjectOptions = useMemo(() => {
@@ -149,13 +155,12 @@ export const CatalogPage = () => {
             if (!p.is_active) return false
             const matchSubject = selectedSubjects.length === 0 || selectedSubjects.includes(String(p.materia.id))
             const matchGrade = selectedGrades.length === 0 || selectedGrades.includes(String(p.grado.id))
-            const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())
-            return matchSubject && matchGrade && matchSearch
+            return matchSubject && matchGrade
         })
         if (sortBy === "price_asc") result = [...result].sort((a, b) => a.price - b.price)
         if (sortBy === "price_desc") result = [...result].sort((a, b) => b.price - a.price)
         return result
-    }, [planificaciones, selectedSubjects, selectedGrades, search, sortBy])
+    }, [planificaciones, selectedSubjects, selectedGrades, sortBy])
 
     const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
     const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)

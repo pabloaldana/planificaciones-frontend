@@ -10,11 +10,11 @@ import {
 } from "@/services/planificaciones.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export const usePlanificaciones = () => {
+export const usePlanificaciones = (search?: string) => {
     return useQuery({
-        queryKey: ["planificaciones"],
-        queryFn: () => getPlanificaciones(),
-        staleTime: 10 * 60 * 1000,
+        queryKey: ["planificaciones", search ?? ""],
+        queryFn: () => getPlanificaciones(search),
+        staleTime: 5 * 60 * 1000,
     })
 }
 

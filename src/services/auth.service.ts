@@ -48,6 +48,11 @@ export const googleLoginRequest = async (credential: string): Promise<AuthRespon
     return data
 }
 
+export const updateProfileRequest = async (payload: { name?: string; lastname?: string }): Promise<UserProfile> => {
+    const { data } = await api.patch<UserProfile>("/auth/me", payload)
+    return data
+}
+
 export const uploadAvatarRequest = async (file: File): Promise<UserProfile> => {
     const formData = new FormData()
     formData.append("file", file)

@@ -3,9 +3,15 @@ import { Camera } from "@phosphor-icons/react"
 import { useAuth } from "@/context/AuthContext"
 
 export const MiPerfil = () => {
-    const { user, updateAvatar } = useAuth()
+    const { user, updateAvatar, updateProfile } = useAuth()
     const [isUploading, setIsUploading] = useState(false)
     const [avatarError, setAvatarError] = useState<string | null>(null)
+
+    const [name, setName] = useState(user?.name ?? "")
+    const [lastname, setLastname] = useState(user?.lastname ?? "")
+    const [isSaving, setIsSaving] = useState(false)
+    const [saveError, setSaveError] = useState<string | null>(null)
+    const [saveSuccess, setSaveSuccess] = useState(false)
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -29,6 +35,22 @@ export const MiPerfil = () => {
             setAvatarError("No se pudo subir la imagen. Probá de nuevo.")
         } finally {
             setIsUploading(false)
+        }
+    }
+
+    const handleSaveProfile = async () => {
+        if (!name.trim() || !lastname.trim()) return
+        setSaveError(null)
+        setSaveSuccess(false)
+        setIsSaving(true)
+        try {
+            await updateProfile({ name: name.trim(), lastname: lastname.trim() })
+            setSaveSuccess(true)
+            setTimeout(() => setSaveSuccess(false), 3000)
+        } catch {
+            setSaveError("No se pudo guardar. Probá de nuevo.")
+        } finally {
+            setIsSaving(false)
         }
     }
 
@@ -85,16 +107,42 @@ export const MiPerfil = () => {
 
                 <div className="border-t border-slate-100" />
 
-                {/* Campos */}
+                {/* Campos de perfil */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Nombre</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-[#1A6B4A] transition-colors"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Apellido</label>
+                        <input
+                            type="text"
+                            value={lastname}
+                            onChange={(e) => setLastname(e.target.value)}
+                            className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-[#1A6B4A] transition-colors"
+                        />
+                    </div>
                     <Field label="Email" value={user?.email ?? "-"} />
                     <Field label="Rol"   value={user?.roles?.[0] ?? "-"} />
-                    <Field label="ID"    value={user?.id ?? "-"} />
                 </div>
 
-                <p className="text-xs text-slate-400">
-                    Para modificar tus datos contactá al administrador.
-                </p>
+                {saveError && <p className="text-xs text-red-500">{saveError}</p>}
+                {saveSuccess && <p className="text-xs text-[#1A6B4A]">Cambios guardados correctamente.</p>}
+
+                <div className="flex justify-end">
+                    <button
+                        onClick={handleSaveProfile}
+                        disabled={isSaving || !name.trim() || !lastname.trim()}
+                        className="px-4 py-2 rounded-lg bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#7a3347] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isSaving ? "Guardando..." : "Guardar cambios"}
+                    </button>
+                </div>
 
             </div>
         </section>
