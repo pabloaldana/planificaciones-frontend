@@ -63,7 +63,7 @@ export const getPlanificaciones = async (params?: PlanificacionesParams): Promis
     return data
 }
 
-export const getPlanificacionesAdmin = async (params?: Pick<PlanificacionesParams, 'search' | 'page' | 'limit' | 'sortBy'>): Promise<PaginatedResponse<Planificacion>> => {
+export const getPlanificacionesAdmin = async (params?: PlanificacionesParams): Promise<PaginatedResponse<Planificacion>> => {
     const { data } = await api.get<PaginatedResponse<Planificacion>>("/planificaciones/admin", { params })
     return data
 }

@@ -254,7 +254,9 @@ export const CatalogPage = () => {
                                     {planificaciones.map((p) => <PlanCard key={p.id} plan={p} />)}
                                 </div>
                                 {totalPages > 1 && (
-                                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                                    <div className="mt-6">
+                                        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                                    </div>
                                 )}
                             </>
                         ) : (

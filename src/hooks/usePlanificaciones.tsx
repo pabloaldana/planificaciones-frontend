@@ -20,10 +20,10 @@ export const usePlanificaciones = (params?: PlanificacionesParams) => {
     })
 }
 
-export const usePlanificacionesAdmin = (params?: { search?: string; sortBy?: string }) => {
+export const usePlanificacionesAdmin = (params?: PlanificacionesParams) => {
     return useQuery({
-        queryKey: ["planificaciones-admin", params?.search ?? "", params?.sortBy ?? ""],
-        queryFn: () => getPlanificacionesAdmin({ ...params, limit: 1000 }),
+        queryKey: ["planificaciones-admin", params?.search ?? "", params?.page ?? 1, params?.limit ?? 10, params?.materiaIds ?? "", params?.gradoIds ?? "", params?.sortBy ?? ""],
+        queryFn: () => getPlanificacionesAdmin(params),
         staleTime: 5 * 60 * 1000,
     })
 }

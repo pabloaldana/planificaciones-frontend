@@ -1,16 +1,31 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { MagnifyingGlass, Eye } from "@phosphor-icons/react"
 import { getSubjectConfig } from "@/constants/subjects"
 import { usePlanificacionesAdmin } from "@/hooks/usePlanificaciones"
+import { Pagination } from "@/components/ui/Pagination"
+
+const PAGE_SIZE = 10
 
 export const PlanificacionesAdmin = () => {
     const [search, setSearch] = useState("")
-    const { data: response, isLoading } = usePlanificacionesAdmin()
-    const planificaciones = response?.data ?? []
+    const [debouncedSearch, setDebouncedSearch] = useState("")
+    const [page, setPage] = useState(1)
 
-    const filtered = planificaciones.filter((p) =>
-        p.title.toLowerCase().includes(search.toLowerCase())
-    )
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 400)
+        return () => clearTimeout(timer)
+    }, [search])
+
+    useEffect(() => { setPage(1) }, [debouncedSearch])
+
+    const { data, isLoading } = usePlanificacionesAdmin({
+        search: debouncedSearch || undefined,
+        page,
+        limit: PAGE_SIZE,
+    })
+
+    const planificaciones = data?.data ?? []
+    const totalPages = data?.totalPages ?? 1
 
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
@@ -59,7 +74,7 @@ export const PlanificacionesAdmin = () => {
                                 </tr>
                             ))
                         ) : (
-                            filtered.map((p) => {
+                            planificaciones.map((p) => {
                                 const subjectCfg = getSubjectConfig(p.materia.name)
                                 return (
                                     <tr key={p.id} className="hover:bg-slate-50/50 transition-colors">
@@ -88,8 +103,11 @@ export const PlanificacionesAdmin = () => {
                 </table>
             </div>
 
-            <div className="px-6 py-4 border-t border-slate-100">
-                <p className="text-slate-400 text-sm">{filtered.length} planificaciones</p>
+            <div className="px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <p className="text-slate-400 text-sm">{data?.total ?? 0} planificaciones</p>
+                {totalPages > 1 && (
+                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                )}
             </div>
 
         </section>

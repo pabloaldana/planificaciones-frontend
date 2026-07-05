@@ -10,7 +10,7 @@ export const Pagination = ({
     setPage,
 }: Props) => {
     return (
-        <div className="flex justify-center items-center gap-3 mt-6">
+        <div className="flex justify-center items-center gap-3">
             <button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
