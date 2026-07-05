@@ -16,6 +16,12 @@ import { useMaterias, useGrados, useCreatePlanificacion } from "@/hooks/index"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
+const ARCHIVOS_PERMITIDOS = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]
+
 const formSchema = z.object({
     title: z.string().min(3, "Mínimo 3 caracteres"),
     description: z.string().min(10, "Mínimo 10 caracteres"),
@@ -24,8 +30,8 @@ const formSchema = z.object({
     materiaId: z.string().min(1, "Seleccioná una materia"),
     gradoId: z.string().min(1, "Seleccioná un grado"),
     pdf: z.custom<FileList>()
-        .refine(files => files?.length > 0, "El archivo PDF es requerido")
-        .refine(files => files?.[0]?.type === "application/pdf", "Solo se aceptan archivos PDF")
+        .refine(files => files?.length > 0, "El archivo es requerido")
+        .refine(files => ARCHIVOS_PERMITIDOS.includes(files?.[0]?.type), "Solo se aceptan archivos PDF o Word")
         .refine(files => files?.[0]?.size <= 10 * 1024 * 1024, "El archivo no puede superar 10MB"),
 })
 
@@ -112,7 +118,7 @@ export const CrearPlanificacion = () => {
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold text-[#1A6B4A]">Nueva planificación</h1>
                     <p className="text-slate-500 text-sm mt-1">
-                        Completá los datos y subí el archivo PDF del material.
+                        Completá los datos y subí el archivo PDF o Word del material.
                     </p>
                 </div>
 
@@ -238,7 +244,7 @@ export const CrearPlanificacion = () => {
                             name="pdf"
                             render={({ field: { onChange, ref } }) => (
                                 <FormItem>
-                                    <FormLabel>Archivo PDF</FormLabel>
+                                    <FormLabel>Archivo PDF o Word</FormLabel>
                                     <FormControl>
                                         <label
                                             htmlFor="pdf-upload"
@@ -276,10 +282,10 @@ export const CrearPlanificacion = () => {
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
                                                         <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá el PDF o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                            Arrastrá el archivo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
-                                                            Solo PDF · Máximo 10MB
+                                                            PDF o Word (.docx) · Máximo 10MB
                                                         </p>
                                                     </div>
                                                 </>
@@ -287,7 +293,7 @@ export const CrearPlanificacion = () => {
                                             <input
                                                 id="pdf-upload"
                                                 type="file"
-                                                accept="application/pdf"
+                                                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.doc,.docx"
                                                 className="sr-only"
                                                 ref={ref}
                                                 onChange={(e) => {

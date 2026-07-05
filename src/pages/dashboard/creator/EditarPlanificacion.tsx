@@ -19,6 +19,12 @@ import { useQueryClient } from "@tanstack/react-query"
 // ── Schema ────────────────────────────────────────────────────────────────────
 // A diferencia de "crear", el PDF es opcional: solo se valida si se elige uno nuevo.
 
+const ARCHIVOS_PERMITIDOS = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]
+
 const formSchema = z.object({
     title: z.string().min(3, "Mínimo 3 caracteres"),
     description: z.string().min(10, "Mínimo 10 caracteres"),
@@ -27,7 +33,7 @@ const formSchema = z.object({
     materiaId: z.string().min(1, "Seleccioná una materia"),
     gradoId: z.string().min(1, "Seleccioná un grado"),
     pdf: z.custom<FileList>()
-        .refine(files => !files || files.length === 0 || files[0]?.type === "application/pdf", "Solo se aceptan archivos PDF")
+        .refine(files => !files || files.length === 0 || ARCHIVOS_PERMITIDOS.includes(files[0]?.type), "Solo se aceptan archivos PDF o Word")
         .refine(files => !files || files.length === 0 || files[0]?.size <= 10 * 1024 * 1024, "El archivo no puede superar 10MB")
         .optional(),
 })
@@ -309,7 +315,7 @@ export const EditarPlanificacion = () => {
                             name="pdf"
                             render={({ field: { onChange, ref } }) => (
                                 <FormItem>
-                                    <FormLabel>Archivo PDF</FormLabel>
+                                    <FormLabel>Archivo PDF o Word</FormLabel>
 
                                     <button
                                         type="button"
@@ -317,7 +323,7 @@ export const EditarPlanificacion = () => {
                                         className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] hover:underline mb-2"
                                     >
                                         <Eye size={13} />
-                                        Ver el PDF actual
+                                        Ver el archivo actual
                                     </button>
 
                                     <FormControl>
@@ -357,7 +363,7 @@ export const EditarPlanificacion = () => {
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
                                                         <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá un PDF nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                            Arrastrá un archivo nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
                                                             Opcional · dejalo vacío para mantener el actual · Máximo 10MB
@@ -368,7 +374,7 @@ export const EditarPlanificacion = () => {
                                             <input
                                                 id="pdf-upload"
                                                 type="file"
-                                                accept="application/pdf"
+                                                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.doc,.docx"
                                                 className="sr-only"
                                                 ref={ref}
                                                 onChange={(e) => {

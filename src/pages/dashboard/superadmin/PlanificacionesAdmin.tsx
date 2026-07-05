@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { MagnifyingGlass, Eye, Trash } from "@phosphor-icons/react"
+import { MagnifyingGlass, Eye } from "@phosphor-icons/react"
 import { getSubjectConfig } from "@/constants/subjects"
 import { usePlanificacionesAdmin } from "@/hooks/usePlanificaciones"
 
@@ -18,7 +18,7 @@ export const PlanificacionesAdmin = () => {
             {/* Header */}
             <div className="px-6 py-5 border-b border-slate-100">
                 <h2 className="text-xl font-bold text-[#1A6B4A]">Planificaciones</h2>
-                <p className="text-slate-500 text-sm mt-0.5">Moderá y eliminá contenido de la plataforma.</p>
+                <p className="text-slate-500 text-sm mt-0.5">Consultá el contenido publicado en la plataforma.</p>
             </div>
 
             {/* Search */}
@@ -77,9 +77,6 @@ export const PlanificacionesAdmin = () => {
                                             <div className="flex items-center gap-1">
                                                 <button title="Ver" className="p-1.5 rounded-md text-slate-400 hover:text-[#1A5F7A] hover:bg-[#D7F0FA] transition-colors">
                                                     <Eye size={16} />
-                                                </button>
-                                                <button title="Eliminar" className="p-1.5 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
-                                                    <Trash size={16} />
                                                 </button>
                                             </div>
                                         </td>
