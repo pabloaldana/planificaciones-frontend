@@ -27,6 +27,9 @@ export const PlanificacionesAdmin = () => {
     const planificaciones = data?.data ?? []
     const totalPages = data?.totalPages ?? 1
 
+
+    console.log({ planificaciones, totalPages })
+
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
 
