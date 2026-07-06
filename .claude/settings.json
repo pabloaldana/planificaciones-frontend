@@ -121,7 +121,17 @@
       "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && find src -iname \"*planificacion*\" -o -iname \"*compra*\" | grep -v node_modules)",
       "Read(//c/Users/Pablo/Documents/Programacion/planificaciones-educativas/planificaciones-backend/src/compra/**)",
       "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && grep -n \"getSoldPlanificacionesBySeller\" src/compra/compra.service.ts)",
-      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && file src/compra/compra.service.ts; sed -n '265,270p' src/compra/compra.service.ts | cat -A | head -20)"
+      "Bash(cd \"c:\\\\Users\\\\Pablo\\\\Documents\\\\Programacion\\\\planificaciones-educativas\\\\planificaciones-backend\" && file src/compra/compra.service.ts; sed -n '265,270p' src/compra/compra.service.ts | cat -A | head -20)",
+      "Bash(gh pr *)",
+      "PowerShell(gh --version)",
+      "PowerShell(gh auth status)",
+      "PowerShell(winget --version)",
+      "PowerShell(winget install --id GitHub.cli --silent --accept-package-agreements --accept-source-agreements)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(git push *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\Pablo\\Documents\\Programacion\\planificaciones-educativas\\planificaciones-frontend\\src\\services",
