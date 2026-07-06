@@ -28,6 +28,7 @@ import { Usuarios } from "@/pages/dashboard/superadmin/Usuarios"
 import { Materias } from "@/pages/dashboard/superadmin/Materias"
 import { Grados } from "@/pages/dashboard/superadmin/Grados"
 import { PlanificacionesAdmin } from "@/pages/dashboard/superadmin/PlanificacionesAdmin"
+import { MisFavoritos } from "@/pages/dashboard/user/MisFavoritos"
 
 export const AppRouter = () => {
     return (
@@ -79,6 +80,7 @@ export const AppRouter = () => {
                             <Route path="/mi-cuenta" element={<UserLayout />}>
                                 <Route index element={<MisCompras />} />
                                 <Route path="perfil" element={<MiPerfil />} />
+                                <Route path="favoritos" element={<MisFavoritos />} />
                             </Route>
                         </Route>
 

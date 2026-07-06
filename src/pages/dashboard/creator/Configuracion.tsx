@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
     User,
     Lock,
@@ -7,7 +7,9 @@ import {
     ShoppingCart,
     ChatCircle,
     EnvelopeSimple,
+    Camera,
 } from "@phosphor-icons/react"
+import { useAuth } from "@/context/AuthContext"
 
 type Section = "perfil" | "cuenta" | "cobro" | "notificaciones"
 
@@ -20,83 +22,169 @@ const menuItems: { id: Section; label: string; icon: React.ElementType }[] = [
 
 // ─── Sección Perfil ───────────────────────────────────────────────────────────
 
-const SeccionPerfil = () => (
-    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-        <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#1A6B4A]">Perfil</h2>
-            <p className="text-slate-500 text-sm mt-0.5">Tu información pública como creadora</p>
-        </div>
+const SeccionPerfil = () => {
+    const { user, updateAvatar, updateProfile } = useAuth()
 
-        {/* Avatar */}
-        <div className="flex items-center gap-4 mb-6">
-            <div
-                className="w-20 h-20 rounded-full flex items-center justify-center text-white text-xl font-semibold shrink-0"
-                style={{ backgroundColor: "#1A6B4A" }}
-            >
-                PR
+    const [name, setName] = useState(user?.name ?? "")
+    const [lastname, setLastname] = useState(user?.lastname ?? "")
+
+    useEffect(() => {
+        setName(user?.name ?? "")
+        setLastname(user?.lastname ?? "")
+    }, [user?.name, user?.lastname])
+
+    const [isUploading, setIsUploading] = useState(false)
+    const [avatarError, setAvatarError] = useState<string | null>(null)
+    const [isSaving, setIsSaving] = useState(false)
+    const [saveError, setSaveError] = useState<string | null>(null)
+    const [saveSuccess, setSaveSuccess] = useState(false)
+
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        e.target.value = ""
+        if (!file) return
+
+        if (!file.type.startsWith("image/")) {
+            setAvatarError("Solo se aceptan archivos de imagen")
+            return
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            setAvatarError("La imagen no puede superar 5MB")
+            return
+        }
+
+        setAvatarError(null)
+        setIsUploading(true)
+        try {
+            await updateAvatar(file)
+        } catch {
+            setAvatarError("No se pudo subir la imagen. Probá de nuevo.")
+        } finally {
+            setIsUploading(false)
+        }
+    }
+
+    const handleSave = async () => {
+        if (!name.trim() || !lastname.trim()) return
+        setSaveError(null)
+        setSaveSuccess(false)
+        setIsSaving(true)
+        try {
+            await updateProfile({ name: name.trim(), lastname: lastname.trim() })
+            setSaveSuccess(true)
+            setTimeout(() => setSaveSuccess(false), 3000)
+        } catch {
+            setSaveError("No se pudo guardar. Probá de nuevo.")
+        } finally {
+            setIsSaving(false)
+        }
+    }
+
+    return (
+        <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+            <div className="mb-6">
+                <h2 className="text-base font-semibold text-[#1A6B4A]">Perfil</h2>
+                <p className="text-slate-500 text-sm mt-0.5">Tu información pública como creadora</p>
             </div>
-            <div className="relative group">
-                <button
-                    disabled
-                    className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-500 opacity-50 cursor-not-allowed"
-                    title="Próximamente"
+
+            {/* Avatar */}
+            <div className="flex items-center gap-4 mb-6">
+                <label
+                    htmlFor="config-avatar-upload"
+                    className="relative w-20 h-20 rounded-full cursor-pointer group shrink-0"
                 >
-                    Cambiar foto
+                    {user?.avatarUrl ? (
+                        <img
+                            src={user.avatarUrl}
+                            alt=""
+                            className="w-20 h-20 rounded-full object-cover"
+                        />
+                    ) : (
+                        <div
+                            className="w-20 h-20 rounded-full flex items-center justify-center text-white text-xl font-semibold"
+                            style={{ backgroundColor: "#1A6B4A" }}
+                        >
+                            {user?.name?.charAt(0).toUpperCase() ?? user?.email?.charAt(0).toUpperCase()}
+                        </div>
+                    )}
+                    <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Camera size={22} className="text-white" />
+                    </div>
+                    <input
+                        id="config-avatar-upload"
+                        type="file"
+                        accept="image/*"
+                        className="sr-only"
+                        disabled={isUploading}
+                        onChange={handleAvatarChange}
+                    />
+                </label>
+                <div>
+                    <p className="text-sm text-slate-500">
+                        {isUploading ? "Subiendo imagen..." : "Hacé click en la foto para cambiarla"}
+                    </p>
+                    {avatarError && <p className="text-xs text-red-500 mt-1">{avatarError}</p>}
+                </div>
+            </div>
+
+            {/* Nombre */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Nombre
+                </label>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 transition-colors"
+                />
+            </div>
+
+            {/* Apellido */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Apellido
+                </label>
+                <input
+                    type="text"
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 transition-colors"
+                />
+            </div>
+
+            {/* Email */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Email
+                </label>
+                <input
+                    type="email"
+                    value={user?.email ?? ""}
+                    disabled
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-slate-50 cursor-not-allowed opacity-70 focus:outline-none"
+                />
+                <p className="text-slate-500 text-sm mt-1">
+                    El email no se puede cambiar desde aquí
+                </p>
+            </div>
+
+            {saveError && <p className="text-xs text-red-500 mb-3">{saveError}</p>}
+            {saveSuccess && <p className="text-xs text-[#1A6B4A] mb-3">Cambios guardados correctamente.</p>}
+
+            {/* Guardar */}
+            <div className="flex justify-end">
+                <button
+                    onClick={handleSave}
+                    disabled={isSaving || !name.trim() || !lastname.trim()}
+                    className="bg-[#8B3A52] text-white hover:bg-[#7a3347] rounded-lg px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {isSaving ? "Guardando..." : "Guardar cambios"}
                 </button>
             </div>
         </div>
-
-        {/* Nombre */}
-        <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-                Nombre completo
-            </label>
-            <input
-                type="text"
-                defaultValue="Pablo Ruiz"
-                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 transition-colors"
-            />
-        </div>
-
-        {/* Email */}
-        <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-                Email
-            </label>
-            <input
-                type="email"
-                defaultValue="pablo@aula.com"
-                disabled
-                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-slate-50 cursor-not-allowed opacity-70 focus:outline-none"
-            />
-            <p className="text-slate-500 text-sm mt-1">
-                El email no se puede cambiar desde aquí
-            </p>
-        </div>
-
-        {/* Bio */}
-        <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-                Bio
-            </label>
-            <textarea
-                rows={3}
-                placeholder="Contá algo sobre vos como docente..."
-                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 transition-colors resize-none"
-            />
-        </div>
-
-        {/* Guardar */}
-        <div className="flex justify-end">
-            <button
-                onClick={() => console.log("Guardar cambios - perfil")}
-                className="bg-[#1A6B4A] text-white hover:bg-[#134F37] rounded-lg px-4 py-2 text-sm transition-colors"
-            >
-                Guardar cambios
-            </button>
-        </div>
-    </div>
-)
+    )
+}
 
 // ─── Sección Cuenta ───────────────────────────────────────────────────────────
 

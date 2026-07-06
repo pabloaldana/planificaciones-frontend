@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from "react"
+import { useState, useEffect } from "react"
+import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 import { useSearchParams } from "react-router-dom"
 import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
@@ -6,7 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Pagination } from "@/components/ui/Pagination"
 import { PlanCard } from "@/components/common/PlanCard"
 import { usePlanificaciones } from "@/hooks/usePlanificaciones"
-
+import { useMaterias } from "@/hooks/useMaterias"
+import { useGrados } from "@/hooks/useGrados"
 import { Footer } from "@/components/Footer"
 
 const PAGE_SIZE = 12
@@ -94,9 +96,15 @@ const FiltersPanel = ({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export const CatalogPage = () => {
+    useDocumentMeta({
+        title: "Catálogo de planificaciones",
+        description: "Explorá nuestro catálogo de planificaciones educativas. Filtrá por materia y grado para encontrar exactamente lo que necesitás.",
+    })
+
     const [searchParams] = useSearchParams()
     const [filtersOpen, setFiltersOpen] = useState(false)
     const [search, setSearch] = useState("")
+    const [debouncedSearch, setDebouncedSearch] = useState("")
     const [sortBy, setSortBy] = useState("featured")
 
     const [selectedSubjects, setSelectedSubjects] = useState<string[]>(() => {
@@ -106,7 +114,33 @@ export const CatalogPage = () => {
     const [selectedGrades, setSelectedGrades] = useState<string[]>([])
     const [page, setPage] = useState(1)
 
-    const { data: planificaciones = [], isLoading, error } = usePlanificaciones()
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 400)
+        return () => clearTimeout(timer)
+    }, [search])
+
+    useEffect(() => { setPage(1) }, [selectedSubjects, selectedGrades, debouncedSearch, sortBy])
+
+    const { data, isLoading, error } = usePlanificaciones({
+        search: debouncedSearch || undefined,
+        page,
+        limit: PAGE_SIZE,
+        materiaIds: selectedSubjects.length ? selectedSubjects.join(',') : undefined,
+        gradoIds: selectedGrades.length ? selectedGrades.join(',') : undefined,
+        sortBy: sortBy !== "featured" ? sortBy : undefined,
+    })
+
+    const planificaciones = data?.data ?? []
+    const totalPages = data?.totalPages ?? 1
+
+    const { data: materias = [] } = useMaterias()
+    const { data: grados = [] } = useGrados()
+
+    const subjectOptions = materias.map(m => ({ id: String(m.id), label: m.name }))
+        .sort((a, b) => a.label.localeCompare(b.label, "es"))
+
+    const gradeOptions = grados.map(g => ({ id: String(g.id), label: g.name, numero: (g as any).numero }))
+        .sort((a, b) => (a.numero ?? 0) - (b.numero ?? 0))
 
     const toggleSubject = (id: string) =>
         setSelectedSubjects((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
@@ -116,43 +150,7 @@ export const CatalogPage = () => {
 
     const clearFilters = () => { setSelectedSubjects([]); setSelectedGrades([]) }
 
-    useEffect(() => { setPage(1) }, [selectedSubjects, selectedGrades, search])
-
-    // Materias únicas del backend, ordenadas alfabéticamente
-    const subjectOptions = useMemo(() => {
-        const seen = new Set<number>()
-        return planificaciones
-            .filter(p => { if (seen.has(p.materia.id)) return false; seen.add(p.materia.id); return true })
-            .map(p => ({ id: String(p.materia.id), label: p.materia.name }))
-            .sort((a, b) => a.label.localeCompare(b.label, "es"))
-    }, [planificaciones])
-
-    // Grados únicos del backend, ordenados por número
-    const gradeOptions = useMemo(() => {
-        const seen = new Set<number>()
-        return planificaciones
-            .filter(p => { if (seen.has(p.grado.id)) return false; seen.add(p.grado.id); return true })
-            .map(p => ({ id: String(p.grado.id), label: p.grado.name, numero: p.grado.numero }))
-            .sort((a, b) => (a.numero ?? 0) - (b.numero ?? 0))
-    }, [planificaciones])
-
     const activeCount = selectedSubjects.length + selectedGrades.length
-
-    const filtered = useMemo(() => {
-        let result = planificaciones.filter(p => {
-            if (!p.is_active) return false
-            const matchSubject = selectedSubjects.length === 0 || selectedSubjects.includes(String(p.materia.id))
-            const matchGrade = selectedGrades.length === 0 || selectedGrades.includes(String(p.grado.id))
-            const matchSearch = p.title.toLowerCase().includes(search.toLowerCase())
-            return matchSubject && matchGrade && matchSearch
-        })
-        if (sortBy === "price_asc") result = [...result].sort((a, b) => a.price - b.price)
-        if (sortBy === "price_desc") result = [...result].sort((a, b) => b.price - a.price)
-        return result
-    }, [planificaciones, selectedSubjects, selectedGrades, search, sortBy])
-
-    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
-    const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
     return (
         <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
@@ -183,8 +181,8 @@ export const CatalogPage = () => {
                             <span className="text-slate-400">Cargando...</span>
                         ) : (
                             <>
-                                <span className="font-semibold text-slate-700">{filtered.length}</span> planificaciones
-                                {filtered.length > PAGE_SIZE && (
+                                <span className="font-semibold text-slate-700">{data?.total ?? 0}</span> planificaciones
+                                {totalPages > 1 && (
                                     <span> · página {page} de {totalPages}</span>
                                 )}
                             </>
@@ -250,13 +248,15 @@ export const CatalogPage = () => {
                             <div className="py-20 text-center text-slate-400 text-sm">
                                 Error al cargar las planificaciones.
                             </div>
-                        ) : paginated.length > 0 ? (
+                        ) : planificaciones.length > 0 ? (
                             <>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                                    {paginated.map((p) => <PlanCard key={p.id} plan={p} />)}
+                                    {planificaciones.map((p) => <PlanCard key={p.id} plan={p} />)}
                                 </div>
                                 {totalPages > 1 && (
-                                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                                    <div className="mt-6">
+                                        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                                    </div>
                                 )}
                             </>
                         ) : (

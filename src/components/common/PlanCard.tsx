@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { getSubjectConfig } from "@/constants/subjects"
 import { useCart } from "@/context/CartContext"
 import { type Planificacion } from "@/services/planificaciones.service"
+import { FavoritoButton } from "./FavoritoButton"
 
 export type { Planificacion }
 
@@ -23,11 +24,10 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
     return (
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
 
-            {/* Imagen de portada — placeholder con el color de la materia hasta que el backend la sume */}
             <div className={`w-full aspect-4/3 flex items-center justify-center ${subjectCfg.badge}`}>
-                {plan.coverImageUrl ? (
+                {plan.imagenes?.[0]?.url ? (
                     <img
-                        src={plan.coverImageUrl}
+                        src={plan.imagenes[0].url}
                         alt={plan.title}
                         className="w-full h-full object-cover"
                     />
@@ -53,6 +53,7 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
                         ${plan.price.toLocaleString("es-AR")}
                     </span>
                     <div className="flex items-center gap-1.5">
+                        <FavoritoButton planificacionId={plan.id} />
                         <button
                             onClick={handleCart}
                             title={inCart ? "Ver carrito" : "Agregar al carrito"}

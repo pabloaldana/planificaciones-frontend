@@ -1,17 +1,21 @@
 import { useState } from "react"
-import { PencilSimple, Trash, Plus } from "@phosphor-icons/react"
-import { useMaterias, useCreateMateria } from "@/hooks/useMaterias"
+import { PencilSimple, Plus, Trash } from "@phosphor-icons/react"
+import { useMaterias, useCreateMateria, useUpdateMateria, useDeleteMateria } from "@/hooks/useMaterias"
 import type { Materia } from "@/services/materias.service"
 import { FormDialog } from "@/components/common/FormDialog"
 
 export const Materias = () => {
     const { data: materias = [], isLoading, isError } = useMaterias()
     const { mutate: crearMateria, isPending: creando } = useCreateMateria()
+    const { mutate: editarMateria, isPending: editando } = useUpdateMateria()
+    const { mutate: eliminarMateria, isPending: eliminando, variables: eliminandoId } = useDeleteMateria()
 
     const [adding, setAdding] = useState(false)
     const [newLabel, setNewLabel] = useState("")
     const [newDescription, setNewDescription] = useState("")
     const [createError, setCreateError] = useState<string | null>(null)
+
+    const [deleteError, setDeleteError] = useState<string | null>(null)
 
     const [editingMateria, setEditingMateria] = useState<Materia | null>(null)
     const [editName, setEditName] = useState("")
@@ -31,11 +35,16 @@ export const Materias = () => {
         setEditError(null)
     }
 
-    // TODO: conectar con PUT /materias/:id (falta useUpdateMateria)
     const saveEdit = () => {
         if (!editingMateria || !editName.trim() || !editDescription.trim()) return
-        console.log("editar", editingMateria.id, editName, editDescription)
-        closeEditModal()
+        setEditError(null)
+        editarMateria(
+            { id: editingMateria.id, name: editName, description: editDescription },
+            {
+                onSuccess: closeEditModal,
+                onError: () => setEditError("No pudimos guardar los cambios. Probá de nuevo."),
+            }
+        )
     }
 
     const closeModal = () => {
@@ -78,6 +87,12 @@ export const Materias = () => {
                     </button>
                 </div>
 
+                {deleteError && (
+                    <div className="mx-6 mt-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                        {deleteError}
+                    </div>
+                )}
+
                 {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
@@ -104,6 +119,23 @@ export const Materias = () => {
                                         <div className="flex items-center gap-1">
                                             <button onClick={() => startEdit(m)} className="p-1.5 rounded-md text-slate-400 hover:text-[#1A6B4A] hover:bg-[#D1F2EB] transition-colors">
                                                 <PencilSimple size={16} />
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    if (window.confirm(`¿Eliminás la materia "${m.name}"? Esta acción no se puede deshacer.`)) {
+                                                        setDeleteError(null)
+                                                        eliminarMateria(m.id, {
+                                                            onError: (error: any) => {
+                                                                const msg = error?.response?.data?.message
+                                                                setDeleteError(msg || 'No pudimos eliminar la materia. Probá de nuevo.')
+                                                            }
+                                                        })
+                                                    }
+                                                }}
+                                                disabled={eliminando && eliminandoId === m.id}
+                                                className="p-1.5 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
+                                            >
+                                                <Trash size={16} />
                                             </button>
                                         </div>
                                     </td>
@@ -162,6 +194,7 @@ export const Materias = () => {
                 description="Modificá el nombre y la descripción."
                 onSubmit={saveEdit}
                 submitLabel="Guardar cambios"
+                isSubmitting={editando}
                 submitDisabled={!editName.trim() || !editDescription.trim()}
                 error={editError}
             >

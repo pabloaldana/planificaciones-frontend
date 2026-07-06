@@ -1,19 +1,30 @@
 import {
     getPlanificaciones,
+    getPlanificacionesAdmin,
     getPlanificacionById,
     createPlanificacion,
     updatePlanificacion,
     getDownloadUrl,
+    deletePlanificacionImagen,
     type CreatePlanificacionPayload,
     type UpdatePlanificacionPayload,
+    type PlanificacionesParams,
 } from "@/services/planificaciones.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export const usePlanificaciones = () => {
+export const usePlanificaciones = (params?: PlanificacionesParams) => {
     return useQuery({
-        queryKey: ["planificaciones"],
-        queryFn: getPlanificaciones,
-        staleTime: 10 * 60 * 1000,
+        queryKey: ["planificaciones", params?.search ?? "", params?.page ?? 1, params?.materiaIds ?? "", params?.gradoIds ?? "", params?.sortBy ?? ""],
+        queryFn: () => getPlanificaciones(params),
+        staleTime: 5 * 60 * 1000,
+    })
+}
+
+export const usePlanificacionesAdmin = (params?: PlanificacionesParams) => {
+    return useQuery({
+        queryKey: ["planificaciones-admin", params?.search ?? "", params?.page ?? 1, params?.limit ?? 10, params?.materiaIds ?? "", params?.gradoIds ?? "", params?.sortBy ?? ""],
+        queryFn: () => getPlanificacionesAdmin(params),
+        staleTime: 5 * 60 * 1000,
     })
 }
 
@@ -52,5 +63,16 @@ export const useUpdatePlanificacion = () => {
 export const useDownloadPlanificacion = () => {
     return useMutation({
         mutationFn: getDownloadUrl,
+    })
+}
+
+export const useDeletePlanificacionImagen = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id, imagenId }: { id: number; imagenId: number }) =>
+            deletePlanificacionImagen(id, imagenId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
+        },
     })
 }

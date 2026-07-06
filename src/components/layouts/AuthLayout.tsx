@@ -10,9 +10,9 @@ import {
 import { Footer } from "@/components/Footer"
 
 const BULLETS = [
-    "Publicá tus planificaciones",
-    "Vendé a otros docentes",
-    "Seguí tus estadísticas",
+    "Encontrá planificaciones listas para usar",
+    "Ahorrá horas de preparación de clases",
+    "Accedé a tus compras cuando quieras",
 ]
 
 interface AuthLayoutProps {
@@ -35,7 +35,7 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Aula</h1>
                         <p className="text-white/60 mt-1 text-sm">
-                            La plataforma para docentes que crean y venden planificaciones educativas.
+                            Planificaciones educativas listas para llevar a tu aula.
                         </p>
                     </div>
                 </div>

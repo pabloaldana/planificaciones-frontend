@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FilePdf, UploadSimple, X, ArrowLeft, Eye } from "@phosphor-icons/react"
+import { FilePdf, UploadSimple, X, ArrowLeft, Eye, Image } from "@phosphor-icons/react"
+import { RichTextEditor } from "@/components/ui/RichTextEditor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -12,10 +13,18 @@ import {
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/Select"
-import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion } from "@/hooks/index"
+import { useMaterias, useGrados, usePlanificacion, useUpdatePlanificacion, useDownloadPlanificacion, useDeletePlanificacionImagen } from "@/hooks/index"
+import { uploadPlanificacionImage } from "@/services/planificaciones.service"
+import { useQueryClient } from "@tanstack/react-query"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 // A diferencia de "crear", el PDF es opcional: solo se valida si se elige uno nuevo.
+
+const ARCHIVOS_PERMITIDOS = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]
 
 const formSchema = z.object({
     title: z.string().min(3, "Mínimo 3 caracteres"),
@@ -25,7 +34,7 @@ const formSchema = z.object({
     materiaId: z.string().min(1, "Seleccioná una materia"),
     gradoId: z.string().min(1, "Seleccioná un grado"),
     pdf: z.custom<FileList>()
-        .refine(files => !files || files.length === 0 || files[0]?.type === "application/pdf", "Solo se aceptan archivos PDF")
+        .refine(files => !files || files.length === 0 || ARCHIVOS_PERMITIDOS.includes(files[0]?.type), "Solo se aceptan archivos PDF o Word")
         .refine(files => !files || files.length === 0 || files[0]?.size <= 10 * 1024 * 1024, "El archivo no puede superar 10MB")
         .optional(),
 })
@@ -39,6 +48,7 @@ type FormValues = z.output<typeof formSchema>
 
 export const EditarPlanificacion = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { id } = useParams()
     const planificacionId = Number(id)
 
@@ -47,12 +57,56 @@ export const EditarPlanificacion = () => {
     const { data: grados = [] } = useGrados()
     const { mutate: editarPlanificacion, isPending } = useUpdatePlanificacion()
     const { mutate: getDownloadLink } = useDownloadPlanificacion()
+    const { mutate: eliminarImagen } = useDeletePlanificacionImagen()
     const [fileName, setFileName] = useState<string | null>(null)
+    const [imageFiles, setImageFiles] = useState<{ file: File; preview: string }[]>([])
+    const [imageError, setImageError] = useState<string | null>(null)
+    const [isUploadingImages, setIsUploadingImages] = useState(false)
+    const [removedImageIds, setRemovedImageIds] = useState<number[]>([])
+    const [deletingImageId, setDeletingImageId] = useState<number | null>(null)
+    const [richContent, setRichContent] = useState("")
+
+    // Imágenes ya persistidas (vienen del plan cargado), sin las que se borraron en esta sesión.
+    const existingImages = (plan?.imagenes ?? []).filter(img => !removedImageIds.includes(img.id))
+    const totalImageCount = existingImages.length + imageFiles.length
 
     const handleVerPdfActual = () => {
         getDownloadLink(planificacionId, {
             onSuccess: (data) => window.open(data.url, "_blank", "noopener,noreferrer"),
         })
+    }
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = Array.from(e.target.files ?? [])
+        const invalid = selected.filter(f => !f.type.startsWith("image/"))
+        if (invalid.length) { setImageError("Solo se aceptan archivos de imagen"); return }
+        const oversized = selected.filter(f => f.size > 5 * 1024 * 1024)
+        if (oversized.length) { setImageError("Cada imagen no puede superar 5MB"); return }
+        setImageError(null)
+        const remaining = 3 - totalImageCount
+        const toAdd = selected.slice(0, remaining).map(f => ({ file: f, preview: URL.createObjectURL(f) }))
+        setImageFiles(prev => [...prev, ...toAdd])
+        e.target.value = ""
+    }
+
+    const removeImage = (index: number) => {
+        setImageFiles(prev => {
+            URL.revokeObjectURL(prev[index].preview)
+            return prev.filter((_, i) => i !== index)
+        })
+    }
+
+    const removeExistingImage = (imagenId: number) => {
+        setImageError(null)
+        setDeletingImageId(imagenId)
+        eliminarImagen(
+            { id: planificacionId, imagenId },
+            {
+                onSuccess: () => setRemovedImageIds(prev => [...prev, imagenId]),
+                onError: () => setImageError("No se pudo borrar la imagen. Probá de nuevo."),
+                onSettled: () => setDeletingImageId(null),
+            }
+        )
     }
 
     const form = useForm<FormInput, any, FormValues>({
@@ -66,9 +120,12 @@ export const EditarPlanificacion = () => {
         },
     })
 
-    // El plan llega async (useQuery) — recién cuando está disponible podemos precargar el form
+    // El plan llega async (useQuery) — recién cuando está disponible podemos precargar el form.
+    // Esperamos también a materias/grados: el <select> nativo oculto que usa Radix Select
+    // dispara un onValueChange("") espontáneo si sus <option> aparecen DESPUÉS de fijar el
+    // value, pisando el materiaId/gradoId ya seteado.
     useEffect(() => {
-        if (!plan) return
+        if (!plan || materias.length === 0 || grados.length === 0) return
         form.reset({
             title: plan.title,
             description: plan.description,
@@ -76,7 +133,8 @@ export const EditarPlanificacion = () => {
             materiaId: String(plan.materia.id),
             gradoId: String(plan.grado.id),
         })
-    }, [plan, form])
+        setRichContent(plan.content ?? "")
+    }, [plan, form, materias.length, grados.length])
 
     const onSubmit = (values: FormValues) => {
         editarPlanificacion(
@@ -89,10 +147,22 @@ export const EditarPlanificacion = () => {
                     materiaId: Number(values.materiaId),
                     gradoId: Number(values.gradoId),
                     file: values.pdf?.[0],
+                    content: richContent || undefined,
                 },
             },
             {
-                onSuccess: () => navigate("/dashboard/planificaciones"),
+                onSuccess: async () => {
+                    if (imageFiles.length) {
+                        setIsUploadingImages(true)
+                        for (const imageFile of imageFiles) {
+                            await uploadPlanificacionImage(planificacionId, imageFile.file)
+                        }
+                        setIsUploadingImages(false)
+                    }
+                    queryClient.invalidateQueries({ queryKey: ["planificaciones"] })
+                    queryClient.invalidateQueries({ queryKey: ["planificaciones-admin"] })
+                    navigate("/dashboard/planificaciones")
+                },
             }
         )
     }
@@ -243,13 +313,28 @@ export const EditarPlanificacion = () => {
                             )}
                         />
 
+                        {/* Contenido enriquecido */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-medium text-slate-700">
+                                Detalle del contenido <span className="text-slate-400 font-normal">(opcional)</span>
+                            </label>
+                            <p className="text-xs text-slate-400">
+                                Explicá qué incluye la planificación: objetivos, actividades, secciones, etc.
+                            </p>
+                            <RichTextEditor
+                                value={richContent}
+                                onChange={setRichContent}
+                                placeholder="Escribí el detalle de lo que incluye esta planificación..."
+                            />
+                        </div>
+
                         {/* PDF Upload */}
                         <FormField
                             control={form.control}
                             name="pdf"
                             render={({ field: { onChange, ref } }) => (
                                 <FormItem>
-                                    <FormLabel>Archivo PDF</FormLabel>
+                                    <FormLabel>Archivo PDF o Word</FormLabel>
 
                                     <button
                                         type="button"
@@ -257,7 +342,7 @@ export const EditarPlanificacion = () => {
                                         className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] hover:underline mb-2"
                                     >
                                         <Eye size={13} />
-                                        Ver el PDF actual
+                                        Ver el archivo actual
                                     </button>
 
                                     <FormControl>
@@ -297,7 +382,7 @@ export const EditarPlanificacion = () => {
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
                                                         <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá un PDF nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                            Arrastrá un archivo nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
                                                             Opcional · dejalo vacío para mantener el actual · Máximo 10MB
@@ -308,7 +393,7 @@ export const EditarPlanificacion = () => {
                                             <input
                                                 id="pdf-upload"
                                                 type="file"
-                                                accept="application/pdf"
+                                                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.doc,.docx"
                                                 className="sr-only"
                                                 ref={ref}
                                                 onChange={(e) => {
@@ -324,6 +409,69 @@ export const EditarPlanificacion = () => {
                             )}
                         />
 
+                        {/* Imágenes del catálogo */}
+                        <div className="space-y-3">
+                            <div>
+                                <p className="text-sm font-medium text-slate-700">
+                                    Imágenes del catálogo <span className="text-slate-400 font-normal">(opcional · hasta 3)</span>
+                                </p>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Se muestran en la card del catálogo y la página de detalle.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-3">
+                                {existingImages.map((img) => (
+                                    <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                        <img src={img.url} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeExistingImage(img.id)}
+                                            disabled={deletingImageId === img.id}
+                                            className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-60"
+                                            aria-label="Quitar imagen"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {imageFiles.map((img, i) => (
+                                    <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                        <img src={img.preview} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(i)}
+                                            className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            aria-label="Quitar imagen"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {totalImageCount < 3 && (
+                                    <label
+                                        htmlFor="image-upload"
+                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
+                                    >
+                                        <Image size={20} className="text-slate-300" />
+                                        <span className="text-xs text-slate-400">Agregar</span>
+                                        <input
+                                            id="image-upload"
+                                            type="file"
+                                            multiple
+                                            accept="image/*"
+                                            className="sr-only"
+                                            onChange={handleImageChange}
+                                        />
+                                    </label>
+                                )}
+                            </div>
+
+                            {imageError && <p className="text-xs text-red-500">{imageError}</p>}
+                        </div>
+
                         {/* Acciones */}
                         <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100">
                             <Button
@@ -336,10 +484,10 @@ export const EditarPlanificacion = () => {
                             </Button>
                             <Button
                                 type="submit"
-                                disabled={isPending}
+                                disabled={isPending || isUploadingImages}
                                 className="bg-[#1A6B4A] hover:bg-[#134F37] text-white disabled:opacity-60"
                             >
-                                {isPending ? "Guardando..." : "Guardar cambios"}
+                                {isPending || isUploadingImages ? "Guardando..." : "Guardar cambios"}
                             </Button>
                         </div>
 

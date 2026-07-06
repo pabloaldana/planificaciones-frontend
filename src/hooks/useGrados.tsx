@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getGrados, createGrado, updateGrado, type GradoUpdate } from "@/services/grados.service"
+import { getGrados, createGrado, updateGrado, deleteGrado, type GradoUpdate } from "@/services/grados.service"
 
 export const useGrados = () => {
     return useQuery({
@@ -19,13 +19,22 @@ export const useCreateGrado = () => {
     })
 }
 
-//useQueryClient es para poder invalidar la cache de los grados y que se vuelva a hacer la consulta a la api
 export const useUpdateGrado = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: ({ id, grado }: { id: number; grado: GradoUpdate }) => {
             return updateGrado(id, grado)
         },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["grados"] })
+        },
+    })
+}
+
+export const useDeleteGrado = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: deleteGrado,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["grados"] })
         },

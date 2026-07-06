@@ -2,10 +2,18 @@ import { api } from "@/config/api"
 import type { Materia } from "./materias.service"
 import type { Grado } from "./grados.service"
 
+export type PlanImage = {
+    id: number
+    url: string
+    public_id: string
+    orden: number
+}
+
 export type Planificacion = {
     id: number
     title: string
     description: string
+    content?: string
     price: number
     public_id: string
     is_active: boolean
@@ -13,30 +21,53 @@ export type Planificacion = {
     updated_at: string
     materia: Materia
     grado: Grado
-    // Todavía no existe en el backend — la card ya está lista para usarla
-    // apenas se agregue una imagen de portada por planificación.
-    coverImageUrl?: string
+    imagenes?: PlanImage[]
 }
+
 export type CreatePlanificacionPayload = {
     title: string
     description: string
+    content?: string
     price: number
     materiaId: number
     gradoId: number
     file: File
+    images?: File[]
 }
 
 export type UpdatePlanificacionPayload = {
     title?: string
     description?: string
+    content?: string
     price?: number
     materiaId?: number
     gradoId?: number
     file?: File
 }
 
-export const getPlanificaciones = async (): Promise<Planificacion[]> => {
-    const { data } = await api.get<Planificacion[]>("/planificaciones")
+export type PaginatedResponse<T> = {
+    data: T[]
+    total: number
+    page: number
+    totalPages: number
+}
+
+export type PlanificacionesParams = {
+    search?: string
+    page?: number
+    limit?: number
+    materiaIds?: string
+    gradoIds?: string
+    sortBy?: string
+}
+
+export const getPlanificaciones = async (params?: PlanificacionesParams): Promise<PaginatedResponse<Planificacion>> => {
+    const { data } = await api.get<PaginatedResponse<Planificacion>>("/planificaciones", { params })
+    return data
+}
+
+export const getPlanificacionesAdmin = async (params?: PlanificacionesParams): Promise<PaginatedResponse<Planificacion>> => {
+    const { data } = await api.get<PaginatedResponse<Planificacion>>("/planificaciones/admin", { params })
     return data
 }
 
@@ -55,6 +86,19 @@ export const getDownloadUrl = async (id: number): Promise<DownloadLink> => {
     return data
 }
 
+//aca es donde se sube la imagen y se asocia a la planificacion
+export const uploadPlanificacionImage = async (id: number, file: File): Promise<PlanImage> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    const { data } = await api.post<PlanImage>(`/planificaciones/${id}/imagenes`, formData)
+    return data
+}
+
+//borra una imagen ya asociada a la planificacion
+export const deletePlanificacionImagen = async (id: number, imagenId: number): Promise<void> => {
+    await api.delete(`/planificaciones/${id}/imagenes/${imagenId}`)
+}
+//primero viene aca a crear la planificacion
 export const createPlanificacion = async (payload: CreatePlanificacionPayload): Promise<Planificacion> => {
     const formData = new FormData()
     formData.append("title", payload.title)
@@ -63,8 +107,16 @@ export const createPlanificacion = async (payload: CreatePlanificacionPayload): 
     formData.append("materiaId", String(payload.materiaId))
     formData.append("gradoId", String(payload.gradoId))
     formData.append("file", payload.file)
+    if (payload.content) formData.append("content", payload.content)
 
     const { data } = await api.post<Planificacion>("/planificaciones", formData)
+    //una vez que se crea la planificacion, si tiene imagenes, se suben una por una
+    if (payload.images?.length) {
+        for (const imageFile of payload.images) {
+            await uploadPlanificacionImage(data.id, imageFile)
+        }
+    }
+
     return data
 }
 
@@ -72,6 +124,7 @@ export const updatePlanificacion = async (id: number, payload: UpdatePlanificaci
     const formData = new FormData()
     if (payload.title !== undefined) formData.append("title", payload.title)
     if (payload.description !== undefined) formData.append("description", payload.description)
+    if (payload.content !== undefined) formData.append("content", payload.content)
     if (payload.price !== undefined) formData.append("price", String(payload.price))
     if (payload.materiaId !== undefined) formData.append("materiaId", String(payload.materiaId))
     if (payload.gradoId !== undefined) formData.append("gradoId", String(payload.gradoId))

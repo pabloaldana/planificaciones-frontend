@@ -34,3 +34,7 @@ export const updateGrado = async (id: number, grado: GradoUpdate): Promise<Grado
     const { data } = await api.patch<Grado>(`/grados/${id}`, grado)
     return data
 }
+
+export const deleteGrado = async (id: number): Promise<void> => {
+    await api.delete(`/grados/${id}`)
+}

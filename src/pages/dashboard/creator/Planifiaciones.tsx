@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { MagnifyingGlass, Eye, PencilSimple } from "@phosphor-icons/react"
 import { DataTable, type Column } from "@/components/common/DataTable"
 import {
@@ -9,9 +9,10 @@ import {
     SelectValue,
 } from "../../../components/ui/Select"
 import { Button } from "@/components/ui/button"
-import { useTable } from "@/hooks/index"
 import { getSubjectConfig } from "@/constants/subjects"
-import { useMaterias, useGrados, usePlanificaciones, useDownloadPlanificacion } from "@/hooks/index"
+import { useMaterias, useGrados, useDownloadPlanificacion } from "@/hooks/index"
+import { usePlanificacionesAdmin } from "@/hooks/usePlanificaciones"
+import { Pagination } from "@/components/ui/Pagination"
 import { useNavigate } from "react-router-dom"
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
@@ -36,15 +37,39 @@ type Row = {
     price: string
 }
 
+const PAGE_SIZE = 10
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export const Planificaciones = () => {
-    const { data: planificaciones = [] } = usePlanificaciones()
+    const [search, setSearch] = useState("")
+    const [debouncedSearch, setDebouncedSearch] = useState("")
+    const [grade, setGrade] = useState("all")
+    const [subject, setSubject] = useState("all")
+    const [page, setPage] = useState(1)
+
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
-
     const navigate = useNavigate()
     const { mutate: getDownloadLink } = useDownloadPlanificacion()
+
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 400)
+        return () => clearTimeout(timer)
+    }, [search])
+
+    useEffect(() => { setPage(1) }, [debouncedSearch, grade, subject])
+
+    const { data: response, isLoading } = usePlanificacionesAdmin({
+        search: debouncedSearch || undefined,
+        page,
+        limit: PAGE_SIZE,
+        gradoIds: grade !== "all" ? grade : undefined,
+        materiaIds: subject !== "all" ? subject : undefined,
+    })
+
+    const planificaciones = response?.data ?? []
+    const totalPages = response?.totalPages ?? 1
 
     const handleVer = (id: number) => {
         getDownloadLink(id, {
@@ -52,7 +77,6 @@ export const Planificaciones = () => {
         })
     }
 
-    // Columnas adentro del componente: el botón "Editar" necesita navigate()
     const columns: Column<Row>[] = [
         {
             key: "id",
@@ -96,8 +120,7 @@ export const Planificaciones = () => {
         },
     ]
 
-    // Mapeo al shape que espera useTable
-    const tableData = useMemo<Row[]>(() => planificaciones.map(p => ({
+    const rows = useMemo<Row[]>(() => planificaciones.map(p => ({
         id: p.id,
         title: p.title,
         subject: p.materia.name,
@@ -106,32 +129,16 @@ export const Planificaciones = () => {
         price: `$${p.price.toLocaleString("es-AR")}`,
     })), [planificaciones])
 
-    // Opciones dinámicas para los selects
-    const subjectOptions = useMemo(() => [
-        { value: "all", label: "Todas las materias" },
-        ...materias.map(m => ({ value: m.name.toLowerCase(), label: m.name })),
-    ], [materias])
-
+    // Select options usan IDs para enviarlos al backend
     const gradeOptions = useMemo(() => [
         { value: "all", label: "Todos los grados" },
-        ...grados.map(g => ({ value: g.name.toLowerCase(), label: g.name })),
+        ...grados.map(g => ({ value: String(g.id), label: g.name })),
     ], [grados])
 
-    const {
-        rows,
-        search, setSearch,
-        grade, setGrade,
-        subject, setSubject,
-        page, setPage,
-        totalPages,
-    } = useTable({ data: tableData })
-
-    const totalFiltered = tableData.filter(item => {
-        const matchGrade = grade === "all" || item.grade.toLowerCase() === grade.toLowerCase()
-        const matchSubject = subject === "all" || item.subject.toLowerCase() === subject.toLowerCase()
-        const matchSearch = item.title.toLowerCase().includes(search.toLowerCase())
-        return matchGrade && matchSubject && matchSearch
-    }).length
+    const subjectOptions = useMemo(() => [
+        { value: "all", label: "Todas las materias" },
+        ...materias.map(m => ({ value: String(m.id), label: m.name })),
+    ], [materias])
 
     return (
         <section className="bg-white rounded-xl shadow-sm border border-slate-100">
@@ -160,7 +167,7 @@ export const Planificaciones = () => {
                     />
                     <input
                         type="text"
-                        placeholder="Buscar por título o materia..."
+                        placeholder="Buscar por título..."
                         className="w-full border border-slate-200 rounded-lg pl-8 pr-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 transition-colors"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -196,47 +203,25 @@ export const Planificaciones = () => {
 
             {/* Table */}
             <div className="px-6 py-2 overflow-x-auto">
-                <DataTable columns={columns} data={rows} />
+                {isLoading ? (
+                    <div className="py-8 flex flex-col gap-3 animate-pulse">
+                        {[...Array(PAGE_SIZE)].map((_, i) => (
+                            <div key={i} className="h-10 bg-slate-100 rounded-lg" />
+                        ))}
+                    </div>
+                ) : (
+                    <DataTable columns={columns} data={rows} />
+                )}
             </div>
 
             {/* Footer: count + pagination */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-slate-100">
                 <p className="text-slate-400 text-sm">
-                    Mostrando {rows.length} de {totalFiltered} resultados
+                    {response?.total ?? 0} planificaciones
                 </p>
-
-                <div className="flex items-center gap-1">
-                    <button
-                        onClick={() => setPage(page - 1)}
-                        disabled={page === 1}
-                        className="px-3 py-1.5 text-sm rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    >
-                        &lt; Previous
-                    </button>
-
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                        <button
-                            key={p}
-                            onClick={() => setPage(p)}
-                            className={[
-                                "w-8 h-8 text-sm rounded-md border transition-colors",
-                                p === page
-                                    ? "bg-[#1A6B4A] text-white border-[#1A6B4A]"
-                                    : "border-slate-200 text-slate-600 hover:bg-slate-50",
-                            ].join(" ")}
-                        >
-                            {p}
-                        </button>
-                    ))}
-
-                    <button
-                        onClick={() => setPage(page + 1)}
-                        disabled={page === totalPages}
-                        className="px-3 py-1.5 text-sm rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    >
-                        Next &gt;
-                    </button>
-                </div>
+                {totalPages > 1 && (
+                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                )}
             </div>
         </section>
     )

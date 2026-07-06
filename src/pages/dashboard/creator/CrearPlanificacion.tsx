@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FilePdf, UploadSimple, X, ArrowLeft } from "@phosphor-icons/react"
+import { FilePdf, UploadSimple, X, ArrowLeft, Image } from "@phosphor-icons/react"
+import { RichTextEditor } from "@/components/ui/RichTextEditor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -16,6 +17,12 @@ import { useMaterias, useGrados, useCreatePlanificacion } from "@/hooks/index"
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
+const ARCHIVOS_PERMITIDOS = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]
+
 const formSchema = z.object({
     title: z.string().min(3, "Mínimo 3 caracteres"),
     description: z.string().min(10, "Mínimo 10 caracteres"),
@@ -24,8 +31,8 @@ const formSchema = z.object({
     materiaId: z.string().min(1, "Seleccioná una materia"),
     gradoId: z.string().min(1, "Seleccioná un grado"),
     pdf: z.custom<FileList>()
-        .refine(files => files?.length > 0, "El archivo PDF es requerido")
-        .refine(files => files?.[0]?.type === "application/pdf", "Solo se aceptan archivos PDF")
+        .refine(files => files?.length > 0, "El archivo es requerido")
+        .refine(files => ARCHIVOS_PERMITIDOS.includes(files?.[0]?.type), "Solo se aceptan archivos PDF o Word")
         .refine(files => files?.[0]?.size <= 10 * 1024 * 1024, "El archivo no puede superar 10MB"),
 })
 
@@ -43,6 +50,29 @@ export const CrearPlanificacion = () => {
     const { data: grados = [] } = useGrados()
     const { mutate: crearPlanificacion, isPending } = useCreatePlanificacion()
     const [fileName, setFileName] = useState<string | null>(null)
+    const [imageFiles, setImageFiles] = useState<{ file: File; preview: string }[]>([])
+    const [imageError, setImageError] = useState<string | null>(null)
+    const [richContent, setRichContent] = useState("")
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = Array.from(e.target.files ?? [])
+        const invalid = selected.filter(f => !f.type.startsWith("image/"))
+        if (invalid.length) { setImageError("Solo se aceptan archivos de imagen"); return }
+        const oversized = selected.filter(f => f.size > 5 * 1024 * 1024)
+        if (oversized.length) { setImageError("Cada imagen no puede superar 5MB"); return }
+        setImageError(null)
+        const remaining = 3 - imageFiles.length
+        const toAdd = selected.slice(0, remaining).map(f => ({ file: f, preview: URL.createObjectURL(f) }))
+        setImageFiles(prev => [...prev, ...toAdd])
+        e.target.value = ""
+    }
+
+    const removeImage = (index: number) => {
+        setImageFiles(prev => {
+            URL.revokeObjectURL(prev[index].preview)
+            return prev.filter((_, i) => i !== index)
+        })
+    }
 
     const form = useForm<FormInput, any, FormValues>({
         resolver: zodResolver(formSchema),
@@ -64,6 +94,8 @@ export const CrearPlanificacion = () => {
                 materiaId: Number(values.materiaId),
                 gradoId: Number(values.gradoId),
                 file: values.pdf[0],
+                images: imageFiles.map(i => i.file),
+                content: richContent || undefined,
             },
             {
                 onSuccess: () => navigate("/dashboard/planificaciones"),
@@ -89,7 +121,7 @@ export const CrearPlanificacion = () => {
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold text-[#1A6B4A]">Nueva planificación</h1>
                     <p className="text-slate-500 text-sm mt-1">
-                        Completá los datos y subí el archivo PDF del material.
+                        Completá los datos y subí el archivo PDF o Word del material.
                     </p>
                 </div>
 
@@ -209,13 +241,28 @@ export const CrearPlanificacion = () => {
                             )}
                         />
 
+                        {/* Contenido enriquecido */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-medium text-slate-700">
+                                Detalle del contenido <span className="text-slate-400 font-normal">(opcional)</span>
+                            </label>
+                            <p className="text-xs text-slate-400">
+                                Explicá qué incluye la planificación: objetivos, actividades, secciones, etc.
+                            </p>
+                            <RichTextEditor
+                                value={richContent}
+                                onChange={setRichContent}
+                                placeholder="Escribí el detalle de lo que incluye esta planificación..."
+                            />
+                        </div>
+
                         {/* PDF Upload */}
                         <FormField
                             control={form.control}
                             name="pdf"
                             render={({ field: { onChange, ref } }) => (
                                 <FormItem>
-                                    <FormLabel>Archivo PDF</FormLabel>
+                                    <FormLabel>Archivo PDF o Word</FormLabel>
                                     <FormControl>
                                         <label
                                             htmlFor="pdf-upload"
@@ -253,10 +300,10 @@ export const CrearPlanificacion = () => {
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
                                                         <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá el PDF o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                            Arrastrá el archivo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
-                                                            Solo PDF · Máximo 10MB
+                                                            PDF o Word (.docx) · Máximo 10MB
                                                         </p>
                                                     </div>
                                                 </>
@@ -264,7 +311,7 @@ export const CrearPlanificacion = () => {
                                             <input
                                                 id="pdf-upload"
                                                 type="file"
-                                                accept="application/pdf"
+                                                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.doc,.docx"
                                                 className="sr-only"
                                                 ref={ref}
                                                 onChange={(e) => {
@@ -279,6 +326,54 @@ export const CrearPlanificacion = () => {
                                 </FormItem>
                             )}
                         />
+
+                        {/* Imágenes del catálogo */}
+                        <div className="space-y-3">
+                            <div>
+                                <p className="text-sm font-medium text-slate-700">
+                                    Imágenes del catálogo <span className="text-slate-400 font-normal">(opcional · hasta 3)</span>
+                                </p>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Se muestran en la card del catálogo y la página de detalle.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-3">
+                                {imageFiles.map((img, i) => (
+                                    <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                        <img src={img.preview} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(i)}
+                                            className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            aria-label="Quitar imagen"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {imageFiles.length < 3 && (
+                                    <label
+                                        htmlFor="image-upload"
+                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
+                                    >
+                                        <Image size={20} className="text-slate-300" />
+                                        <span className="text-xs text-slate-400">Agregar</span>
+                                        <input
+                                            id="image-upload"
+                                            type="file"
+                                            multiple
+                                            accept="image/*"
+                                            className="sr-only"
+                                            onChange={handleImageChange}
+                                        />
+                                    </label>
+                                )}
+                            </div>
+
+                            {imageError && <p className="text-xs text-red-500">{imageError}</p>}
+                        </div>
 
                         {/* Acciones */}
                         <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100">

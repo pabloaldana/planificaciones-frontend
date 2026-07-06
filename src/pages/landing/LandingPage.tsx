@@ -3,7 +3,6 @@ import {
     BookOpen,
     Plant,
     Globe,
-    Star,
     MagnifyingGlass,
     CreditCard,
     CheckCircle,
@@ -14,6 +13,8 @@ import { Link, NavLink } from "react-router-dom"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
 import { Footer } from "@/components/Footer"
 import { useMaterias } from "@/hooks/useMaterias"
+import { useMasVendidas } from "@/hooks"
+import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 
 
 // ── Estilos por materia (clave = nombre exacto del backend en minúsculas) ──────
@@ -30,14 +31,18 @@ const subjectStyles: Record<string, SubjectStyle> = {
 const defaultStyle: SubjectStyle = { icon: BookOpen, bg: "bg-slate-100", color: "text-slate-500" }
 
 export const LandingPage = () => {
+    useDocumentMeta({
+        title: "Planificaciones educativas para docentes",
+        description: "Encontrá planificaciones educativas listas para usar en el aula. Organizadas por materia y grado, creadas por docentes para docentes.",
+    })
+
     const { data: materias = [], isLoading: materiasLoading } = useMaterias()
-    // const { data: planificaciones = [] }                               = usePlanifiaciones()
+    const { data: masVendidas = [], isLoading: masVendidasLoading } = useMasVendidas()
+
 
     const top4Materias = [...materias]
         .sort((a, b) => b.planificacionesCount - a.planificacionesCount)
         .slice(0, 4)
-
-
 
     return (
         <div className="min-h-screen bg-white">
@@ -67,12 +72,6 @@ export const LandingPage = () => {
                         >
                             Ver planificaciones →
                         </Link>
-                        <a
-                            href="#"
-                            className="px-6 py-3 rounded-xl border border-slate-200 text-[#1A6B4A] hover:bg-slate-50 transition-colors text-sm font-semibold"
-                        >
-                            Saber más
-                        </a>
                     </div>
                 </div>
             </section>
@@ -128,88 +127,46 @@ export const LandingPage = () => {
                         <p className="text-slate-400 text-sm">Las más elegidas por docentes de todo el país</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Card 1 — Matemática */}
-                        <div className="rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col gap-4">
-                            <div className="flex items-start justify-between">
-                                <span className="inline-block px-2 py-1 rounded-full bg-[#E8DAEF] text-[#5C3D7A] text-xs font-semibold">
-                                    Matemática
-                                </span>
-                                <span className="text-xs text-slate-400">3° grado</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-[#1A6B4A] text-base">Números Naturales</h3>
-                            </div>
-                            <div className="flex items-center gap-1 text-amber-400 text-xs">
-                                <Star size={14} weight="fill" />
-                                <span className="font-semibold text-slate-600">4.9</span>
-                                <span className="text-slate-400 ml-1">· 24 ventas</span>
-                            </div>
-                            <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
-                                <span className="text-xl font-bold text-[#1A6B4A]">$1.000</span>
-                                <a
-                                    href="#"
-                                    className="text-xs px-4 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
-                                >
-                                    Ver planificación
-                                </a>
-                            </div>
+                    {masVendidasLoading ? (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[...Array(3)].map((_, i) => (
+                                <div key={i} className="rounded-2xl border border-slate-100 p-6 h-48 animate-pulse bg-slate-50" />
+                            ))}
                         </div>
-
-                        {/* Card 2 — Lengua */}
-                        <div className="rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col gap-4">
-                            <div className="flex items-start justify-between">
-                                <span className="inline-block px-2 py-1 rounded-full bg-[#FFF7C2] text-[#7A6200] text-xs font-semibold">
-                                    Lengua
-                                </span>
-                                <span className="text-xs text-slate-400">5° grado</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-[#1A6B4A] text-base">Comprensión Lectora</h3>
-                            </div>
-                            <div className="flex items-center gap-1 text-amber-400 text-xs">
-                                <Star size={14} weight="fill" />
-                                <span className="font-semibold text-slate-600">4.8</span>
-                                <span className="text-slate-400 ml-1">· 19 ventas</span>
-                            </div>
-                            <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
-                                <span className="text-xl font-bold text-[#1A6B4A]">$1.200</span>
-                                <a
-                                    href="#"
-                                    className="text-xs px-4 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
-                                >
-                                    Ver planificación
-                                </a>
-                            </div>
+                    ) : masVendidas.length === 0 ? (
+                        <p className="text-center text-slate-400 text-sm">Todavía no hay ventas registradas.</p>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {masVendidas.map((plan) => {
+                                const style = subjectStyles[plan.materia.toLowerCase()] ?? defaultStyle
+                                return (
+                                    <div key={plan.id} className="rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col gap-4">
+                                        <div className="flex items-start justify-between">
+                                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${style.bg} ${style.color}`}>
+                                                {plan.materia}
+                                            </span>
+                                            <span className="text-xs text-slate-400">{plan.grado}</span>
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-[#1A6B4A] text-base capitalize">{plan.title}</h3>
+                                        </div>
+                                        <div className="flex items-center gap-1 text-xs">
+                                            <span className="text-slate-400">{plan.ventas} {plan.ventas === 1 ? "venta" : "ventas"}</span>
+                                        </div>
+                                        <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
+                                            <span className="text-xl font-bold text-[#1A6B4A]">${plan.price.toLocaleString("es-AR")}</span>
+                                            <Link
+                                                to={`/catalogo/${plan.id}`}
+                                                className="text-xs px-4 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
+                                            >
+                                                Ver planificación
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
-
-                        {/* Card 3 — Naturales */}
-                        <div className="rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col gap-4">
-                            <div className="flex items-start justify-between">
-                                <span className="inline-block px-2 py-1 rounded-full bg-[#D1F2EB] text-[#1A7A4A] text-xs font-semibold">
-                                    Naturales
-                                </span>
-                                <span className="text-xs text-slate-400">4° grado</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-[#1A6B4A] text-base">Sistema Solar</h3>
-                            </div>
-                            <div className="flex items-center gap-1 text-amber-400 text-xs">
-                                <Star size={14} weight="fill" />
-                                <span className="font-semibold text-slate-600">4.7</span>
-                                <span className="text-slate-400 ml-1">· 14 ventas</span>
-                            </div>
-                            <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
-                                <span className="text-xl font-bold text-[#1A6B4A]">$900</span>
-                                <a
-                                    href="#"
-                                    className="text-xs px-4 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
-                                >
-                                    Ver planificación
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </section>
 

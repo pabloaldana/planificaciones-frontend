@@ -6,12 +6,12 @@ import { CartDrawer } from "@/components/common/CartDrawer"
 
 const getDashboardPath = (roles: string[]) => {
     if (roles.includes("super-admin")) return "/admin"
-    if (roles.includes("admin"))       return "/dashboard"
+    if (roles.includes("admin")) return "/dashboard"
     return "/mi-cuenta"
 }
 
 export const PublicNavbar = () => {
-    const { count, openCart }      = useCart()
+    const { count, openCart } = useCart()
     const { user, isAuthenticated } = useAuth()
 
     return (
@@ -23,29 +23,6 @@ export const PublicNavbar = () => {
                         <GraduationCap size={28} weight="duotone" />
                         <span>Aula</span>
                     </NavLink>
-
-                    <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600">
-                        <NavLink
-                            to="/"
-                            end
-                            className={({ isActive }) =>
-                                isActive ? "text-[#1A6B4A] font-semibold" : "hover:text-[#1A6B4A] transition-colors"
-                            }
-                        >
-                            Inicio
-                        </NavLink>
-                        <NavLink
-                            to="/catalogo"
-                            className={({ isActive }) =>
-                                isActive ? "text-[#1A6B4A] font-semibold" : "hover:text-[#1A6B4A] transition-colors"
-                            }
-                        >
-                            Planificaciones
-                        </NavLink>
-                        <a href="#sobre-nosotros" className="hover:text-[#1A6B4A] transition-colors">
-                            Sobre nosotros
-                        </a>
-                    </nav>
 
                     <div className="flex items-center gap-3">
                         {/* Carrito */}
