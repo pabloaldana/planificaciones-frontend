@@ -272,6 +272,20 @@ export const PlanDetailPage = () => {
 
                 </div>
             </div>
+
+            {/* Detalle del contenido */}
+            {plan.content && (
+                <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-10">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+                        <h2 className="text-lg font-bold text-[#1A6B4A] mb-4">¿Qué incluye esta planificación?</h2>
+                        <div
+                            className="rich-content text-slate-700"
+                            dangerouslySetInnerHTML={{ __html: plan.content }}
+                        />
+                    </div>
+                </div>
+            )}
+
             <Footer />
         </div>
     )

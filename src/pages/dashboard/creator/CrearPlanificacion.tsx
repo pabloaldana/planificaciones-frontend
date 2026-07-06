@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FilePdf, UploadSimple, X, ArrowLeft, Image } from "@phosphor-icons/react"
+import { RichTextEditor } from "@/components/ui/RichTextEditor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -51,6 +52,7 @@ export const CrearPlanificacion = () => {
     const [fileName, setFileName] = useState<string | null>(null)
     const [imageFiles, setImageFiles] = useState<{ file: File; preview: string }[]>([])
     const [imageError, setImageError] = useState<string | null>(null)
+    const [richContent, setRichContent] = useState("")
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selected = Array.from(e.target.files ?? [])
@@ -93,6 +95,7 @@ export const CrearPlanificacion = () => {
                 gradoId: Number(values.gradoId),
                 file: values.pdf[0],
                 images: imageFiles.map(i => i.file),
+                content: richContent || undefined,
             },
             {
                 onSuccess: () => navigate("/dashboard/planificaciones"),
@@ -237,6 +240,21 @@ export const CrearPlanificacion = () => {
                                 </FormItem>
                             )}
                         />
+
+                        {/* Contenido enriquecido */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-medium text-slate-700">
+                                Detalle del contenido <span className="text-slate-400 font-normal">(opcional)</span>
+                            </label>
+                            <p className="text-xs text-slate-400">
+                                Explicá qué incluye la planificación: objetivos, actividades, secciones, etc.
+                            </p>
+                            <RichTextEditor
+                                value={richContent}
+                                onChange={setRichContent}
+                                placeholder="Escribí el detalle de lo que incluye esta planificación..."
+                            />
+                        </div>
 
                         {/* PDF Upload */}
                         <FormField

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FilePdf, UploadSimple, X, ArrowLeft, Eye, Image } from "@phosphor-icons/react"
+import { RichTextEditor } from "@/components/ui/RichTextEditor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -63,6 +64,7 @@ export const EditarPlanificacion = () => {
     const [isUploadingImages, setIsUploadingImages] = useState(false)
     const [removedImageIds, setRemovedImageIds] = useState<number[]>([])
     const [deletingImageId, setDeletingImageId] = useState<number | null>(null)
+    const [richContent, setRichContent] = useState("")
 
     // Imágenes ya persistidas (vienen del plan cargado), sin las que se borraron en esta sesión.
     const existingImages = (plan?.imagenes ?? []).filter(img => !removedImageIds.includes(img.id))
@@ -131,6 +133,7 @@ export const EditarPlanificacion = () => {
             materiaId: String(plan.materia.id),
             gradoId: String(plan.grado.id),
         })
+        setRichContent(plan.content ?? "")
     }, [plan, form, materias.length, grados.length])
 
     const onSubmit = (values: FormValues) => {
@@ -144,6 +147,7 @@ export const EditarPlanificacion = () => {
                     materiaId: Number(values.materiaId),
                     gradoId: Number(values.gradoId),
                     file: values.pdf?.[0],
+                    content: richContent || undefined,
                 },
             },
             {
@@ -308,6 +312,21 @@ export const EditarPlanificacion = () => {
                                 </FormItem>
                             )}
                         />
+
+                        {/* Contenido enriquecido */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-medium text-slate-700">
+                                Detalle del contenido <span className="text-slate-400 font-normal">(opcional)</span>
+                            </label>
+                            <p className="text-xs text-slate-400">
+                                Explicá qué incluye la planificación: objetivos, actividades, secciones, etc.
+                            </p>
+                            <RichTextEditor
+                                value={richContent}
+                                onChange={setRichContent}
+                                placeholder="Escribí el detalle de lo que incluye esta planificación..."
+                            />
+                        </div>
 
                         {/* PDF Upload */}
                         <FormField

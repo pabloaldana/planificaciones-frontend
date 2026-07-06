@@ -1,7 +1,7 @@
 import { X, Trash, ShoppingCart } from "@phosphor-icons/react"
 import { NavLink } from "react-router-dom"
 import { useCart } from "@/context/CartContext"
-import { subjectConfig } from "@/constants/subjects"
+import { getSubjectConfig } from "@/constants/subjects"
 
 export const CartDrawer = () => {
     const { items, removeItem, clearCart, total, count, isOpen, closeCart } = useCart()
@@ -65,7 +65,7 @@ export const CartDrawer = () => {
                     ) : (
                         <div className="flex flex-col gap-3">
                             {items.map((item) => {
-                                const subject = subjectConfig[item.subject]
+                                const subject = getSubjectConfig(item.subject)
                                 return (
                                     <div
                                         key={item.id}

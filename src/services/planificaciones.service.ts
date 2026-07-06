@@ -13,6 +13,7 @@ export type Planificacion = {
     id: number
     title: string
     description: string
+    content?: string
     price: number
     public_id: string
     is_active: boolean
@@ -26,6 +27,7 @@ export type Planificacion = {
 export type CreatePlanificacionPayload = {
     title: string
     description: string
+    content?: string
     price: number
     materiaId: number
     gradoId: number
@@ -36,6 +38,7 @@ export type CreatePlanificacionPayload = {
 export type UpdatePlanificacionPayload = {
     title?: string
     description?: string
+    content?: string
     price?: number
     materiaId?: number
     gradoId?: number
@@ -104,6 +107,7 @@ export const createPlanificacion = async (payload: CreatePlanificacionPayload): 
     formData.append("materiaId", String(payload.materiaId))
     formData.append("gradoId", String(payload.gradoId))
     formData.append("file", payload.file)
+    if (payload.content) formData.append("content", payload.content)
 
     const { data } = await api.post<Planificacion>("/planificaciones", formData)
     //una vez que se crea la planificacion, si tiene imagenes, se suben una por una
@@ -120,6 +124,7 @@ export const updatePlanificacion = async (id: number, payload: UpdatePlanificaci
     const formData = new FormData()
     if (payload.title !== undefined) formData.append("title", payload.title)
     if (payload.description !== undefined) formData.append("description", payload.description)
+    if (payload.content !== undefined) formData.append("content", payload.content)
     if (payload.price !== undefined) formData.append("price", String(payload.price))
     if (payload.materiaId !== undefined) formData.append("materiaId", String(payload.materiaId))
     if (payload.gradoId !== undefined) formData.append("gradoId", String(payload.gradoId))
