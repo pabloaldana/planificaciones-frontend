@@ -1,4 +1,5 @@
 import { useState } from "react"
+import DOMPurify from "dompurify"
 import { useParams, NavLink } from "react-router-dom"
 import { ShoppingCart, Check, FileText, CaretLeft, CaretRight } from "@phosphor-icons/react"
 import { useDocumentMeta } from "@/hooks/useDocumentMeta"
@@ -280,7 +281,7 @@ export const PlanDetailPage = () => {
                         <h2 className="text-lg font-bold text-[#1A6B4A] mb-4">¿Qué incluye esta planificación?</h2>
                         <div
                             className="rich-content text-slate-700"
-                            dangerouslySetInnerHTML={{ __html: plan.content }}
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(plan.content) }}
                         />
                     </div>
                 </div>

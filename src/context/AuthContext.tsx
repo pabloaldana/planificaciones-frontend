@@ -53,9 +53,14 @@ const AuthContext = createContext<AuthContextType | null>(null)
 // ── Provider ──────────────────────────────────────────────────────────────────
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(() => {
-        // Al iniciar la app rehidrata el usuario desde localStorage
         const stored = localStorage.getItem("user")
-        return stored ? JSON.parse(stored) : null
+        if (!stored) return null
+        try {
+            return JSON.parse(stored)
+        } catch {
+            localStorage.removeItem("user")
+            return null
+        }
     })
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)

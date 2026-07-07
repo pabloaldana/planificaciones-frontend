@@ -19,6 +19,7 @@ export const MisCompras = () => {
     const handleDescargar = (id: number) => {
         getDownloadLink(id, {
             onSuccess: (data) => {
+                if (!data.url.startsWith("https://")) return
                 const a = document.createElement("a")
                 a.href = data.url
                 a.download = ""

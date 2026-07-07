@@ -1,4 +1,5 @@
 import { useState } from "react"
+import DOMPurify from "dompurify"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -95,7 +96,7 @@ export const CrearPlanificacion = () => {
                 gradoId: Number(values.gradoId),
                 file: values.pdf[0],
                 images: imageFiles.map(i => i.file),
-                content: richContent || undefined,
+                content: richContent ? DOMPurify.sanitize(richContent) : undefined,
             },
             {
                 onSuccess: () => navigate("/dashboard/planificaciones"),

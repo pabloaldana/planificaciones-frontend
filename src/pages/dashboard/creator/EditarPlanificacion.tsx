@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import DOMPurify from "dompurify"
 import { useNavigate, useParams } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -147,7 +148,7 @@ export const EditarPlanificacion = () => {
                     materiaId: Number(values.materiaId),
                     gradoId: Number(values.gradoId),
                     file: values.pdf?.[0],
-                    content: richContent || undefined,
+                    content: richContent ? DOMPurify.sanitize(richContent) : undefined,
                 },
             },
             {

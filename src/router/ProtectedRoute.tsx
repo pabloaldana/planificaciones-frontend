@@ -8,12 +8,9 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
     const { user } = useAuth()
 
-    // Fallback a localStorage para el instante entre login/register y la actualización del estado
-    const effectiveUser = user ?? JSON.parse(localStorage.getItem("user") ?? "null")
+    if (!user) return <Navigate to="/login" replace />
 
-    if (!effectiveUser) return <Navigate to="/login" replace />
-
-    if (!effectiveUser.roles.some((r: string) => allowedRoles.includes(r))) return <Navigate to="/" replace />
+    if (!user.roles.some((r: string) => allowedRoles.includes(r))) return <Navigate to="/" replace />
 
     return <Outlet />
 }
