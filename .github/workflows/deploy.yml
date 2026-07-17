@@ -16,8 +16,8 @@ jobs:
           script: |
             set -e
             echo "📦 Pulling latest code..."
-            cd /opt/aula/backend && git pull origin main
-            cd /opt/aula/frontend && git pull origin main
+            cd /opt/aula/backend && git fetch origin main && git reset --hard origin/main && git clean -fd
+            cd /opt/aula/frontend && git fetch origin main && git reset --hard origin/main && git clean -fd
 
             echo "🔧 Writing environment..."
             cat > /opt/aula/deploy/.env << ENVEOF
