@@ -1,7 +1,9 @@
-name: Deploy
+name: Deploy to Production
+
 on:
   push:
     branches: [main]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,8 +14,43 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+            echo "📦 Pulling latest code..."
             cd /opt/aula/backend && git pull origin main
             cd /opt/aula/frontend && git pull origin main
+
+            echo "🔧 Writing environment..."
+            cat > /opt/aula/deploy/.env << ENVEOF
+            DB_HOST=postgres
+            DB_PORT=5432
+            DB_NAME=aula
+            DB_USERNAME=aula
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            NODE_ENV=production
+            PORT=3000
+            CLOUDINARY_NAME=${{ secrets.CLOUDINARY_NAME }}
+            CLOUDINARY_KEY=${{ secrets.CLOUDINARY_KEY }}
+            CLOUDINARY_SECRET=${{ secrets.CLOUDINARY_SECRET }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            MERCADO_PAGO_ACCESS_TOKEN=${{ secrets.MP_ACCESS_TOKEN }}
+            MP_WEBHOOK_SECRET=${{ secrets.MP_WEBHOOK_SECRET }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            RESEND_FROM_EMAIL=${{ secrets.RESEND_FROM_EMAIL }}
+            FRONTEND_URL=https://aula.smondevstudio.com
+            MP_BACK_URL_SUCCESS=https://aula.smondevstudio.com/api/payments/redirect/success
+            MP_BACK_URL_PENDING=https://aula.smondevstudio.com/api/payments/redirect/failure
+            MP_BACK_URL_FAILURE=https://aula.smondevstudio.com/api/payments/redirect/failure
+            MP_NOTIFICATION_URL=https://aula.smondevstudio.com/api/payments/webhook
+            ENVEOF
+
+            echo "🐳 Rebuilding containers..."
             cd /opt/aula/deploy
+            sudo docker compose -p aula-prod down --remove-orphans 2>/dev/null || true
             sudo docker compose -p aula-prod up -d --build
+
+            echo "🧹 Cleaning old images..."
             sudo docker image prune -f
+
+            echo "✅ Deploy complete"
+            sudo docker ps --format "table {{.Names}}\t{{.Status}}"
