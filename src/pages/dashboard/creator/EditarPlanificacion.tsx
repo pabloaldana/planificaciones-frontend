@@ -53,7 +53,7 @@ export const EditarPlanificacion = () => {
     const { id } = useParams()
     const planificacionId = Number(id)
 
-    const { data: plan, isLoading: isLoadingPlan } = usePlanificacion(planificacionId)
+    const { data: plan, } = usePlanificacion(planificacionId)
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
     const { mutate: editarPlanificacion, isPending } = useUpdatePlanificacion()

@@ -81,7 +81,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
     useEffect(() => {
         if (!editor) return
         if (value !== editor.getHTML()) {
-            editor.commands.setContent(value || "", false)
+            editor.commands.setContent(value || "")
         }
     }, [value, editor])
 
