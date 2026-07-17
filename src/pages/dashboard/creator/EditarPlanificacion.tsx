@@ -66,6 +66,7 @@ export const EditarPlanificacion = () => {
     const [removedImageIds, setRemovedImageIds] = useState<number[]>([])
     const [deletingImageId, setDeletingImageId] = useState<number | null>(null)
     const [richContent, setRichContent] = useState("")
+    const [formReady, setFormReady] = useState(false)
 
     // Imágenes ya persistidas (vienen del plan cargado), sin las que se borraron en esta sesión.
     const existingImages = (plan?.imagenes ?? []).filter(img => !removedImageIds.includes(img.id))
@@ -121,10 +122,11 @@ export const EditarPlanificacion = () => {
         },
     })
 
-    // El plan llega async (useQuery) — recién cuando está disponible podemos precargar el form.
-    // Esperamos también a materias/grados: el <select> nativo oculto que usa Radix Select
-    // dispara un onValueChange("") espontáneo si sus <option> aparecen DESPUÉS de fijar el
-    // value, pisando el materiaId/gradoId ya seteado.
+    // Esperamos plan + materias + grados antes de llamar form.reset(). Solo cuando los tres
+    // están listos se activa formReady, que habilita el render del formulario. Así el Select
+    // de Radix se monta por primera vez ya con el valor correcto y los items presentes,
+    // evitando el onValueChange("") espurio que dispara su <select> nativo oculto cuando
+    // recibe nuevas <option>s después de estar montado con value="".
     useEffect(() => {
         if (!plan || materias.length === 0 || grados.length === 0) return
         form.reset({
@@ -135,7 +137,8 @@ export const EditarPlanificacion = () => {
             gradoId: String(plan.grado.id),
         })
         setRichContent(plan.content ?? "")
-    }, [plan, form, materias.length, grados.length])
+        setFormReady(true)
+    }, [plan, materias.length, grados.length])
 
     const onSubmit = (values: FormValues) => {
         editarPlanificacion(
@@ -168,7 +171,7 @@ export const EditarPlanificacion = () => {
         )
     }
 
-    if (isLoadingPlan || !plan) {
+    if (!formReady) {
         return (
             <div className="max-w-2xl mx-auto text-center text-slate-400 text-sm py-20">
                 Cargando planificación...

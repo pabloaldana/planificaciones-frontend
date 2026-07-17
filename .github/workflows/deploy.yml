@@ -1,0 +1,19 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/aula/backend && git pull origin main
+            cd /opt/aula/frontend && git pull origin main
+            cd /opt/aula/deploy
+            sudo docker compose -p aula-prod up -d --build
+            sudo docker image prune -f
