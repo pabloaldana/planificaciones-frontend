@@ -27,6 +27,7 @@ jobs:
             DB_USERNAME=aula
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             NODE_ENV=production
+            DB_SYNCHRONIZE=true
             PORT=3000
             CLOUDINARY_NAME=${{ secrets.CLOUDINARY_NAME }}
             CLOUDINARY_KEY=${{ secrets.CLOUDINARY_KEY }}
