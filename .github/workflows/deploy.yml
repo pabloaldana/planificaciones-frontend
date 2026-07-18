@@ -46,6 +46,7 @@ jobs:
 
             echo "🐳 Rebuilding containers..."
             cd /opt/aula/deploy
+            cp /opt/aula/frontend/docker-compose.yml /opt/aula/deploy/docker-compose.yml
             sudo docker compose -p aula-prod down --remove-orphans 2>/dev/null || true
             sudo docker compose -p aula-prod up -d --build
 

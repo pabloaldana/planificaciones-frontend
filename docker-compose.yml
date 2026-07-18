@@ -1,0 +1,43 @@
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        VITE_API_BASE_URL: https://aula.smondevstudio.com/api
+    restart: unless-stopped
+    networks:
+      - aula-net
+      - proxy-net
+
+  backend:
+    build:
+      context: /opt/aula/backend
+    restart: unless-stopped
+    env_file:
+      - /opt/aula/deploy/.env
+    depends_on:
+      - postgres
+    networks:
+      - aula-net
+      - proxy-net
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: aula
+      POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      POSTGRES_DB: aula
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - aula-net
+
+volumes:
+  postgres_data:
+
+networks:
+  aula-net:
+    driver: bridge
+  proxy-net:
+    external: true
