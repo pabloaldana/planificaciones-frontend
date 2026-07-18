@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: .
+      context: /opt/aula/frontend
       args:
         VITE_API_BASE_URL: https://aula.smondevstudio.com/api
     restart: unless-stopped
