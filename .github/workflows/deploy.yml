@@ -38,6 +38,10 @@ jobs:
             GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
             RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
             RESEND_FROM_EMAIL=${{ secrets.RESEND_FROM_EMAIL }}
+            SUPERADMIN_EMAIL=${{ secrets.SUPERADMIN_EMAIL }}
+            SUPERADMIN_PASSWORD=${{ secrets.SUPERADMIN_PASSWORD }}
+            ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}
+            ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             FRONTEND_URL=https://aula.smondevstudio.com
             MP_BACK_URL_SUCCESS=https://aula.smondevstudio.com/api/payments/redirect/success
             MP_BACK_URL_PENDING=https://aula.smondevstudio.com/api/payments/redirect/failure
