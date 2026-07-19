@@ -46,6 +46,10 @@ export const Footer = () => {
                 </div>
 
             </div>
+
+            <div className="border-t border-[#A8D8EE] py-3 text-center text-xs text-slate-400">
+                Diseñado y desarrollado por <span className="font-medium text-slate-500">Pablo Aldana</span>
+            </div>
         </footer>
     )
 }
