@@ -42,7 +42,7 @@ export const DashboardHome = () => {
                 {statCards.map((card) => (
                     <div
                         key={card.label}
-                        className="bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col gap-3"
+                        className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-3"
                     >
                         <div className="flex items-start justify-between">
                             <p className="text-slate-500 text-sm">{card.label}</p>
@@ -51,7 +51,7 @@ export const DashboardHome = () => {
                             </div>
                         </div>
 
-                        <p className="text-[2rem] font-bold text-[#1A6B4A] leading-none">
+                        <p className="text-[2rem] font-bold text-[#1A6B4A] dark:text-emerald-400 leading-none">
                             {card.value}
                         </p>
                     </div>
@@ -61,8 +61,8 @@ export const DashboardHome = () => {
             {/* Bottom panels */}
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Ventas recientes */}
-                <div className="lg:col-span-2 bg-white rounded-xl border border-slate-100 shadow-sm p-6 flex flex-col">
-                    <h2 className="text-base font-semibold text-[#1A6B4A] mb-4">
+                <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6 flex flex-col">
+                    <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400 mb-4">
                         Ventas recientes
                     </h2>
                     {ventasRecientes.length === 0 ? (
@@ -70,21 +70,21 @@ export const DashboardHome = () => {
                             <p className="text-slate-400 text-sm">Todavía no tenés ventas.</p>
                         </div>
                     ) : (
-                        <ul className="divide-y divide-slate-50">
+                        <ul className="divide-y divide-slate-50 dark:divide-gray-700">
                             {ventasRecientes.map((venta) => (
                                 <li key={venta.id} className="flex items-center gap-3 py-3">
                                     <div className="w-9 h-9 rounded-full bg-[#D1F2EB] flex items-center justify-center shrink-0">
                                         <ShoppingCart size={16} weight="duotone" className="text-[#1A7A4A]" />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-semibold text-[#1A6B4A] truncate">
+                                        <p className="text-sm font-semibold text-[#1A6B4A] dark:text-emerald-400 truncate">
                                             {venta.planificacion.title}
                                         </p>
                                         <p className="text-xs text-slate-400">
                                             {new Date(venta.createdAt).toLocaleDateString("es-AR")}
                                         </p>
                                     </div>
-                                    <span className="text-sm font-bold text-[#1A6B4A] shrink-0">
+                                    <span className="text-sm font-bold text-[#1A6B4A] dark:text-emerald-400 shrink-0">
                                         ${Number(venta.priceAtPurchase).toLocaleString("es-AR")}
                                     </span>
                                 </li>
@@ -94,8 +94,8 @@ export const DashboardHome = () => {
                 </div>
 
                 {/* Planificaciones top */}
-                <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#1A6B4A] mb-4">
+                <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
+                    <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400 mb-4">
                         Planificaciones top
                     </h2>
 
@@ -107,7 +107,7 @@ export const DashboardHome = () => {
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-[#1A6B4A] truncate">
+                                    <p className="text-sm font-semibold text-[#1A6B4A] dark:text-emerald-400 truncate">
                                         {item.title}
                                     </p>
                                     <p className="text-xs text-slate-400">{item.ventas}</p>

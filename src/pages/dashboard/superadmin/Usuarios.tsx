@@ -54,18 +54,18 @@ export const Usuarios = () => {
 
     return (
         <>
-            <section className="bg-white rounded-xl shadow-sm border border-slate-100">
+            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
 
                 {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-slate-100 dark:border-gray-700">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A6B4A]">Usuarios</h2>
+                        <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Usuarios</h2>
                         <p className="text-slate-500 text-sm mt-0.5">Gestioná roles y estado de los usuarios.</p>
                     </div>
                 </div>
 
                 {/* Search */}
-                <div className="px-6 py-4 border-b border-slate-100">
+                <div className="px-6 py-4 border-b border-slate-100 dark:border-gray-700">
                     <div className="relative max-w-sm">
                         <MagnifyingGlass size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                         <input
@@ -73,7 +73,7 @@ export const Usuarios = () => {
                             placeholder="Buscar por nombre o email..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full border border-slate-200 rounded-lg pl-8 pr-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 transition-colors"
+                            className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 dark:placeholder:text-slate-500 rounded-lg pl-8 pr-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 transition-colors"
                         />
                     </div>
                 </div>
@@ -82,7 +82,7 @@ export const Usuarios = () => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-slate-100">
+                            <tr className="border-b border-slate-100 dark:border-gray-700">
                                 {["Usuario", "Email", "Roles", "Estado", "Acciones"].map((h) => (
                                     <th key={h} className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">
                                         {h}
@@ -90,7 +90,7 @@ export const Usuarios = () => {
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-50">
+                        <tbody className="divide-y divide-slate-50 dark:divide-gray-700">
                             {isLoading && (
                                 <tr>
                                     <td colSpan={5} className="px-6 py-8 text-center text-slate-400 text-sm">
@@ -106,7 +106,7 @@ export const Usuarios = () => {
                                 </tr>
                             )}
                             {rows.map((u) => (
-                                <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
+                                <tr key={u.id} className="hover:bg-slate-50/50 dark:hover:bg-gray-700/50 transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white text-xs font-bold shrink-0">

@@ -63,33 +63,33 @@ export const ContactPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
+        <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col">
             <PublicNavbar />
 
-            <main className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50">
+            <main className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 dark:from-gray-950 dark:to-gray-900">
                 <div className="w-full max-w-lg">
 
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <span className="inline-block mb-4 px-3 py-1 rounded-full bg-[#D1F2EB] text-[#1A6B4A] text-xs font-semibold tracking-wide">
+                        <span className="inline-block mb-4 px-3 py-1 rounded-full bg-[#D1F2EB] dark:bg-emerald-900/30 text-[#1A6B4A] dark:text-emerald-400 text-xs font-semibold tracking-wide">
                             Contacto
                         </span>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] mb-2">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400 mb-2">
                             ¿Tenés alguna consulta?
                         </h1>
-                        <p className="text-slate-500 text-sm">
+                        <p className="text-slate-500 dark:text-slate-400 text-sm">
                             Completá el formulario y te respondemos a la brevedad.
                         </p>
                     </div>
 
                     {/* Card */}
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
+                    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-100 dark:border-gray-700 shadow-sm p-8">
 
                         {status === "success" ? (
                             <div className="flex flex-col items-center gap-4 py-8 text-center">
                                 <CheckCircle size={52} weight="duotone" className="text-[#1A6B4A]" />
-                                <h2 className="text-lg font-bold text-slate-700">¡Mensaje enviado!</h2>
-                                <p className="text-slate-500 text-sm">
+                                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-200">¡Mensaje enviado!</h2>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm">
                                     Gracias por escribirnos. Te respondemos en las próximas 24 horas.
                                 </p>
                                 <Button
@@ -113,7 +113,7 @@ export const ContactPage = () => {
                                                     <FormLabel>Nombre</FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-white border-slate-200"
+                                                            className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200"
                                                             placeholder="Tu nombre"
                                                             {...field}
                                                         />
@@ -131,7 +131,7 @@ export const ContactPage = () => {
                                                     <FormLabel>Email</FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-white border-slate-200"
+                                                            className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200"
                                                             placeholder="tucorreo@ejemplo.com"
                                                             type="email"
                                                             {...field}
@@ -151,7 +151,7 @@ export const ContactPage = () => {
                                                 <FormLabel>Asunto</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        className="bg-white border-slate-200"
+                                                        className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200"
                                                         placeholder="¿Sobre qué querés consultar?"
                                                         {...field}
                                                     />
@@ -169,7 +169,7 @@ export const ContactPage = () => {
                                                 <FormLabel>Mensaje</FormLabel>
                                                 <FormControl>
                                                     <Textarea
-                                                        className="bg-white border-slate-200 min-h-[140px] resize-none"
+                                                        className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200 dark:placeholder:text-slate-500 min-h-[140px] resize-none"
                                                         placeholder="Escribí tu consulta acá..."
                                                         {...field}
                                                     />

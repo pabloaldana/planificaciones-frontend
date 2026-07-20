@@ -19,6 +19,17 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Aula — Planificaciones educativas para docentes" />
     <meta name="twitter:description" content="Encontrá planificaciones educativas listas para usar en el aula." />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

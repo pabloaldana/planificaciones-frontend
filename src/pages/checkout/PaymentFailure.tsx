@@ -10,16 +10,16 @@ export const PaymentFailure = () => {
     const isPending = collectionStatus === "pending"
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
             <PublicNavbar />
 
             <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10 flex items-center">
-                <div className="w-full bg-white rounded-xl border border-slate-100 shadow-sm p-12 text-center flex flex-col items-center gap-4">
+                <div className="w-full bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-12 text-center flex flex-col items-center gap-4">
                     {isPending ? (
                         <>
                             <Clock size={56} weight="duotone" className="text-amber-500" />
                             <h1 className="text-2xl font-bold text-amber-600">Pago pendiente</h1>
-                            <p className="text-slate-500 text-sm max-w-md">
+                            <p className="text-slate-500 dark:text-slate-400 text-sm max-w-md">
                                 Tu pago todavía está siendo procesado por MercadoPago. Te avisaremos cuando se confirme.
                             </p>
                         </>
@@ -27,7 +27,7 @@ export const PaymentFailure = () => {
                         <>
                             <XCircle size={56} weight="duotone" className="text-red-500" />
                             <h1 className="text-2xl font-bold text-red-600">No pudimos procesar tu pago</h1>
-                            <p className="text-slate-500 text-sm max-w-md">
+                            <p className="text-slate-500 dark:text-slate-400 text-sm max-w-md">
                                 Algo salió mal con tu pago. Tu carrito sigue disponible, podés intentarlo de nuevo.
                             </p>
                         </>
@@ -42,7 +42,7 @@ export const PaymentFailure = () => {
                         </button>
                         <button
                             onClick={() => navigate("/catalogo")}
-                            className="px-6 py-3 rounded-xl border border-slate-200 text-[#1A6B4A] hover:bg-slate-50 text-sm font-semibold transition-colors"
+                            className="px-6 py-3 rounded-xl border border-slate-200 dark:border-gray-600 text-[#1A6B4A] dark:text-emerald-400 hover:bg-slate-50 dark:hover:bg-gray-700 text-sm font-semibold transition-colors"
                         >
                             Ir al catálogo
                         </button>

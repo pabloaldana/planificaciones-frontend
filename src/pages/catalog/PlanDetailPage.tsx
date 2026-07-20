@@ -117,16 +117,16 @@ export const PlanDetailPage = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#F2F2F2]">
+            <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-900">
                 <PublicNavbar />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 animate-pulse">
-                        <div className="h-[600px] bg-white rounded-2xl" />
-                        <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
-                            <div className="h-5 bg-slate-100 rounded-full w-24" />
-                            <div className="h-8 bg-slate-100 rounded w-3/4" />
-                            <div className="h-4 bg-slate-100 rounded w-full" />
-                            <div className="h-10 bg-slate-100 rounded-xl mt-4" />
+                        <div className="h-[600px] bg-white dark:bg-gray-800 rounded-2xl" />
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 flex flex-col gap-4">
+                            <div className="h-5 bg-slate-100 dark:bg-gray-700 rounded-full w-24" />
+                            <div className="h-8 bg-slate-100 dark:bg-gray-700 rounded w-3/4" />
+                            <div className="h-4 bg-slate-100 dark:bg-gray-700 rounded w-full" />
+                            <div className="h-10 bg-slate-100 dark:bg-gray-700 rounded-xl mt-4" />
                         </div>
                     </div>
                 </div>
@@ -136,11 +136,11 @@ export const PlanDetailPage = () => {
 
     if (!plan) {
         return (
-            <div className="min-h-screen bg-[#F2F2F2]">
+            <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-900">
                 <PublicNavbar />
-                <div className="max-w-6xl mx-auto px-4 py-20 text-center text-slate-500">
+                <div className="max-w-6xl mx-auto px-4 py-20 text-center text-slate-500 dark:text-slate-400">
                     Planificación no encontrada.{" "}
-                    <NavLink to="/catalogo" className="text-[#1A6B4A] hover:underline">
+                    <NavLink to="/catalogo" className="text-[#1A6B4A] dark:text-emerald-400 hover:underline">
                         Volver al catálogo
                     </NavLink>
                 </div>
@@ -158,7 +158,7 @@ export const PlanDetailPage = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
             <PublicNavbar />
 
             <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6">
@@ -166,7 +166,7 @@ export const PlanDetailPage = () => {
                 {/* Breadcrumb */}
                 <NavLink
                     to="/catalogo"
-                    className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors mb-6"
+                    className="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-[#1A6B4A] dark:hover:text-emerald-400 transition-colors mb-6"
                 >
                     ← Volver al catálogo
                 </NavLink>
@@ -181,7 +181,7 @@ export const PlanDetailPage = () => {
                     />
 
                     {/* ── Info del producto ─────────────────────── */}
-                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col gap-5 lg:sticky lg:top-24">
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm p-6 flex flex-col gap-5 lg:sticky lg:top-24">
 
                         {/* Badge + grado */}
                         <div className="flex items-center justify-between">
@@ -194,27 +194,27 @@ export const PlanDetailPage = () => {
                         </div>
 
                         {/* Título */}
-                        <h1 className="text-2xl font-bold text-[#1A6B4A] leading-snug">
+                        <h1 className="text-2xl font-bold text-[#1A6B4A] dark:text-emerald-400 leading-snug">
                             {plan.title}
                         </h1>
 
                         {/* Descripción */}
                         {plan.description && (
-                            <p className="text-sm text-slate-500 leading-relaxed">
+                            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                                 {plan.description}
                             </p>
                         )}
 
-                        <div className="border-t border-slate-100" />
+                        <div className="border-t border-slate-100 dark:border-gray-700" />
 
                         {/* Precio */}
                         <div className="flex flex-col gap-1">
-                            <span className="text-3xl font-bold text-[#1A6B4A]">
+                            <span className="text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400">
                                 ${plan.price.toLocaleString("es-AR")}
                             </span>
-                            <span className="text-sm text-slate-500">
+                            <span className="text-sm text-slate-500 dark:text-slate-400">
                                 3 cuotas sin interés de{" "}
-                                <span className="font-semibold text-slate-700">
+                                <span className="font-semibold text-slate-700 dark:text-slate-200">
                                     ${cuotas.toLocaleString("es-AR")}
                                 </span>
                             </span>
@@ -222,23 +222,23 @@ export const PlanDetailPage = () => {
 
                         {/* Métodos de pago */}
                         <div className="flex flex-col gap-2">
-                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                                 Métodos de pago
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1.5 rounded-lg bg-[#009EE3]/10 text-[#009EE3] text-xs font-semibold border border-[#009EE3]/20">
                                     MercadoPago
                                 </span>
-                                <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold border border-slate-200">
+                                <span className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-slate-400 text-xs font-semibold border border-slate-200 dark:border-gray-600">
                                     Transferencia
                                 </span>
-                                <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold border border-slate-200">
+                                <span className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-slate-400 text-xs font-semibold border border-slate-200 dark:border-gray-600">
                                     Tarjeta de crédito
                                 </span>
                             </div>
                         </div>
 
-                        <div className="border-t border-slate-100" />
+                        <div className="border-t border-slate-100 dark:border-gray-700" />
 
                         {/* Botones */}
                         <div className="flex flex-col gap-3">
@@ -254,7 +254,7 @@ export const PlanDetailPage = () => {
                                     "w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl border text-sm font-semibold transition-colors",
                                     inCart
                                         ? "border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
-                                        : "border-[#1A6B4A] text-[#1A6B4A] hover:bg-[#1A6B4A]/5",
+                                        : "border-[#1A6B4A] dark:border-emerald-400 text-[#1A6B4A] dark:text-emerald-400 hover:bg-[#1A6B4A]/5 dark:hover:bg-emerald-400/5",
                                 ].join(" ")}
                             >
                                 {inCart ? (
@@ -266,7 +266,7 @@ export const PlanDetailPage = () => {
                         </div>
 
                         {/* Garantía */}
-                        <p className="text-xs text-slate-400 text-center">
+                        <p className="text-xs text-slate-400 dark:text-slate-500 text-center">
                             Acceso inmediato al material tras la compra
                         </p>
                     </div>
@@ -277,10 +277,10 @@ export const PlanDetailPage = () => {
             {/* Detalle del contenido */}
             {plan.content && (
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-10">
-                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-                        <h2 className="text-lg font-bold text-[#1A6B4A] mb-4">¿Qué incluye esta planificación?</h2>
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm p-6 sm:p-8">
+                        <h2 className="text-lg font-bold text-[#1A6B4A] dark:text-emerald-400 mb-4">¿Qué incluye esta planificación?</h2>
                         <div
-                            className="rich-content text-slate-700"
+                            className="rich-content text-slate-700 dark:text-slate-300"
                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(plan.content) }}
                         />
                     </div>

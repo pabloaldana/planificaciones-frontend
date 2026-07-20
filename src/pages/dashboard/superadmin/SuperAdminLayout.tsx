@@ -16,7 +16,7 @@ export const SuperAdminLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true)
 
     return (
-        <div className="min-h-screen bg-[#F2F2F2] flex">
+        <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-900 flex">
             <Sidebar
                 isOpen={sidebarOpen}
                 onClose={() => setSidebarOpen(false)}

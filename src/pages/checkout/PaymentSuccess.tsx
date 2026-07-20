@@ -21,13 +21,13 @@ export const PaymentSuccess = () => {
 
     if (status === "pending" || status === "in_process") {
         return (
-            <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+            <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
                 <PublicNavbar />
                 <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10 flex items-center">
-                    <div className="w-full bg-white rounded-xl border border-slate-100 shadow-sm p-12 text-center flex flex-col items-center gap-4">
+                    <div className="w-full bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-12 text-center flex flex-col items-center gap-4">
                         <Clock size={56} weight="duotone" className="text-amber-500" />
-                        <h1 className="text-2xl font-bold text-slate-800">Pago en proceso</h1>
-                        <p className="text-slate-500 text-sm max-w-md">
+                        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Pago en proceso</h1>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-md">
                             Tu pago está siendo procesado. Te avisaremos cuando se confirme. Podés revisar el estado desde "Mis compras".
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 mt-4">
@@ -39,7 +39,7 @@ export const PaymentSuccess = () => {
                             </button>
                             <button
                                 onClick={() => navigate("/catalogo")}
-                                className="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-semibold transition-colors"
+                                className="px-6 py-3 rounded-xl border border-slate-200 dark:border-gray-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-gray-700 text-sm font-semibold transition-colors"
                             >
                                 Volver al catálogo
                             </button>
@@ -53,13 +53,13 @@ export const PaymentSuccess = () => {
 
     if (status === "rejected" || (status !== null && status !== "approved")) {
         return (
-            <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+            <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
                 <PublicNavbar />
                 <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10 flex items-center">
-                    <div className="w-full bg-white rounded-xl border border-slate-100 shadow-sm p-12 text-center flex flex-col items-center gap-4">
+                    <div className="w-full bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-12 text-center flex flex-col items-center gap-4">
                         <XCircle size={56} weight="duotone" className="text-red-500" />
-                        <h1 className="text-2xl font-bold text-slate-800">El pago no se completó</h1>
-                        <p className="text-slate-500 text-sm max-w-md">
+                        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">El pago no se completó</h1>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-md">
                             El pago fue rechazado o cancelado. No se realizó ningún cargo. Podés intentarlo nuevamente.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 mt-4">
@@ -71,7 +71,7 @@ export const PaymentSuccess = () => {
                             </button>
                             <button
                                 onClick={() => navigate("/catalogo")}
-                                className="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-semibold transition-colors"
+                                className="px-6 py-3 rounded-xl border border-slate-200 dark:border-gray-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-gray-700 text-sm font-semibold transition-colors"
                             >
                                 Volver al catálogo
                             </button>
@@ -84,12 +84,12 @@ export const PaymentSuccess = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
             <PublicNavbar />
             <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10 flex items-center">
                 <div className="w-full bg-white rounded-xl border border-slate-100 shadow-sm p-12 text-center flex flex-col items-center gap-4">
                     <CheckCircle size={56} weight="duotone" className="text-[#1A6B4A]" />
-                    <h1 className="text-2xl font-bold text-[#1A6B4A]">¡Pago exitoso!</h1>
+                    <h1 className="text-2xl font-bold text-[#1A6B4A] dark:text-emerald-400">¡Pago exitoso!</h1>
                     <p className="text-slate-500 text-sm max-w-md">
                         Tu compra se procesó correctamente. Ya podés acceder a tus planificaciones desde "Mis compras".
                     </p>

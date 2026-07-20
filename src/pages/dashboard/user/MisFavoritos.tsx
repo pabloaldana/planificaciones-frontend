@@ -10,7 +10,7 @@ export const MisFavoritos = () => {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(3)].map((_, i) => (
-                    <div key={i} className="bg-white rounded-2xl border border-slate-100 h-64 animate-pulse" />
+                    <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 h-64 animate-pulse" />
                 ))}
             </div>
         )
@@ -23,7 +23,7 @@ export const MisFavoritos = () => {
                     <Heart size={32} weight="duotone" className="text-red-300" />
                 </div>
                 <div>
-                    <p className="font-semibold text-slate-600">Todavía no tenés favoritos</p>
+                    <p className="font-semibold text-slate-600 dark:text-slate-300">Todavía no tenés favoritos</p>
                     <p className="text-sm text-slate-400 mt-1">
                         Guardá planificaciones que te interesen para encontrarlas fácilmente después.
                     </p>
@@ -41,7 +41,7 @@ export const MisFavoritos = () => {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h1 className="text-xl font-bold text-[#1A6B4A]">Mis favoritos</h1>
+                <h1 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Mis favoritos</h1>
                 <p className="text-slate-500 text-sm mt-0.5">{favoritos.length} {favoritos.length === 1 ? "planificación guardada" : "planificaciones guardadas"}</p>
             </div>
 

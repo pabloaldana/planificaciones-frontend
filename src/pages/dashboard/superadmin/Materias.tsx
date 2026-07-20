@@ -70,13 +70,13 @@ export const Materias = () => {
     if (isError) return <p className="p-6 text-red-400 text-sm">Error al cargar materias.</p>
     return (
         <>
-            <section className="bg-white rounded-xl shadow-sm border border-slate-100">
+            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+                <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-gray-700">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A6B4A]">Materias</h2>
-                        <p className="text-slate-500 text-sm mt-0.5">Agregá, editá o eliminá materias.</p>
+                        <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Materias</h2>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">Agregá, editá o eliminá materias.</p>
                     </div>
                     <button
                         onClick={() => setAdding(true)}
@@ -97,21 +97,21 @@ export const Materias = () => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-slate-100">
+                            <tr className="border-b border-slate-100 dark:border-gray-700">
                                 <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">Nombre</th>
                                 <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">Descripción</th>
                                 <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-50">
+                        <tbody className="divide-y divide-slate-50 dark:divide-gray-700">
 
                             {materias.map((m) => (
-                                <tr key={m.id} className="hover:bg-slate-50/50 transition-colors">
+                                <tr key={m.id} className="hover:bg-slate-50/50 dark:hover:bg-gray-700/50 transition-colors">
                                     <td className="px-6 py-4">
-                                        <span className="font-medium text-slate-700">{m.name}</span>
+                                        <span className="font-medium text-slate-700 dark:text-slate-200">{m.name}</span>
                                     </td>
                                     <td className="px-6 py-4 max-w-xs">
-                                        <span className="text-slate-500 truncate block" title={m.description}>
+                                        <span className="text-slate-500 dark:text-slate-400 truncate block" title={m.description}>
                                             {m.description || "—"}
                                         </span>
                                     </td>
@@ -145,7 +145,7 @@ export const Materias = () => {
                     </table>
                 </div>
 
-                <div className="px-6 py-4 border-t border-slate-100">
+                <div className="px-6 py-4 border-t border-slate-100 dark:border-gray-700">
                     <p className="text-slate-400 text-sm">{materias.length} materias</p>
                 </div>
 
@@ -170,7 +170,7 @@ export const Materias = () => {
                         value={newLabel}
                         onChange={(e) => setNewLabel(e.target.value)}
                         placeholder="Ej: Educación Física"
-                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1A6B4A]"
+                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
                     />
                 </div>
 
@@ -181,7 +181,7 @@ export const Materias = () => {
                         value={newDescription}
                         onChange={(e) => setNewDescription(e.target.value)}
                         placeholder="Una breve descripción de la materia"
-                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-[#1A6B4A]"
+                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm resize-none dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
                     />
                 </div>
             </FormDialog>
@@ -205,7 +205,7 @@ export const Materias = () => {
                         type="text"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1A6B4A]"
+                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
                     />
                 </div>
 
@@ -215,7 +215,7 @@ export const Materias = () => {
                         rows={3}
                         value={editDescription}
                         onChange={(e) => setEditDescription(e.target.value)}
-                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-[#1A6B4A]"
+                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm resize-none dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
                     />
                 </div>
             </FormDialog>

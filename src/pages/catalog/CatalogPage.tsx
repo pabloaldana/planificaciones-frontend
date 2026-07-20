@@ -40,9 +40,9 @@ const FiltersPanel = ({
 }: FiltersPanelProps) => (
     <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
-            <span className="font-semibold text-slate-700 text-sm">Filtros</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">Filtros</span>
             {activeCount > 0 && (
-                <button onClick={onClear} className="text-xs text-[#1A6B4A] hover:underline">
+                <button onClick={onClear} className="text-xs text-[#1A6B4A] dark:text-emerald-400 hover:underline">
                     Limpiar todo
                 </button>
             )}
@@ -50,16 +50,16 @@ const FiltersPanel = ({
 
         {subjectOptions.length > 0 && (
             <div>
-                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Materia</p>
+                <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Materia</p>
                 <div className="flex flex-col gap-2.5">
                     {subjectOptions.map((s) => (
                         <label key={s.id} className="flex items-center gap-2.5 cursor-pointer group">
                             <Checkbox
                                 checked={selectedSubjects.includes(s.id)}
                                 onCheckedChange={() => onToggleSubject(s.id)}
-                                className="border-slate-300 data-[state=checked]:bg-[#1A6B4A] data-[state=checked]:border-[#1A6B4A]"
+                                className="border-slate-300 dark:border-gray-600 data-[state=checked]:bg-[#1A6B4A] data-[state=checked]:border-[#1A6B4A]"
                             />
-                            <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
+                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">
                                 {s.label}
                             </span>
                         </label>
@@ -74,16 +74,16 @@ const FiltersPanel = ({
 
         {gradeOptions.length > 0 && (
             <div>
-                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Grado</p>
+                <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Grado</p>
                 <div className="flex flex-col gap-2.5">
                     {gradeOptions.map((g) => (
                         <label key={g.id} className="flex items-center gap-2.5 cursor-pointer group">
                             <Checkbox
                                 checked={selectedGrades.includes(g.id)}
                                 onCheckedChange={() => onToggleGrade(g.id)}
-                                className="border-slate-300 data-[state=checked]:bg-[#1A6B4A] data-[state=checked]:border-[#1A6B4A]"
+                                className="border-slate-300 dark:border-gray-600 data-[state=checked]:bg-[#1A6B4A] data-[state=checked]:border-[#1A6B4A]"
                             />
-                            <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
+                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">
                                 {g.label}
                             </span>
                         </label>
@@ -153,7 +153,7 @@ export const CatalogPage = () => {
     const activeCount = selectedSubjects.length + selectedGrades.length
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
 
             <PublicNavbar />
 
@@ -170,18 +170,18 @@ export const CatalogPage = () => {
                         placeholder="Buscar planificaciones..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#1A6B4A] transition-colors shadow-sm"
+                        className="w-full bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-500 transition-colors shadow-sm"
                     />
                 </div>
 
                 {/* ── Toolbar ─────────────────────────────────────────────── */}
                 <div className="flex items-center justify-between mb-5 gap-3">
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
                         {isLoading ? (
-                            <span className="text-slate-400">Cargando...</span>
+                            <span className="text-slate-400 dark:text-slate-500">Cargando...</span>
                         ) : (
                             <>
-                                <span className="font-semibold text-slate-700">{data?.total ?? 0}</span> planificaciones
+                                <span className="font-semibold text-slate-700 dark:text-slate-200">{data?.total ?? 0}</span> planificaciones
                                 {totalPages > 1 && (
                                     <span> · página {page} de {totalPages}</span>
                                 )}
@@ -192,7 +192,7 @@ export const CatalogPage = () => {
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => setFiltersOpen(true)}
-                            className="lg:hidden flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors"
+                            className="lg:hidden flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors"
                         >
                             <Funnel size={15} />
                             Filtros
@@ -206,7 +206,7 @@ export const CatalogPage = () => {
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white text-slate-600 focus:outline-none focus:border-slate-400 cursor-pointer"
+                            className="text-sm border border-slate-200 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 text-slate-600 dark:text-slate-400 focus:outline-none focus:border-slate-400 cursor-pointer"
                         >
                             <option value="featured">Destacados</option>
                             <option value="price_asc">Precio: menor a mayor</option>
@@ -218,7 +218,7 @@ export const CatalogPage = () => {
                 <div className="flex gap-6 items-start">
 
                     {/* ── Sidebar desktop ──────────────────────────────────── */}
-                    <aside className="hidden lg:block w-56 shrink-0 bg-white rounded-xl border border-slate-100 shadow-sm p-5 sticky top-24">
+                    <aside className="hidden lg:block w-56 shrink-0 bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-5 sticky top-24">
                         <FiltersPanel
                             subjectOptions={subjectOptions}
                             gradeOptions={gradeOptions}
@@ -236,11 +236,11 @@ export const CatalogPage = () => {
                         {isLoading ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                                 {[...Array(6)].map((_, i) => (
-                                    <div key={i} className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-col gap-3 animate-pulse">
-                                        <div className="h-5 bg-slate-100 rounded-full w-24" />
-                                        <div className="h-4 bg-slate-100 rounded w-full" />
-                                        <div className="h-4 bg-slate-100 rounded w-3/4" />
-                                        <div className="h-8 bg-slate-100 rounded-xl mt-2" />
+                                    <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 p-5 flex flex-col gap-3 animate-pulse">
+                                        <div className="h-5 bg-slate-100 dark:bg-gray-700 rounded-full w-24" />
+                                        <div className="h-4 bg-slate-100 dark:bg-gray-700 rounded w-full" />
+                                        <div className="h-4 bg-slate-100 dark:bg-gray-700 rounded w-3/4" />
+                                        <div className="h-8 bg-slate-100 dark:bg-gray-700 rounded-xl mt-2" />
                                     </div>
                                 ))}
                             </div>
@@ -283,16 +283,16 @@ export const CatalogPage = () => {
             />
             <aside
                 className={[
-                    "fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl lg:hidden",
+                    "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-gray-900 shadow-xl lg:hidden",
                     "transition-transform duration-300 ease-in-out",
                     filtersOpen ? "translate-x-0" : "-translate-x-full",
                 ].join(" ")}
             >
-                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-                    <span className="font-semibold text-slate-700">Filtros</span>
+                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-gray-700">
+                    <span className="font-semibold text-slate-700 dark:text-slate-200">Filtros</span>
                     <button
                         onClick={() => setFiltersOpen(false)}
-                        className="p-2 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                        className="p-2 rounded-md text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors"
                     >
                         <X size={18} />
                     </button>

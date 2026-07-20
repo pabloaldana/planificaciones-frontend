@@ -21,16 +21,16 @@ export const CartDrawer = () => {
             {/* Panel */}
             <aside
                 className={[
-                    "fixed inset-y-0 right-0 z-50 w-80 sm:w-96 bg-white shadow-2xl flex flex-col",
+                    "fixed inset-y-0 right-0 z-50 w-80 sm:w-96 bg-white dark:bg-gray-900 shadow-2xl flex flex-col",
                     "transition-transform duration-300 ease-in-out",
                     isOpen ? "translate-x-0" : "translate-x-full",
                 ].join(" ")}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-gray-700">
                     <div className="flex items-center gap-2">
-                        <ShoppingCart size={20} weight="duotone" className="text-[#1A6B4A]" />
-                        <span className="font-bold text-slate-700">
+                        <ShoppingCart size={20} weight="duotone" className="text-[#1A6B4A] dark:text-emerald-400" />
+                        <span className="font-bold text-slate-700 dark:text-slate-200">
                             Mi carrito
                         </span>
                         {count > 0 && (
@@ -41,7 +41,7 @@ export const CartDrawer = () => {
                     </div>
                     <button
                         onClick={closeCart}
-                        className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                        className="p-1.5 rounded-md text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors"
                     >
                         <X size={18} />
                     </button>
@@ -51,7 +51,7 @@ export const CartDrawer = () => {
                 <div className="flex-1 overflow-y-auto px-5 py-4">
                     {items.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-                            <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-full bg-slate-100 dark:bg-gray-700 flex items-center justify-center">
                                 <ShoppingCart size={24} weight="duotone" className="text-slate-400" />
                             </div>
                             <p className="text-slate-500 text-sm">Tu carrito está vacío</p>
@@ -69,7 +69,7 @@ export const CartDrawer = () => {
                                 return (
                                     <div
                                         key={item.id}
-                                        className="flex items-start gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50/50"
+                                        className="flex items-start gap-3 p-3 rounded-xl border border-slate-100 dark:border-gray-700 bg-slate-50/50 dark:bg-gray-800/50"
                                     >
                                         {/* Info */}
                                         <div className="flex-1 min-w-0">
@@ -81,10 +81,10 @@ export const CartDrawer = () => {
                                                     {item.grade} grado
                                                 </span>
                                             </div>
-                                            <p className="text-sm font-semibold text-slate-700 leading-snug truncate">
+                                            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug truncate">
                                                 {item.title}
                                             </p>
-                                            <p className="text-sm font-bold text-[#1A6B4A] mt-1">
+                                            <p className="text-sm font-bold text-[#1A6B4A] dark:text-emerald-400 mt-1">
                                                 ${item.price.toLocaleString("es-AR")}
                                             </p>
                                         </div>
@@ -106,12 +106,12 @@ export const CartDrawer = () => {
 
                 {/* Footer */}
                 {items.length > 0 && (
-                    <div className="border-t border-slate-100 px-5 py-5 flex flex-col gap-4">
+                    <div className="border-t border-slate-100 dark:border-gray-700 px-5 py-5 flex flex-col gap-4">
                         {/* Subtotal */}
                         <div className="flex flex-col gap-1">
-                            <div className="flex items-center justify-between text-sm text-slate-500">
+                            <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
                                 <span>{count} {count === 1 ? "planificación" : "planificaciones"}</span>
-                                <span className="font-semibold text-slate-700">
+                                <span className="font-semibold text-slate-700 dark:text-slate-200">
                                     ${total.toLocaleString("es-AR")}
                                 </span>
                             </div>

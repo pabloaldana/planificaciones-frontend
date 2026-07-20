@@ -51,17 +51,17 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
             </div>
 
             {/* Panel derecho — formulario */}
-            <div className="flex flex-col items-center justify-center bg-[#F2F2F2] px-6 py-10 gap-4">
+            <div className="flex flex-col items-center justify-center bg-[#F2F2F2] dark:bg-gray-900 px-6 py-10 gap-4">
                 <NavLink
                     to="/"
-                    className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors self-start max-w-md w-full"
+                    className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-[#1A6B4A] dark:hover:text-emerald-400 transition-colors self-start max-w-md w-full"
                 >
                     ← Volver al inicio
                 </NavLink>
 
-                <Card className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-lg">
+                <Card className="w-full max-w-md rounded-2xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
                     <CardHeader className="pb-4">
-                        <CardTitle className="text-xl font-bold text-[#1A6B4A]">
+                        <CardTitle className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">
                             {title}
                         </CardTitle>
                         <CardDescription className="text-slate-500 text-sm">

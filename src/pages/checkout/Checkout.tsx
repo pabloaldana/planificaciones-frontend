@@ -21,13 +21,13 @@ export const Checkout = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-[#F2F2F2] dark:bg-gray-900">
             <PublicNavbar />
 
             <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-10">
-                <h1 className="text-2xl font-bold text-[#1A6B4A] mb-6">Confirmar compra</h1>
+                <h1 className="text-2xl font-bold text-[#1A6B4A] dark:text-emerald-400 mb-6">Confirmar compra</h1>
 
-                <div className="bg-white rounded-xl border border-slate-100 shadow-sm">
+                <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm">
                     {items.length === 0 ? (
                         <div className="p-12 text-center flex flex-col items-center gap-3">
                             <ShoppingCart size={32} weight="duotone" className="text-slate-300" />
@@ -41,7 +41,7 @@ export const Checkout = () => {
                         </div>
                     ) : (
                         <>
-                            <ul className="divide-y divide-slate-50">
+                            <ul className="divide-y divide-slate-50 dark:divide-gray-700">
                                 {items.map((item) => {
                                     const subject = getSubjectConfig(item.subject)
                                     return (
@@ -53,7 +53,7 @@ export const Checkout = () => {
                                                     </span>
                                                     <span className="text-xs text-slate-400">{item.grade} grado</span>
                                                 </div>
-                                                <p className="text-sm font-semibold text-slate-700 truncate">{item.title}</p>
+                                                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">{item.title}</p>
                                             </div>
                                             <span className="text-sm font-bold text-[#1A6B4A] shrink-0">
                                                 ${item.price.toLocaleString("es-AR")}
@@ -63,12 +63,12 @@ export const Checkout = () => {
                                 })}
                             </ul>
 
-                            <div className="px-6 py-5 border-t border-slate-100 flex flex-col gap-4">
+                            <div className="px-6 py-5 border-t border-slate-100 dark:border-gray-700 flex flex-col gap-4">
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-slate-500">
+                                    <span className="text-slate-500 dark:text-slate-400">
                                         {count} {count === 1 ? "planificación" : "planificaciones"}
                                     </span>
-                                    <span className="text-lg font-bold text-[#1A6B4A]">
+                                    <span className="text-lg font-bold text-[#1A6B4A] dark:text-emerald-400">
                                         ${total.toLocaleString("es-AR")}
                                     </span>
                                 </div>

@@ -185,18 +185,18 @@ export const EditarPlanificacion = () => {
             {/* Breadcrumb */}
             <button
                 onClick={() => navigate("/dashboard/planificaciones")}
-                className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors mb-6"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-[#1A6B4A] dark:hover:text-emerald-400 transition-colors mb-6"
             >
                 <ArrowLeft size={15} />
                 Volver a planificaciones
             </button>
 
-            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 sm:p-8">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700 p-6 sm:p-8">
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-[#1A6B4A]">Editar planificación</h1>
-                    <p className="text-slate-500 text-sm mt-1">
+                    <h1 className="text-2xl font-bold text-[#1A6B4A] dark:text-emerald-400">Editar planificación</h1>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
                         Modificá los datos que quieras cambiar.
                     </p>
                 </div>
@@ -234,7 +234,7 @@ export const EditarPlanificacion = () => {
                                         <textarea
                                             placeholder="Describí el contenido y los objetivos del material..."
                                             rows={4}
-                                            className="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#1A6B4A] transition-colors resize-none"
+                                            className="w-full rounded-md border border-slate-200 dark:border-gray-600 bg-slate-50 dark:bg-gray-700 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400 transition-colors resize-none"
                                             {...field}
                                         />
                                     </FormControl>
@@ -319,7 +319,7 @@ export const EditarPlanificacion = () => {
 
                         {/* Contenido enriquecido */}
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-sm font-medium text-slate-700">
+                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                 Detalle del contenido <span className="text-slate-400 font-normal">(opcional)</span>
                             </label>
                             <p className="text-xs text-slate-400">
@@ -343,7 +343,7 @@ export const EditarPlanificacion = () => {
                                     <button
                                         type="button"
                                         onClick={handleVerPdfActual}
-                                        className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] hover:underline mb-2"
+                                        className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] dark:text-emerald-400 hover:underline mb-2"
                                     >
                                         <Eye size={13} />
                                         Ver el archivo actual
@@ -356,7 +356,7 @@ export const EditarPlanificacion = () => {
                                                 "flex flex-col items-center justify-center w-full rounded-xl border-2 border-dashed cursor-pointer transition-colors p-8 gap-3",
                                                 fileName
                                                     ? "border-[#1A6B4A]/40 bg-[#1A6B4A]/5"
-                                                    : "border-slate-200 bg-slate-50 hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5",
+                                                    : "border-slate-200 dark:border-gray-600 bg-slate-50 dark:bg-gray-700 hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5",
                                             ].join(" ")}
                                         >
                                             {fileName ? (
@@ -385,8 +385,8 @@ export const EditarPlanificacion = () => {
                                                 <>
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
-                                                        <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá un archivo nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                                                            Arrastrá un archivo nuevo o <span className="text-[#1A6B4A] dark:text-emerald-400">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
                                                             Opcional · dejalo vacío para mantener el actual · Máximo 10MB
@@ -416,7 +416,7 @@ export const EditarPlanificacion = () => {
                         {/* Imágenes del catálogo */}
                         <div className="space-y-3">
                             <div>
-                                <p className="text-sm font-medium text-slate-700">
+                                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                     Imágenes del catálogo <span className="text-slate-400 font-normal">(opcional · hasta 3)</span>
                                 </p>
                                 <p className="text-xs text-slate-400 mt-0.5">
@@ -426,7 +426,7 @@ export const EditarPlanificacion = () => {
 
                             <div className="flex flex-wrap gap-3">
                                 {existingImages.map((img) => (
-                                    <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                    <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 dark:border-gray-600 group">
                                         <img src={img.url} alt="" className="w-full h-full object-cover" />
                                         <button
                                             type="button"
@@ -457,7 +457,7 @@ export const EditarPlanificacion = () => {
                                 {totalImageCount < 3 && (
                                     <label
                                         htmlFor="image-upload"
-                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
+                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 dark:border-gray-600 bg-slate-50 dark:bg-gray-700 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
                                     >
                                         <Image size={20} className="text-slate-300" />
                                         <span className="text-xs text-slate-400">Agregar</span>
@@ -477,7 +477,7 @@ export const EditarPlanificacion = () => {
                         </div>
 
                         {/* Acciones */}
-                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100">
+                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100 dark:border-gray-700">
                             <Button
                                 type="button"
                                 variant="outline"

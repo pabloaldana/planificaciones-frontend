@@ -22,7 +22,7 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
     }
 
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
 
             <div className={`w-full aspect-4/3 flex items-center justify-center ${subjectCfg.badge}`}>
                 {plan.imagenes?.[0]?.url ? (
@@ -45,11 +45,11 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
                 </div>
 
                 <div className="flex-1">
-                    <h3 className="font-bold text-[#1A6B4A] text-sm leading-snug">{plan.title}</h3>
+                    <h3 className="font-bold text-[#1A6B4A] dark:text-emerald-400 text-sm leading-snug">{plan.title}</h3>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-slate-100 gap-2">
-                    <span className="text-lg font-bold text-[#1A6B4A]">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-gray-700 gap-2">
+                    <span className="text-lg font-bold text-[#1A6B4A] dark:text-emerald-400">
                         ${plan.price.toLocaleString("es-AR")}
                     </span>
                     <div className="flex items-center gap-1.5">
@@ -61,7 +61,7 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
                                 "p-2 rounded-xl border transition-colors",
                                 inCart
                                     ? "border-emerald-200 text-emerald-600 bg-emerald-50 hover:bg-emerald-100"
-                                    : "border-slate-200 text-slate-500 hover:border-[#1A6B4A] hover:text-[#1A6B4A] hover:bg-[#1A6B4A]/5",
+                                    : "border-slate-200 dark:border-gray-600 text-slate-500 dark:text-slate-400 hover:border-[#1A6B4A] dark:hover:border-emerald-400 hover:text-[#1A6B4A] dark:hover:text-emerald-400 hover:bg-[#1A6B4A]/5",
                             ].join(" ")}
                         >
                             {inCart ? <Check size={14} weight="bold" /> : <ShoppingCart size={14} />}

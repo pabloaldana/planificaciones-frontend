@@ -46,35 +46,35 @@ export const SuperAdminHome = () => {
             {/* Stat cards */}
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 {statCards.map((card) => (
-                    <div key={card.label} className="bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col gap-3">
+                    <div key={card.label} className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-3">
                         <div className="flex items-start justify-between">
                             <p className="text-slate-500 text-sm">{card.label}</p>
                             <div className={`w-9 h-9 rounded-full ${card.iconBg} flex items-center justify-center shrink-0`}>
                                 {card.icon}
                             </div>
                         </div>
-                        <p className="text-[2rem] font-bold text-[#1A6B4A] leading-none truncate">{card.value}</p>
+                        <p className="text-[2rem] font-bold text-[#1A6B4A] dark:text-emerald-400 leading-none truncate">{card.value}</p>
                     </div>
                 ))}
             </section>
 
             {/* Usuarios recientes */}
-            <section className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                <h2 className="text-base font-semibold text-[#1A6B4A] mb-4">Usuarios recientes</h2>
+            <section className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
+                <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400 mb-4">Usuarios recientes</h2>
                 {recentUsers.length === 0 ? (
                     <p className="text-slate-400 text-sm">Todavía no hay usuarios registrados.</p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="border-b border-slate-100">
+                                <tr className="border-b border-slate-100 dark:border-gray-700">
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider pb-3">Usuario</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider pb-3">Email</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider pb-3">Rol</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider pb-3">Estado</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-50">
+                            <tbody className="divide-y divide-slate-50 dark:divide-gray-700">
                                 {recentUsers.map((u) => {
                                     const rol = u.roles?.[0] ?? ""
                                     return (
@@ -84,7 +84,7 @@ export const SuperAdminHome = () => {
                                                     <div className="w-8 h-8 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white text-xs font-bold shrink-0">
                                                         {u.name.charAt(0)}
                                                     </div>
-                                                    <span className="font-medium text-slate-700">{u.name} {u.lastname}</span>
+                                                    <span className="font-medium text-slate-700 dark:text-slate-200">{u.name} {u.lastname}</span>
                                                 </div>
                                             </td>
                                             <td className="py-3 text-slate-500">{u.email}</td>

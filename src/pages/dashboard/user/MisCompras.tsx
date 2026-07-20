@@ -30,7 +30,7 @@ export const MisCompras = () => {
 
     if (isLoading) {
         return (
-            <section className="bg-white rounded-xl shadow-sm border border-slate-100 divide-y divide-slate-100">
+            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700 divide-y divide-slate-100 dark:divide-gray-700">
                 {[...Array(3)].map((_, i) => (
                     <div key={i} className="flex items-center gap-4 px-6 py-4 animate-pulse">
                         <div className="flex-1 space-y-2">
@@ -46,7 +46,7 @@ export const MisCompras = () => {
 
     if (compras.length === 0) {
         return (
-            <section className="bg-white rounded-xl shadow-sm border border-slate-100 p-12 text-center flex flex-col items-center gap-4">
+            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700 p-12 text-center flex flex-col items-center gap-4">
                 <p className="text-slate-400 text-sm">Todavía no compraste ninguna planificación.</p>
                 <Link
                     to="/catalogo"
@@ -60,19 +60,19 @@ export const MisCompras = () => {
     }
 
     return (
-        <section className="bg-white rounded-xl shadow-sm border border-slate-100">
+        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
 
             {/* Header */}
-            <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-slate-100">
+            <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-slate-100 dark:border-gray-700">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A6B4A]">Mis compras</h2>
+                    <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Mis compras</h2>
                     <p className="text-slate-500 text-sm mt-0.5">
                         {compras.length} {compras.length === 1 ? "planificación comprada" : "planificaciones compradas"}
                     </p>
                 </div>
                 <Link
                     to="/catalogo"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[#1A6B4A] text-[#1A6B4A] text-sm font-semibold hover:bg-[#1A6B4A]/5 transition-colors shrink-0"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[#1A6B4A] dark:border-emerald-400 text-[#1A6B4A] dark:text-emerald-400 text-sm font-semibold hover:bg-[#1A6B4A]/5 dark:hover:bg-emerald-400/5 transition-colors shrink-0"
                 >
                     <ShoppingBag size={16} weight="duotone" />
                     Seguir comprando
@@ -80,7 +80,7 @@ export const MisCompras = () => {
             </div>
 
             {/* Lista */}
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-slate-100 dark:divide-gray-700">
                 {rows.map((compra) => {
                     const { planificacion } = compra
                     const subject = getSubjectConfig(planificacion.materia.name)
@@ -95,14 +95,14 @@ export const MisCompras = () => {
                                     </span>
                                     <span className="text-xs text-slate-400">{planificacion.grado.name}</span>
                                 </div>
-                                <p className="text-sm font-semibold text-slate-700 truncate">{planificacion.title}</p>
+                                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">{planificacion.title}</p>
                                 <p className="text-xs text-slate-400 mt-1">
                                     Comprada el {new Date(compra.createdAt).toLocaleDateString("es-AR")}
                                 </p>
                             </div>
 
                             {/* Precio */}
-                            <span className="text-sm font-bold text-[#1A6B4A] shrink-0">
+                            <span className="text-sm font-bold text-[#1A6B4A] dark:text-emerald-400 shrink-0">
                                 ${Number(compra.priceAtPurchase).toLocaleString("es-AR")}
                             </span>
 

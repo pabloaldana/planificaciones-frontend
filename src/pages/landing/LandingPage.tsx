@@ -45,22 +45,22 @@ export const LandingPage = () => {
         .slice(0, 4)
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-gray-950">
             <PublicNavbar />
 
             {/* ===== HERO ===== */}
-            <section className="bg-gradient-to-b from-white to-slate-50 py-20 sm:py-28">
+            <section className="bg-gradient-to-b from-white to-slate-50 dark:from-gray-950 dark:to-gray-900 py-20 sm:py-28">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                     {/* Badge */}
-                    <span className="inline-block mb-6 px-3 py-1 rounded-full bg-[#D1F2EB] text-[#1A6B4A] text-xs font-semibold tracking-wide">
+                    <span className="inline-block mb-6 px-3 py-1 rounded-full bg-[#D1F2EB] dark:bg-emerald-900/30 text-[#1A6B4A] dark:text-emerald-400 text-xs font-semibold tracking-wide">
                         📚 Planificaciones para docentes
                     </span>
 
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A6B4A] leading-tight mb-6">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A6B4A] dark:text-emerald-400 leading-tight mb-6">
                         Planificaciones educativas listas para usar en el aula
                     </h1>
 
-                    <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+                    <p className="text-slate-500 dark:text-slate-400 text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
                         Ahorrá tiempo con planificaciones de calidad, organizadas por materia y grado. Creadas por docente, para docentes.
                     </p>
 
@@ -77,16 +77,16 @@ export const LandingPage = () => {
             </section>
 
             {/* ===== CATEGORÍAS ===== */}
-            <section className="bg-[#F2F2F2] py-16 sm:py-20">
+            <section className="bg-[#F2F2F2] dark:bg-gray-900 py-16 sm:py-20">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] text-center mb-12">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400 text-center mb-12">
                         Explorá por materia
                     </h2>
 
                     {materiasLoading ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
                             {[...Array(5)].map((_, i) => (
-                                <div key={i} className="bg-white rounded-2xl p-6 h-36 animate-pulse border border-slate-100" />
+                                <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl p-6 h-36 animate-pulse border border-slate-100 dark:border-gray-700" />
                             ))}
                         </div>
                     ) : (
@@ -98,14 +98,14 @@ export const LandingPage = () => {
                                     <NavLink
                                         key={materia.id}
                                         to={`/catalogo?materia=${materia.id}`}
-                                        className="bg-white rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100"
+                                        className="bg-white dark:bg-gray-800 rounded-2xl p-6 flex flex-col items-center gap-4 shadow-sm hover:shadow-md transition-shadow border border-slate-100 dark:border-gray-700"
                                     >
                                         <div className={`w-14 h-14 rounded-full ${style.bg} flex items-center justify-center`}>
                                             <MateriaIcon size={28} weight="duotone" className={style.color} />
                                         </div>
                                         <div className="text-center">
-                                            <p className="font-semibold text-[#1A6B4A] text-sm capitalize">{materia.name}</p>
-                                            <p className="text-xs text-slate-400 mt-1">
+                                            <p className="font-semibold text-[#1A6B4A] dark:text-emerald-400 text-sm capitalize">{materia.name}</p>
+                                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
                                                 {materia.planificacionesCount} {materia.planificacionesCount === 1 ? "planificación" : "planificaciones"}
                                             </p>
                                         </div>
@@ -118,43 +118,43 @@ export const LandingPage = () => {
             </section>
 
             {/* ===== PLANIFICACIONES DESTACADAS ===== */}
-            <section className="bg-white py-16 sm:py-20">
+            <section className="bg-white dark:bg-gray-950 py-16 sm:py-20">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
                     <div className="text-center mb-12">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] mb-3">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400 mb-3">
                             Planificaciones más vendidas
                         </h2>
-                        <p className="text-slate-400 text-sm">Las más elegidas por docentes de todo el país</p>
+                        <p className="text-slate-400 dark:text-slate-500 text-sm">Las más elegidas por docentes de todo el país</p>
                     </div>
 
                     {masVendidasLoading ? (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[...Array(3)].map((_, i) => (
-                                <div key={i} className="rounded-2xl border border-slate-100 p-6 h-48 animate-pulse bg-slate-50" />
+                                <div key={i} className="rounded-2xl border border-slate-100 dark:border-gray-700 p-6 h-48 animate-pulse bg-slate-50 dark:bg-gray-800" />
                             ))}
                         </div>
                     ) : masVendidas.length === 0 ? (
-                        <p className="text-center text-slate-400 text-sm">Todavía no hay ventas registradas.</p>
+                        <p className="text-center text-slate-400 dark:text-slate-500 text-sm">Todavía no hay ventas registradas.</p>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {masVendidas.map((plan) => {
                                 const style = subjectStyles[plan.materia.toLowerCase()] ?? defaultStyle
                                 return (
-                                    <div key={plan.id} className="rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col gap-4">
+                                    <div key={plan.id} className="rounded-2xl border border-slate-100 dark:border-gray-700 dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col gap-4">
                                         <div className="flex items-start justify-between">
                                             <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${style.bg} ${style.color}`}>
                                                 {plan.materia}
                                             </span>
-                                            <span className="text-xs text-slate-400">{plan.grado}</span>
+                                            <span className="text-xs text-slate-400 dark:text-slate-500">{plan.grado}</span>
                                         </div>
                                         <div>
-                                            <h3 className="font-bold text-[#1A6B4A] text-base capitalize">{plan.title}</h3>
+                                            <h3 className="font-bold text-[#1A6B4A] dark:text-emerald-400 text-base capitalize">{plan.title}</h3>
                                         </div>
                                         <div className="flex items-center gap-1 text-xs">
-                                            <span className="text-slate-400">{plan.ventas} {plan.ventas === 1 ? "venta" : "ventas"}</span>
+                                            <span className="text-slate-400 dark:text-slate-500">{plan.ventas} {plan.ventas === 1 ? "venta" : "ventas"}</span>
                                         </div>
-                                        <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
-                                            <span className="text-xl font-bold text-[#1A6B4A]">${plan.price.toLocaleString("es-AR")}</span>
+                                        <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100 dark:border-gray-700">
+                                            <span className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">${plan.price.toLocaleString("es-AR")}</span>
                                             <Link
                                                 to={`/catalogo/${plan.id}`}
                                                 className="text-xs px-4 py-2 rounded-xl bg-[#1A6B4A] text-white hover:bg-[#134F37] transition-colors"
@@ -171,9 +171,9 @@ export const LandingPage = () => {
             </section>
 
             {/* ===== CÓMO FUNCIONA ===== */}
-            <section className="bg-[#F2F2F2] py-16 sm:py-20">
+            <section className="bg-[#F2F2F2] dark:bg-gray-900 py-16 sm:py-20">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] text-center mb-12">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400 text-center mb-12">
                         ¿Cómo funciona?
                     </h2>
 
@@ -184,12 +184,12 @@ export const LandingPage = () => {
                                 <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center">
                                     <MagnifyingGlass size={28} weight="duotone" className="text-white" />
                                 </div>
-                                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white border-2 border-[#1A6B4A] text-[#1A6B4A] text-xs font-bold flex items-center justify-center">
+                                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white dark:bg-gray-900 border-2 border-[#1A6B4A] dark:border-emerald-400 text-[#1A6B4A] dark:text-emerald-400 text-xs font-bold flex items-center justify-center">
                                     1
                                 </span>
                             </div>
-                            <h3 className="font-bold text-[#1A6B4A] text-base">Elegís</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">
+                            <h3 className="font-bold text-[#1A6B4A] dark:text-emerald-400 text-base">Elegís</h3>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
                                 Explorá el catálogo y filtrá por materia, grado o palabras clave
                             </p>
                         </div>
@@ -200,12 +200,12 @@ export const LandingPage = () => {
                                 <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center">
                                     <CreditCard size={28} weight="duotone" className="text-white" />
                                 </div>
-                                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white border-2 border-[#1A6B4A] text-[#1A6B4A] text-xs font-bold flex items-center justify-center">
+                                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white dark:bg-gray-900 border-2 border-[#1A6B4A] dark:border-emerald-400 text-[#1A6B4A] dark:text-emerald-400 text-xs font-bold flex items-center justify-center">
                                     2
                                 </span>
                             </div>
-                            <h3 className="font-bold text-[#1A6B4A] text-base">Comprás</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">
+                            <h3 className="font-bold text-[#1A6B4A] dark:text-emerald-400 text-base">Comprás</h3>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
                                 Pagá de forma segura y recibís acceso inmediato al material
                             </p>
                         </div>
@@ -216,12 +216,12 @@ export const LandingPage = () => {
                                 <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center">
                                     <CheckCircle size={28} weight="duotone" className="text-white" />
                                 </div>
-                                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white border-2 border-[#1A6B4A] text-[#1A6B4A] text-xs font-bold flex items-center justify-center">
+                                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white dark:bg-gray-900 border-2 border-[#1A6B4A] dark:border-emerald-400 text-[#1A6B4A] dark:text-emerald-400 text-xs font-bold flex items-center justify-center">
                                     3
                                 </span>
                             </div>
-                            <h3 className="font-bold text-[#1A6B4A] text-base">Usás en clase</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">
+                            <h3 className="font-bold text-[#1A6B4A] dark:text-emerald-400 text-base">Usás en clase</h3>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
                                 Descargá la planificación y llevala lista al aula
                             </p>
                         </div>
