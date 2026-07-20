@@ -1,7 +1,7 @@
 import { GraduationCap } from "@phosphor-icons/react"
 import { Link } from "react-router-dom"
-import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
-import { MdEmail, MdPhone } from "react-icons/md"
+import { FaInstagram } from "react-icons/fa"
+import { MdEmail } from "react-icons/md"
 
 export const Footer = () => {
     return (
@@ -27,21 +27,19 @@ export const Footer = () => {
                 </div>
 
                 {/* Redes + Contacto */}
-                <div className="flex flex-col items-center md:items-end gap-4">
-                    <div className="flex gap-4 text-2xl text-slate-600">
-                        <FaInstagram className="cursor-pointer transition hover:scale-110 hover:text-[#1A6B4A]" />
-                        <FaWhatsapp className="cursor-pointer transition hover:scale-110 hover:text-[#1A7A4A]" />
-                        <FaFacebook className="cursor-pointer transition hover:scale-110 hover:text-[#1A6B8A]" />
-                    </div>
-                    <div className="space-y-1 text-sm text-slate-600">
-                        <div className="flex items-center gap-2">
-                            <MdEmail className="text-[#1A6B4A]" />
-                            <span>contacto@aula.com</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <MdPhone className="text-[#1A7A4A]" />
-                            <span>+123 456 7890</span>
-                        </div>
+                <div className="flex flex-col items-center md:items-end gap-3">
+                    <a
+                        href="https://www.instagram.com/docenteconectada?utm_source=qr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-slate-600 hover:text-[#1A6B4A] transition-colors"
+                    >
+                        <FaInstagram size={20} />
+                        <span className="text-sm">@docenteconectada</span>
+                    </a>
+                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                        <MdEmail className="text-[#1A6B4A]" size={18} />
+                        <span>contacto@aula.com</span>
                     </div>
                 </div>
 
