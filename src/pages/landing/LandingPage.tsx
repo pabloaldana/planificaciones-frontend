@@ -229,24 +229,6 @@ export const LandingPage = () => {
                 </div>
             </section>
 
-            {/* ===== CTA FINAL ===== */}
-            <section className="bg-[#1A6B4A] py-16 sm:py-20">
-                <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                        ¿Sos docente y querés ahorrar tiempo?
-                    </h2>
-                    <p className="text-slate-400 text-sm sm:text-base mb-8">
-                        Encontrá la planificación perfecta para tu clase hoy.
-                    </p>
-                    <a
-                        href="#"
-                        className="inline-block px-8 py-3 rounded-xl bg-white text-[#1A6B4A] font-semibold text-sm hover:bg-slate-100 transition-colors"
-                    >
-                        Ver todas las planificaciones
-                    </a>
-                </div>
-            </section>
-
             <Footer />
         </div>
     )
