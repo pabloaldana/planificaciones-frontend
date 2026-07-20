@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { FaInstagram } from "react-icons/fa"
 import { MdEmail } from "react-icons/md"
 
+
 export const Footer = () => {
     return (
         <footer className="bg-[#D7F0FA] border-t border-[#A8D8EE]">
@@ -37,10 +38,13 @@ export const Footer = () => {
                         <FaInstagram size={20} />
                         <span className="text-sm">@docenteconectada</span>
                     </a>
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <MdEmail className="text-[#1A6B4A]" size={18} />
-                        <span>contacto@aula.com</span>
-                    </div>
+                    <Link
+                        to="/contacto"
+                        className="flex items-center gap-2 text-slate-600 hover:text-[#1A6B4A] transition-colors"
+                    >
+                        <MdEmail size={18} className="text-[#1A6B4A]" />
+                        <span className="text-sm">Contacto</span>
+                    </Link>
                 </div>
 
             </div>
