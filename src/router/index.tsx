@@ -4,6 +4,7 @@ import { CartProvider } from "@/context/CartContext"
 import { ProtectedRoute } from "@/router/ProtectedRoute"
 
 import { LandingPage } from "../pages/landing/LandingPage"
+import { ContactPage } from "@/pages/contact/ContactPage"
 import { LoginPage } from "@/pages/auth/LoginPage"
 import { RegisterPage } from "@/pages/auth/RegisterPage"
 import { CatalogPage } from "@/pages/catalog/CatalogPage"
@@ -44,6 +45,7 @@ export const AppRouter = () => {
                         <Route path="/registro" element={<RegisterPage />} />
                         <Route path="/catalogo" element={<CatalogPage />} />
                         <Route path="/catalogo/:id" element={<PlanDetailPage />} />
+                        <Route path="/contacto" element={<ContactPage />} />
 
                         {/* ── Checkout — requiere estar logueado, cualquier rol ── */}
                         <Route element={<ProtectedRoute allowedRoles={["user", "admin", "super-admin"]} />}>
