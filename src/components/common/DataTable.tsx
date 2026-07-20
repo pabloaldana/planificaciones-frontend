@@ -16,9 +16,10 @@ export type Column<T> = {
 interface Props<T> {
     columns: Column<T>[];
     data: T[];
+    rowClassName?: (row: T) => string;
 }
 
-export function DataTable<T>({ columns, data }: Props<T>) {
+export function DataTable<T>({ columns, data, rowClassName }: Props<T>) {
     return (
         <div className="overflow-x-auto">
             <Table>
@@ -33,7 +34,7 @@ export function DataTable<T>({ columns, data }: Props<T>) {
                 <TableBody>
                     {data.length > 0 ? (
                         data.map((row, rowIndex) => (
-                            <TableRow key={rowIndex}>
+                            <TableRow key={rowIndex} className={rowClassName?.(row)}>
                                 {columns.map((col, colIndex) => (
                                     <TableCell key={colIndex}>
                                         {col.render
