@@ -66,14 +66,11 @@ export const ContactPage = () => {
         <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col">
             <PublicNavbar />
 
-            <main className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 dark:from-gray-950 dark:to-gray-900">
-                <div className="w-full max-w-lg">
+            <main className="flex-1 flex items-center justify-center py-16 px-5 sm:px-6 bg-gradient-to-b from-white to-slate-50 dark:from-gray-950 dark:to-gray-900">
+                <div className="w-full max-w-4xl">
 
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <span className="inline-block mb-4 px-3 py-1 rounded-full bg-[#D1F2EB] dark:bg-emerald-900/30 text-[#1A6B4A] dark:text-emerald-400 text-xs font-semibold tracking-wide">
-                            Contacto
-                        </span>
                         <h1 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400 mb-2">
                             ¿Tenés alguna consulta?
                         </h1>
