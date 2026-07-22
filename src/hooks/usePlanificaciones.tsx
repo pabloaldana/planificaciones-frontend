@@ -4,6 +4,8 @@ import {
     getPlanificacionById,
     createPlanificacion,
     updatePlanificacion,
+    deletePlanificacion,
+    reactivatePlanificacion,
     getDownloadUrl,
     deletePlanificacionImagen,
     type CreatePlanificacionPayload,
@@ -63,6 +65,26 @@ export const useUpdatePlanificacion = () => {
 export const useDownloadPlanificacion = () => {
     return useMutation({
         mutationFn: getDownloadUrl,
+    })
+}
+
+export const useReactivatePlanificacion = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: number) => reactivatePlanificacion(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["planificaciones-admin"] })
+        },
+    })
+}
+
+export const useDeletePlanificacion = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: number) => deletePlanificacion(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["planificaciones-admin"] })
+        },
     })
 }
 

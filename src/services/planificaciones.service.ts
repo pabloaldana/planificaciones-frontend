@@ -120,6 +120,21 @@ export const createPlanificacion = async (payload: CreatePlanificacionPayload): 
     return data
 }
 
+export type DeletePlanificacionResult = {
+    message: string
+    is_active?: boolean
+}
+
+export const deletePlanificacion = async (id: number): Promise<DeletePlanificacionResult> => {
+    const { data } = await api.delete<DeletePlanificacionResult>(`/planificaciones/${id}`)
+    return data
+}
+
+export const reactivatePlanificacion = async (id: number): Promise<{ message: string; is_active: boolean }> => {
+    const { data } = await api.patch(`/planificaciones/${id}/reactivar`)
+    return data
+}
+
 export const updatePlanificacion = async (id: number, payload: UpdatePlanificacionPayload): Promise<Planificacion> => {
     const formData = new FormData()
     if (payload.title !== undefined) formData.append("title", payload.title)

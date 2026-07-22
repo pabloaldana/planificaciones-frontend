@@ -18,7 +18,7 @@ const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: str
 
     if (images.length === 0) {
         return (
-            <div className={`rounded-2xl border border-slate-200 shadow-sm aspect-square lg:aspect-4/3 flex items-center justify-center ${badgeClass}`}>
+            <div className={`rounded-2xl border border-border shadow-sm aspect-square lg:aspect-4/3 flex items-center justify-center ${badgeClass}`}>
                 <FileText size={64} weight="duotone" className="opacity-40" />
             </div>
         )
@@ -32,7 +32,7 @@ const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: str
             <button
                 type="button"
                 onClick={() => setLightboxOpen(true)}
-                className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm aspect-square lg:aspect-4/3 cursor-zoom-in"
+                className="overflow-hidden rounded-2xl border border-border bg-muted shadow-sm aspect-square lg:aspect-4/3 cursor-zoom-in"
             >
                 <img src={images[active]} alt="" className="w-full h-full object-cover" />
             </button>
@@ -44,7 +44,7 @@ const PlanGallery = ({ images, badgeClass }: { images: string[]; badgeClass: str
                             key={img}
                             type="button"
                             onClick={() => setActive(i)}
-                            className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${i === active ? "border-[#1A6B4A]" : "border-transparent"}`}
+                            className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${i === active ? "border-primary" : "border-transparent"}`}
                         >
                             <img src={img} alt="" className="w-full h-full object-cover" />
                         </button>
@@ -117,16 +117,16 @@ export const PlanDetailPage = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#F2F2F2]">
+            <div className="min-h-screen bg-background">
                 <PublicNavbar />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 animate-pulse">
-                        <div className="h-[600px] bg-white rounded-2xl" />
-                        <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
-                            <div className="h-5 bg-slate-100 rounded-full w-24" />
-                            <div className="h-8 bg-slate-100 rounded w-3/4" />
-                            <div className="h-4 bg-slate-100 rounded w-full" />
-                            <div className="h-10 bg-slate-100 rounded-xl mt-4" />
+                        <div className="h-[600px] bg-card rounded-2xl" />
+                        <div className="bg-card rounded-2xl p-6 flex flex-col gap-4">
+                            <div className="h-5 bg-muted rounded-full w-24" />
+                            <div className="h-8 bg-muted rounded w-3/4" />
+                            <div className="h-4 bg-muted rounded w-full" />
+                            <div className="h-10 bg-muted rounded-xl mt-4" />
                         </div>
                     </div>
                 </div>
@@ -136,11 +136,11 @@ export const PlanDetailPage = () => {
 
     if (!plan) {
         return (
-            <div className="min-h-screen bg-[#F2F2F2]">
+            <div className="min-h-screen bg-background">
                 <PublicNavbar />
-                <div className="max-w-6xl mx-auto px-4 py-20 text-center text-slate-500">
+                <div className="max-w-6xl mx-auto px-4 py-20 text-center text-muted-foreground">
                     Planificación no encontrada.{" "}
-                    <NavLink to="/catalogo" className="text-[#1A6B4A] hover:underline">
+                    <NavLink to="/catalogo" className="text-primary hover:underline">
                         Volver al catálogo
                     </NavLink>
                 </div>
@@ -158,7 +158,7 @@ export const PlanDetailPage = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F2F2F2]">
+        <div className="min-h-screen flex flex-col bg-background">
             <PublicNavbar />
 
             <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6">
@@ -166,7 +166,7 @@ export const PlanDetailPage = () => {
                 {/* Breadcrumb */}
                 <NavLink
                     to="/catalogo"
-                    className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors mb-6"
+                    className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors mb-6"
                 >
                     ← Volver al catálogo
                 </NavLink>
@@ -181,40 +181,40 @@ export const PlanDetailPage = () => {
                     />
 
                     {/* ── Info del producto ─────────────────────── */}
-                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col gap-5 lg:sticky lg:top-24">
+                    <div className="bg-card rounded-2xl border border-border shadow-sm p-6 flex flex-col gap-5 lg:sticky lg:top-24">
 
                         {/* Badge + grado */}
                         <div className="flex items-center justify-between">
                             <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${subjectCfg.badge}`}>
                                 {subjectCfg.label}
                             </span>
-                            <span className="text-xs text-slate-400 font-medium">
+                            <span className="text-xs text-muted-foreground font-medium">
                                 {plan.grado.name}
                             </span>
                         </div>
 
                         {/* Título */}
-                        <h1 className="text-2xl font-bold text-[#1A6B4A] leading-snug">
+                        <h1 className="text-2xl font-bold text-primary leading-snug">
                             {plan.title}
                         </h1>
 
                         {/* Descripción */}
                         {plan.description && (
-                            <p className="text-sm text-slate-500 leading-relaxed">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
                                 {plan.description}
                             </p>
                         )}
 
-                        <div className="border-t border-slate-100" />
+                        <div className="border-t border-border" />
 
                         {/* Precio */}
                         <div className="flex flex-col gap-1">
-                            <span className="text-3xl font-bold text-[#1A6B4A]">
+                            <span className="text-3xl font-bold text-primary">
                                 ${plan.price.toLocaleString("es-AR")}
                             </span>
-                            <span className="text-sm text-slate-500">
+                            <span className="text-sm text-muted-foreground">
                                 3 cuotas sin interés de{" "}
-                                <span className="font-semibold text-slate-700">
+                                <span className="font-semibold text-foreground">
                                     ${cuotas.toLocaleString("es-AR")}
                                 </span>
                             </span>
@@ -222,29 +222,29 @@ export const PlanDetailPage = () => {
 
                         {/* Métodos de pago */}
                         <div className="flex flex-col gap-2">
-                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                                 Métodos de pago
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1.5 rounded-lg bg-[#009EE3]/10 text-[#009EE3] text-xs font-semibold border border-[#009EE3]/20">
                                     MercadoPago
                                 </span>
-                                <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold border border-slate-200">
+                                <span className="px-3 py-1.5 rounded-lg bg-muted text-muted-foreground text-xs font-semibold border border-border">
                                     Transferencia
                                 </span>
-                                <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold border border-slate-200">
+                                <span className="px-3 py-1.5 rounded-lg bg-muted text-muted-foreground text-xs font-semibold border border-border">
                                     Tarjeta de crédito
                                 </span>
                             </div>
                         </div>
 
-                        <div className="border-t border-slate-100" />
+                        <div className="border-t border-border" />
 
                         {/* Botones */}
                         <div className="flex flex-col gap-3">
                             <button
                                 onClick={handleAddToCart}
-                                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
+                                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-colors"
                             >
                                 Comprar ahora
                             </button>
@@ -253,8 +253,8 @@ export const PlanDetailPage = () => {
                                 className={[
                                     "w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl border text-sm font-semibold transition-colors",
                                     inCart
-                                        ? "border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
-                                        : "border-[#1A6B4A] text-[#1A6B4A] hover:bg-[#1A6B4A]/5",
+                                        ? "border-primary/40 text-primary bg-primary/10 hover:bg-primary/15"
+                                        : "border-primary text-primary hover:bg-primary/5",
                                 ].join(" ")}
                             >
                                 {inCart ? (
@@ -266,7 +266,7 @@ export const PlanDetailPage = () => {
                         </div>
 
                         {/* Garantía */}
-                        <p className="text-xs text-slate-400 text-center">
+                        <p className="text-xs text-muted-foreground text-center">
                             Acceso inmediato al material tras la compra
                         </p>
                     </div>
@@ -277,10 +277,10 @@ export const PlanDetailPage = () => {
             {/* Detalle del contenido */}
             {plan.content && (
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-10">
-                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-                        <h2 className="text-lg font-bold text-[#1A6B4A] mb-4">¿Qué incluye esta planificación?</h2>
+                    <div className="bg-card rounded-2xl border border-border shadow-sm p-6 sm:p-8">
+                        <h2 className="text-lg font-bold text-primary mb-4">¿Qué incluye esta planificación?</h2>
                         <div
-                            className="rich-content text-slate-700"
+                            className="rich-content text-foreground"
                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(plan.content) }}
                         />
                     </div>

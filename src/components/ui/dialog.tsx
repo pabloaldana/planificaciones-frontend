@@ -38,13 +38,13 @@ function DialogContent({ className, children, ...props }: React.ComponentProps<t
                 data-slot="dialog-content"
                 className={cn(
                     "fixed top-1/2 left-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2",
-                    "rounded-2xl border border-slate-200 bg-white p-6 shadow-lg",
+                    "rounded-2xl border border-border bg-card p-6 shadow-lg",
                     className,
                 )}
                 {...props}
             >
                 {children}
-                <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
                     <X size={16} />
                     <span className="sr-only">Cerrar</span>
                 </DialogPrimitive.Close>
@@ -61,7 +61,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
     return (
         <DialogPrimitive.Title
             data-slot="dialog-title"
-            className={cn("text-lg font-bold text-[#1A6B4A]", className)}
+            className={cn("text-lg font-bold text-primary", className)}
             {...props}
         />
     )
@@ -71,7 +71,7 @@ function DialogDescription({ className, ...props }: React.ComponentProps<typeof 
     return (
         <DialogPrimitive.Description
             data-slot="dialog-description"
-            className={cn("text-sm text-slate-500", className)}
+            className={cn("text-sm text-muted-foreground", className)}
             {...props}
         />
     )

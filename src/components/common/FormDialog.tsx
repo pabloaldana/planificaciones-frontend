@@ -37,14 +37,14 @@ export const FormDialog = ({
             <DialogFooter>
                 <button
                     onClick={() => onOpenChange(false)}
-                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-colors"
+                    className="px-4 py-2 rounded-xl border border-border text-foreground text-sm font-semibold hover:bg-muted transition-colors"
                 >
                     Cancelar
                 </button>
                 <button
                     onClick={onSubmit}
                     disabled={isSubmitting || submitDisabled}
-                    className="px-4 py-2 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors disabled:opacity-40 disabled:pointer-events-none"
+                    className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-colors disabled:opacity-40 disabled:pointer-events-none"
                 >
                     {isSubmitting ? `${submitLabel}...` : submitLabel}
                 </button>

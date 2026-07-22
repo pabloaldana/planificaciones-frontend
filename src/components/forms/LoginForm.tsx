@@ -77,7 +77,7 @@ export const LoginForm = () => {
                             <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="bg-white border-slate-200"
+                                    className="bg-card border-border"
                                     placeholder="tucorreo@ejemplo.com"
                                     type="email"
                                     {...field}
@@ -97,14 +97,14 @@ export const LoginForm = () => {
                                 <FormLabel>Contraseña</FormLabel>
                                 <a
                                     href="#"
-                                    className="ml-auto text-sm hover:underline text-slate-500 hover:text-[#1A6B4A]"
+                                    className="ml-auto text-sm hover:underline text-muted-foreground hover:text-primary"
                                 >
                                     ¿Olvidaste tu contraseña?
                                 </a>
                             </div>
                             <FormControl>
                                 <Input
-                                    className="bg-white border-slate-200"
+                                    className="bg-card border-border"
                                     type="password"
                                     placeholder="Contraseña"
                                     {...field}
@@ -123,16 +123,16 @@ export const LoginForm = () => {
                 <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-[#1A6B4A] hover:bg-[#134F37] text-white"
+                    className="w-full bg-primary text-primary-foreground hover:opacity-90"
                 >
                     {isLoading ? "Ingresando..." : "Iniciar sesión"}
                 </Button>
 
                 {/* Divisor */}
                 <div className="flex items-center gap-3">
-                    <div className="h-px flex-1 bg-slate-200" />
-                    <span className="text-xs text-slate-400">o continuá con</span>
-                    <div className="h-px flex-1 bg-slate-200" />
+                    <div className="h-px flex-1 bg-border" />
+                    <span className="text-xs text-muted-foreground">o continuá con</span>
+                    <div className="h-px flex-1 bg-border" />
                 </div>
 
                 <div className="flex justify-center">
@@ -142,9 +142,9 @@ export const LoginForm = () => {
                     />
                 </div>
 
-                <p className="text-center text-sm text-slate-500">
+                <p className="text-center text-sm text-muted-foreground">
                     ¿No estás registrado?{" "}
-                    <NavLink to="/registro" className="text-[#1A6B4A] hover:underline font-medium">
+                    <NavLink to="/registro" className="text-primary hover:underline font-medium">
                         Registrarse
                     </NavLink>
                 </p>

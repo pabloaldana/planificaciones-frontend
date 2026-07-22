@@ -173,7 +173,7 @@ export const EditarPlanificacion = () => {
 
     if (!formReady) {
         return (
-            <div className="max-w-2xl mx-auto text-center text-slate-400 text-sm py-20">
+            <div className="max-w-2xl mx-auto text-center text-muted-foreground text-sm py-20">
                 Cargando planificación...
             </div>
         )
@@ -185,18 +185,18 @@ export const EditarPlanificacion = () => {
             {/* Breadcrumb */}
             <button
                 onClick={() => navigate("/dashboard/planificaciones")}
-                className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1A6B4A] transition-colors mb-6"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors mb-6"
             >
                 <ArrowLeft size={15} />
                 Volver a planificaciones
             </button>
 
-            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 sm:p-8">
+            <div className="bg-card rounded-xl shadow-sm border border-border p-6 sm:p-8">
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-[#1A6B4A]">Editar planificación</h1>
-                    <p className="text-slate-500 text-sm mt-1">
+                    <h1 className="text-2xl font-bold text-primary">Editar planificación</h1>
+                    <p className="text-muted-foreground text-sm mt-1">
                         Modificá los datos que quieras cambiar.
                     </p>
                 </div>
@@ -214,7 +214,7 @@ export const EditarPlanificacion = () => {
                                     <FormControl>
                                         <Input
                                             placeholder="Ej: Números naturales — 3° grado"
-                                            className="bg-slate-50 border-slate-200 focus:border-[#1A6B4A]"
+                                            className="bg-muted border-border focus:border-primary"
                                             {...field}
                                         />
                                     </FormControl>
@@ -234,7 +234,7 @@ export const EditarPlanificacion = () => {
                                         <textarea
                                             placeholder="Describí el contenido y los objetivos del material..."
                                             rows={4}
-                                            className="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[#1A6B4A] transition-colors resize-none"
+                                            className="w-full rounded-md border border-border bg-muted px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
                                             {...field}
                                         />
                                     </FormControl>
@@ -253,7 +253,7 @@ export const EditarPlanificacion = () => {
                                         <FormLabel>Materia</FormLabel>
                                         <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-50 border-slate-200">
+                                                <SelectTrigger className="bg-muted border-border">
                                                     <SelectValue placeholder="Seleccioná una materia" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -278,7 +278,7 @@ export const EditarPlanificacion = () => {
                                         <FormLabel>Grado</FormLabel>
                                         <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-50 border-slate-200">
+                                                <SelectTrigger className="bg-muted border-border">
                                                     <SelectValue placeholder="Seleccioná un grado" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -307,7 +307,7 @@ export const EditarPlanificacion = () => {
                                         <Input
                                             type="number"
                                             placeholder="Ej: 1500"
-                                            className="bg-slate-50 border-slate-200 focus:border-[#1A6B4A]"
+                                            className="bg-muted border-border focus:border-primary"
                                             {...field}
                                             value={(field.value as number | string | undefined) ?? ""}
                                         />
@@ -319,10 +319,10 @@ export const EditarPlanificacion = () => {
 
                         {/* Contenido enriquecido */}
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-sm font-medium text-slate-700">
-                                Detalle del contenido <span className="text-slate-400 font-normal">(opcional)</span>
+                            <label className="text-sm font-medium text-foreground">
+                                Detalle del contenido <span className="text-muted-foreground font-normal">(opcional)</span>
                             </label>
-                            <p className="text-xs text-slate-400">
+                            <p className="text-xs text-muted-foreground">
                                 Explicá qué incluye la planificación: objetivos, actividades, secciones, etc.
                             </p>
                             <RichTextEditor
@@ -343,7 +343,7 @@ export const EditarPlanificacion = () => {
                                     <button
                                         type="button"
                                         onClick={handleVerPdfActual}
-                                        className="inline-flex items-center gap-1.5 text-xs text-[#1A6B4A] hover:underline mb-2"
+                                        className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline mb-2"
                                     >
                                         <Eye size={13} />
                                         Ver el archivo actual
@@ -355,14 +355,14 @@ export const EditarPlanificacion = () => {
                                             className={[
                                                 "flex flex-col items-center justify-center w-full rounded-xl border-2 border-dashed cursor-pointer transition-colors p-8 gap-3",
                                                 fileName
-                                                    ? "border-[#1A6B4A]/40 bg-[#1A6B4A]/5"
-                                                    : "border-slate-200 bg-slate-50 hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5",
+                                                    ? "border-primary/40 bg-primary/5"
+                                                    : "border-border bg-muted hover:border-primary/40 hover:bg-primary/5",
                                             ].join(" ")}
                                         >
                                             {fileName ? (
                                                 <>
-                                                    <FilePdf size={36} weight="fill" className="text-[#1A6B4A]" />
-                                                    <div className="flex items-center gap-2 text-sm font-medium text-[#1A6B4A]">
+                                                    <FilePdf size={36} weight="fill" className="text-primary" />
+                                                    <div className="flex items-center gap-2 text-sm font-medium text-primary">
                                                         <span className="max-w-xs truncate">{fileName}</span>
                                                         <button
                                                             type="button"
@@ -371,7 +371,7 @@ export const EditarPlanificacion = () => {
                                                                 setFileName(null)
                                                                 onChange(undefined)
                                                             }}
-                                                            className="p-0.5 rounded hover:bg-[#1A6B4A]/10 transition-colors"
+                                                            className="p-0.5 rounded hover:bg-primary/10 transition-colors"
                                                             aria-label="Quitar archivo"
                                                         >
                                                             <X size={14} />
@@ -385,8 +385,8 @@ export const EditarPlanificacion = () => {
                                                 <>
                                                     <UploadSimple size={36} className="text-slate-300" />
                                                     <div className="text-center">
-                                                        <p className="text-sm font-medium text-slate-600">
-                                                            Arrastrá un archivo nuevo o <span className="text-[#1A6B4A]">buscá en tu equipo</span>
+                                                        <p className="text-sm font-medium text-foreground">
+                                                            Arrastrá un archivo nuevo o <span className="text-primary">buscá en tu equipo</span>
                                                         </p>
                                                         <p className="text-xs text-slate-400 mt-1">
                                                             Opcional · dejalo vacío para mantener el actual · Máximo 10MB
@@ -416,17 +416,17 @@ export const EditarPlanificacion = () => {
                         {/* Imágenes del catálogo */}
                         <div className="space-y-3">
                             <div>
-                                <p className="text-sm font-medium text-slate-700">
-                                    Imágenes del catálogo <span className="text-slate-400 font-normal">(opcional · hasta 3)</span>
+                                <p className="text-sm font-medium text-foreground">
+                                    Imágenes del catálogo <span className="text-muted-foreground font-normal">(opcional · hasta 3)</span>
                                 </p>
-                                <p className="text-xs text-slate-400 mt-0.5">
+                                <p className="text-xs text-muted-foreground mt-0.5">
                                     Se muestran en la card del catálogo y la página de detalle.
                                 </p>
                             </div>
 
                             <div className="flex flex-wrap gap-3">
                                 {existingImages.map((img) => (
-                                    <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                    <div key={img.id} className="relative w-24 h-24 rounded-lg overflow-hidden border border-border group">
                                         <img src={img.url} alt="" className="w-full h-full object-cover" />
                                         <button
                                             type="button"
@@ -441,7 +441,7 @@ export const EditarPlanificacion = () => {
                                 ))}
 
                                 {imageFiles.map((img, i) => (
-                                    <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-slate-200 group">
+                                    <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-border group">
                                         <img src={img.preview} alt="" className="w-full h-full object-cover" />
                                         <button
                                             type="button"
@@ -457,7 +457,7 @@ export const EditarPlanificacion = () => {
                                 {totalImageCount < 3 && (
                                     <label
                                         htmlFor="image-upload"
-                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#1A6B4A]/40 hover:bg-[#1A6B4A]/5 transition-colors"
+                                        className="w-24 h-24 rounded-lg border-2 border-dashed border-border bg-muted flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-colors"
                                     >
                                         <Image size={20} className="text-slate-300" />
                                         <span className="text-xs text-slate-400">Agregar</span>
@@ -477,19 +477,19 @@ export const EditarPlanificacion = () => {
                         </div>
 
                         {/* Acciones */}
-                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-slate-100">
+                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2 border-t border-border">
                             <Button
                                 type="button"
                                 variant="outline"
                                 onClick={() => navigate("/dashboard/planificaciones")}
-                                className="border-slate-200 text-slate-600 hover:bg-slate-50"
+                                className="border-border text-foreground hover:bg-muted"
                             >
                                 Cancelar
                             </Button>
                             <Button
                                 type="submit"
                                 disabled={isPending || isUploadingImages}
-                                className="bg-[#1A6B4A] hover:bg-[#134F37] text-white disabled:opacity-60"
+                                className="bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-60"
                             >
                                 {isPending || isUploadingImages ? "Guardando..." : "Guardar cambios"}
                             </Button>
