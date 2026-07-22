@@ -81,10 +81,10 @@ const SeccionPerfil = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
+        <div className="bg-card rounded-xl border border-border shadow-sm p-6">
             <div className="mb-6">
-                <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400">Perfil</h2>
-                <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">Tu información pública como creadora</p>
+                <h2 className="text-base font-semibold text-primary">Perfil</h2>
+                <p className="text-muted-foreground text-sm mt-0.5">Tu información pública como creadora</p>
             </div>
 
             {/* Avatar */}
@@ -120,7 +120,7 @@ const SeccionPerfil = () => {
                     />
                 </label>
                 <div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-muted-foreground">
                         {isUploading ? "Subiendo imagen..." : "Hacé click en la foto para cambiarla"}
                     </p>
                     {avatarError && <p className="text-xs text-red-500 mt-1">{avatarError}</p>}
@@ -129,55 +129,55 @@ const SeccionPerfil = () => {
 
             {/* Nombre */}
             <div className="mb-4">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                     Nombre
                 </label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 dark:focus:border-emerald-400 transition-colors"
+                    className="w-full border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                 />
             </div>
 
             {/* Apellido */}
             <div className="mb-4">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                     Apellido
                 </label>
                 <input
                     type="text"
                     value={lastname}
                     onChange={(e) => setLastname(e.target.value)}
-                    className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 dark:focus:border-emerald-400 transition-colors"
+                    className="w-full border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                 />
             </div>
 
             {/* Email */}
             <div className="mb-6">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                     Email
                 </label>
                 <input
                     type="email"
                     value={user?.email ?? ""}
                     disabled
-                    className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-400 bg-slate-50 dark:bg-gray-700/50 cursor-not-allowed opacity-70 focus:outline-none"
+                    className="w-full border border-border rounded-lg px-3 py-2 text-sm text-muted-foreground bg-muted cursor-not-allowed opacity-70 focus:outline-none"
                 />
-                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                <p className="text-muted-foreground text-sm mt-1">
                     El email no se puede cambiar desde aquí
                 </p>
             </div>
 
             {saveError && <p className="text-xs text-red-500 mb-3">{saveError}</p>}
-            {saveSuccess && <p className="text-xs text-[#1A6B4A] mb-3">Cambios guardados correctamente.</p>}
+            {saveSuccess && <p className="text-xs text-primary mb-3">Cambios guardados correctamente.</p>}
 
             {/* Guardar */}
             <div className="flex justify-end">
                 <button
                     onClick={handleSave}
                     disabled={isSaving || !name.trim() || !lastname.trim()}
-                    className="bg-[#8B3A52] text-white hover:bg-[#7a3347] rounded-lg px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-primary text-primary-foreground hover:opacity-90 rounded-lg px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isSaving ? "Guardando..." : "Guardar cambios"}
                 </button>
@@ -189,44 +189,44 @@ const SeccionPerfil = () => {
 // ─── Sección Cuenta ───────────────────────────────────────────────────────────
 
 const SeccionCuenta = () => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
+    <div className="bg-card rounded-xl border border-border shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400">Datos de la cuenta</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">Gestioná tu acceso a la plataforma</p>
+            <h2 className="text-base font-semibold text-primary">Datos de la cuenta</h2>
+            <p className="text-muted-foreground text-sm mt-0.5">Gestioná tu acceso a la plataforma</p>
         </div>
 
         <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
                 Contraseña actual
             </label>
             <input
                 type="password"
-                className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 dark:focus:border-emerald-400 transition-colors"
+                className="w-full border border-border bg-muted text-foreground rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors"
             />
         </div>
 
         <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
                 Nueva contraseña
             </label>
             <input
                 type="password"
-                className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 dark:focus:border-emerald-400 transition-colors"
+                className="w-full border border-border bg-muted text-foreground rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors"
             />
         </div>
 
         <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
                 Confirmar contraseña
             </label>
             <input
                 type="password"
-                className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-slate-400 dark:focus:border-emerald-400 transition-colors"
+                className="w-full border border-border bg-muted text-foreground rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary transition-colors"
             />
         </div>
 
         <div className="flex justify-end">
-            <button className="bg-[#1A6B4A] text-white hover:bg-[#134F37] rounded-lg px-4 py-2 text-sm transition-colors">
+            <button className="bg-primary text-primary-foreground hover:opacity-90 rounded-lg px-4 py-2 text-sm transition-colors">
                 Cambiar contraseña
             </button>
         </div>
@@ -237,20 +237,20 @@ const SeccionCuenta = () => (
 // ─── Sección Medios de cobro ──────────────────────────────────────────────────
 
 const SeccionCobro = () => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
+    <div className="bg-card rounded-xl border border-border shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400">Medios de cobro</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">Configurá cómo recibís tus pagos</p>
+            <h2 className="text-base font-semibold text-primary">Medios de cobro</h2>
+            <p className="text-muted-foreground text-sm mt-0.5">Configurá cómo recibís tus pagos</p>
         </div>
 
         <div className="flex flex-col items-center justify-center py-12 gap-3">
-            <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-gray-700 flex items-center justify-center">
-                <Wallet size={48} className="text-slate-400" />
+            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+                <Wallet size={48} className="text-muted-foreground" />
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">
+            <p className="text-muted-foreground text-sm">
                 Esta sección estará disponible próximamente
             </p>
-            <p className="text-slate-400 text-xs text-center max-w-xs">
+            <p className="text-muted-foreground text-xs text-center max-w-xs">
                 Podrás configurar tu CBU, Mercado Pago y otros medios de cobro
             </p>
         </div>
@@ -266,11 +266,11 @@ interface NotificationRowProps {
 }
 
 const NotificationRow = ({ icon, title, description }: NotificationRowProps) => (
-    <div className="flex items-center gap-4 py-4 border-b border-slate-100 dark:border-gray-700 last:border-0">
+    <div className="flex items-center gap-4 py-4 border-b border-border last:border-0">
         <div className="shrink-0">{icon}</div>
         <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">{title}</p>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">{description}</p>
+            <p className="text-sm font-medium text-foreground">{title}</p>
+            <p className="text-muted-foreground text-sm">{description}</p>
         </div>
         {/* Toggle visual deshabilitado */}
         <div className="w-10 h-6 rounded-full bg-slate-200 relative opacity-50 cursor-not-allowed shrink-0">
@@ -280,10 +280,10 @@ const NotificationRow = ({ icon, title, description }: NotificationRowProps) => 
 )
 
 const SeccionNotificaciones = () => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
+    <div className="bg-card rounded-xl border border-border shadow-sm p-6">
         <div className="mb-6">
-            <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400">Notificaciones</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">Controlá qué avisos recibís</p>
+            <h2 className="text-base font-semibold text-primary">Notificaciones</h2>
+            <p className="text-muted-foreground text-sm mt-0.5">Controlá qué avisos recibís</p>
         </div>
 
         <NotificationRow
@@ -314,7 +314,7 @@ const SeccionNotificaciones = () => (
             description="Recibí un resumen de tus ventas cada semana por email"
         />
 
-        <p className="text-slate-400 text-xs text-center mt-4">
+        <p className="text-muted-foreground text-xs text-center mt-4">
             Las notificaciones estarán disponibles cuando se conecte el backend
         </p>
     </div>
@@ -341,7 +341,7 @@ export const Configuracion = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 items-start">
             {/* Menú lateral */}
-            <div className="md:col-span-1 bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-3">
+            <div className="md:col-span-1 bg-card rounded-xl border border-border shadow-sm p-3">
                 <nav className="flex flex-col gap-1">
                     {menuItems.map(({ id, label, icon: Icon }) => (
                         <button
@@ -349,8 +349,8 @@ export const Configuracion = () => {
                             onClick={() => setActiveSection(id)}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left w-full ${
                                 activeSection === id
-                                    ? "bg-[#D1F2EB] dark:bg-emerald-900/30 text-[#1A6B4A] dark:text-emerald-400"
-                                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-gray-700"
+                                    ? "bg-primary/10 text-primary"
+                                    : "text-muted-foreground hover:bg-muted"
                             }`}
                         >
                             <Icon size={18} weight={activeSection === id ? "fill" : "regular"} />

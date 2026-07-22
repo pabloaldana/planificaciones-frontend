@@ -55,11 +55,11 @@ export const MiPerfil = () => {
     }
 
     return (
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
+        <section className="bg-card rounded-xl shadow-sm border border-border">
 
             {/* Header */}
-            <div className="px-6 py-5 border-b border-slate-100 dark:border-gray-700">
-                <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Mi perfil</h2>
+            <div className="px-6 py-5 border-b border-border">
+                <h2 className="text-xl font-bold text-primary">Mi perfil</h2>
                 <p className="text-slate-500 text-sm mt-0.5">Tus datos personales</p>
             </div>
 
@@ -78,7 +78,7 @@ export const MiPerfil = () => {
                                 className="w-16 h-16 rounded-full object-cover"
                             />
                         ) : (
-                            <div className="w-16 h-16 rounded-full bg-[#1A6B4A] flex items-center justify-center text-white font-bold text-2xl">
+                            <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-2xl">
                                 {user?.email?.charAt(0).toUpperCase()}
                             </div>
                         )}
@@ -95,8 +95,8 @@ export const MiPerfil = () => {
                         />
                     </label>
                     <div>
-                        <p className="font-semibold text-slate-700 dark:text-slate-200">{user?.email}</p>
-                        <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-[#D1F2EB] text-[#1A6B4A] text-xs font-semibold capitalize">
+                        <p className="font-semibold text-foreground">{user?.email}</p>
+                        <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold capitalize">
                             {user?.roles?.[0]}
                         </span>
                     </div>
@@ -105,7 +105,7 @@ export const MiPerfil = () => {
                 {isUploading && <p className="text-xs text-slate-400">Subiendo imagen...</p>}
                 {avatarError && <p className="text-xs text-red-500">{avatarError}</p>}
 
-                <div className="border-t border-slate-100 dark:border-gray-700" />
+                <div className="border-t border-border" />
 
                 {/* Campos de perfil */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -115,7 +115,7 @@ export const MiPerfil = () => {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-200 dark:bg-gray-700 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400 transition-colors"
+                            className="border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                         />
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -124,7 +124,7 @@ export const MiPerfil = () => {
                             type="text"
                             value={lastname}
                             onChange={(e) => setLastname(e.target.value)}
-                            className="border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-200 dark:bg-gray-700 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400 transition-colors"
+                            className="border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                         />
                     </div>
                     <Field label="Email" value={user?.email ?? "-"} />
@@ -132,13 +132,13 @@ export const MiPerfil = () => {
                 </div>
 
                 {saveError && <p className="text-xs text-red-500">{saveError}</p>}
-                {saveSuccess && <p className="text-xs text-[#1A6B4A]">Cambios guardados correctamente.</p>}
+                {saveSuccess && <p className="text-xs text-primary">Cambios guardados correctamente.</p>}
 
                 <div className="flex justify-end">
                     <button
                         onClick={handleSaveProfile}
                         disabled={isSaving || !name.trim() || !lastname.trim()}
-                        className="px-4 py-2 rounded-lg bg-[#8B3A52] text-white text-sm font-semibold hover:bg-[#7a3347] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isSaving ? "Guardando..." : "Guardar cambios"}
                     </button>
@@ -152,6 +152,6 @@ export const MiPerfil = () => {
 const Field = ({ label, value }: { label: string; value: string }) => (
     <div className="flex flex-col gap-1">
         <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{label}</span>
-        <span className="text-sm text-slate-700 dark:text-slate-200 font-medium">{value}</span>
+        <span className="text-sm text-foreground font-medium">{value}</span>
     </div>
 )

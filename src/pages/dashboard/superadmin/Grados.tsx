@@ -71,17 +71,17 @@ export const Grados = () => {
 
     return (
         <>
-            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
+            <section className="bg-card rounded-xl shadow-sm border border-border">
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-gray-700">
+                <div className="flex items-center justify-between px-6 py-5 border-b border-border">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Grados</h2>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">Agregá, editá o eliminá grados.</p>
+                        <h2 className="text-xl font-bold text-primary">Grados</h2>
+                        <p className="text-muted-foreground text-sm mt-0.5">Agregá, editá o eliminá grados.</p>
                     </div>
                     <button
                         onClick={() => setAdding(true)}
-                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
+                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-colors"
                     >
                         <Plus size={16} weight="bold" />
                         Nuevo grado
@@ -98,22 +98,22 @@ export const Grados = () => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-slate-100 dark:border-gray-700">
+                            <tr className="border-b border-border">
                                 <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">Nombre</th>
                                 <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">Número</th>
                                 <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider px-6 py-3">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-50 dark:divide-gray-700">
+                        <tbody className="divide-y divide-border">
                             {grados.map((g) => (
-                                <tr key={g.id} className="hover:bg-slate-50/50 dark:hover:bg-gray-700/50 transition-colors">
+                                <tr key={g.id} className="hover:bg-muted/50 transition-colors">
                                     <td className="px-6 py-4">
-                                        <span className="font-medium text-slate-700 dark:text-slate-200">{g.name}</span>
+                                        <span className="font-medium text-foreground">{g.name}</span>
                                     </td>
-                                    <td className="px-6 py-4 text-slate-500 dark:text-slate-400">{g.numero}</td>
+                                    <td className="px-6 py-4 text-muted-foreground">{g.numero}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-1">
-                                            <button onClick={() => startEdit(g)} className="p-1.5 rounded-md text-slate-400 hover:text-[#1A6B4A] hover:bg-[#D1F2EB] transition-colors">
+                                            <button onClick={() => startEdit(g)} className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
                                                 <PencilSimple size={16} />
                                             </button>
                                             <button
@@ -141,7 +141,7 @@ export const Grados = () => {
                     </table>
                 </div>
 
-                <div className="px-6 py-4 border-t border-slate-100 dark:border-gray-700">
+                <div className="px-6 py-4 border-t border-border">
                     <p className="text-slate-400 text-sm">{grados.length} grados</p>
                 </div>
 
@@ -167,7 +167,7 @@ export const Grados = () => {
                         value={newName}
                         onChange={(e) => setNewName(e.target.value)}
                         placeholder="Ej: primero"
-                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
+                        className="w-full border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary"
                     />
                 </div>
 
@@ -180,7 +180,7 @@ export const Grados = () => {
                         value={newNumero}
                         onChange={(e) => setNewNumero(e.target.value)}
                         placeholder="Ej: 1"
-                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
+                        className="w-full border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary"
                     />
                 </div>
             </FormDialog>
@@ -204,7 +204,7 @@ export const Grados = () => {
                         type="text"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
+                        className="w-full border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary"
                     />
                 </div>
 
@@ -216,7 +216,7 @@ export const Grados = () => {
                         max={7}
                         value={editNumero}
                         onChange={(e) => setEditNumero(e.target.value)}
-                        className="w-full border border-slate-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-slate-200 focus:outline-none focus:border-[#1A6B4A] dark:focus:border-emerald-400"
+                        className="w-full border border-border bg-muted rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary"
                     />
                 </div>
             </FormDialog>

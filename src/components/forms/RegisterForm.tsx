@@ -84,7 +84,7 @@ export const RegisterForm = () => {
                                 <FormLabel>Nombre</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className="bg-white border-slate-200"
+                                        className="bg-card border-border"
                                         placeholder="Juan"
                                         {...field}
                                     />
@@ -102,7 +102,7 @@ export const RegisterForm = () => {
                                 <FormLabel>Apellido</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className="bg-white border-slate-200"
+                                        className="bg-card border-border"
                                         placeholder="Pérez"
                                         {...field}
                                     />
@@ -122,7 +122,7 @@ export const RegisterForm = () => {
                             <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="bg-white border-slate-200"
+                                    className="bg-card border-border"
                                     type="email"
                                     placeholder="juan@ejemplo.com"
                                     {...field}
@@ -142,7 +142,7 @@ export const RegisterForm = () => {
                             <FormLabel>Contraseña</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="bg-white border-slate-200"
+                                    className="bg-card border-border"
                                     type="password"
                                     placeholder="Mínimo 8 caracteres"
                                     {...field}
@@ -162,7 +162,7 @@ export const RegisterForm = () => {
                             <FormLabel>Confirmar contraseña</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="bg-white border-slate-200"
+                                    className="bg-card border-border"
                                     type="password"
                                     placeholder="Repetí tu contraseña"
                                     {...field}
@@ -182,16 +182,16 @@ export const RegisterForm = () => {
                 <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-[#1A6B4A] hover:bg-[#134F37] text-white mt-2"
+                    className="w-full bg-primary text-primary-foreground hover:opacity-90 mt-2"
                 >
                     {isLoading ? "Creando cuenta..." : "Crear cuenta"}
                 </Button>
 
                 {/* Divisor */}
                 <div className="flex items-center gap-3">
-                    <div className="h-px flex-1 bg-slate-200" />
-                    <span className="text-xs text-slate-400">o continuá con</span>
-                    <div className="h-px flex-1 bg-slate-200" />
+                    <div className="h-px flex-1 bg-border" />
+                    <span className="text-xs text-muted-foreground">o continuá con</span>
+                    <div className="h-px flex-1 bg-border" />
                 </div>
 
                 <div className="flex justify-center">
@@ -202,11 +202,11 @@ export const RegisterForm = () => {
                 </div>
 
                 {/* Link al login */}
-                <p className="text-center text-sm text-slate-500">
+                <p className="text-center text-sm text-muted-foreground">
                     ¿Ya tenés una cuenta?{" "}
                     <NavLink
                         to="/login"
-                        className="text-[#1A6B4A] hover:underline font-medium"
+                        className="text-primary hover:underline font-medium"
                     >
                         Iniciá sesión
                     </NavLink>
