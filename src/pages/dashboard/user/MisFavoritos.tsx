@@ -10,7 +10,7 @@ export const MisFavoritos = () => {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(3)].map((_, i) => (
-                    <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 h-64 animate-pulse" />
+                    <div key={i} className="bg-card rounded-2xl border border-border h-64 animate-pulse" />
                 ))}
             </div>
         )
@@ -23,14 +23,14 @@ export const MisFavoritos = () => {
                     <Heart size={32} weight="duotone" className="text-red-300" />
                 </div>
                 <div>
-                    <p className="font-semibold text-slate-600 dark:text-slate-300">Todavía no tenés favoritos</p>
+                    <p className="font-semibold text-foreground">Todavía no tenés favoritos</p>
                     <p className="text-sm text-slate-400 mt-1">
                         Guardá planificaciones que te interesen para encontrarlas fácilmente después.
                     </p>
                 </div>
                 <Link
                     to="/catalogo"
-                    className="mt-2 px-4 py-2 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
+                    className="mt-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-colors"
                 >
                     Explorar catálogo
                 </Link>
@@ -41,8 +41,8 @@ export const MisFavoritos = () => {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h1 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Mis favoritos</h1>
-                <p className="text-slate-500 text-sm mt-0.5">{favoritos.length} {favoritos.length === 1 ? "planificación guardada" : "planificaciones guardadas"}</p>
+                <h1 className="text-xl font-bold text-primary">Mis favoritos</h1>
+                <p className="text-muted-foreground text-sm mt-0.5">{favoritos.length} {favoritos.length === 1 ? "planificación guardada" : "planificaciones guardadas"}</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

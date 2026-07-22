@@ -63,35 +63,35 @@ export const ContactPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-950 flex flex-col">
+        <div className="min-h-screen bg-background flex flex-col">
             <PublicNavbar />
 
-            <main className="flex-1 flex items-center justify-center py-16 px-5 sm:px-6 bg-gradient-to-b from-[#D1F2EB] to-[#F2F2F2] dark:from-gray-950 dark:to-gray-900">
+            <main className="flex-1 flex items-center justify-center py-16 px-5 sm:px-6 bg-gradient-to-b from-[#D1F2EB] to-[#F2F2F2]">
                 <div className="w-full max-w-4xl">
 
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <h1 className="text-2xl sm:text-3xl font-bold text-[#1A6B4A] dark:text-emerald-400 mb-2">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-2">
                             ¿Tenés alguna consulta?
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm">
+                        <p className="text-muted-foreground text-sm">
                             Completá el formulario y te respondemos a la brevedad.
                         </p>
                     </div>
 
                     {/* Card */}
-                    <div className="bg-[#FFF7C2]/70 dark:bg-gray-900 rounded-2xl border border-[#D1F2EB] dark:border-gray-700 shadow-sm p-8">
+                    <div className="bg-card rounded-2xl border border-border shadow-sm p-8">
 
                         {status === "success" ? (
                             <div className="flex flex-col items-center gap-4 py-8 text-center">
-                                <CheckCircle size={52} weight="duotone" className="text-[#1A6B4A]" />
-                                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-200">¡Mensaje enviado!</h2>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                                <CheckCircle size={52} weight="duotone" className="text-primary" />
+                                <h2 className="text-lg font-bold text-foreground">¡Mensaje enviado!</h2>
+                                <p className="text-muted-foreground text-sm">
                                     Gracias por escribirnos. Te respondemos en las próximas 24 horas.
                                 </p>
                                 <Button
                                     variant="outline"
-                                    className="mt-2 border-[#1A6B4A] text-[#1A6B4A] hover:bg-[#D1F2EB]"
+                                    className="mt-2 border-primary text-primary hover:opacity-90"
                                     onClick={() => setStatus("idle")}
                                 >
                                     Enviar otra consulta
@@ -110,7 +110,7 @@ export const ContactPage = () => {
                                                     <FormLabel>Nombre</FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200"
+                                                            className="bg-muted border-border"
                                                             placeholder="Tu nombre"
                                                             {...field}
                                                         />
@@ -128,7 +128,7 @@ export const ContactPage = () => {
                                                     <FormLabel>Email</FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200"
+                                                            className="bg-muted border-border"
                                                             placeholder="tucorreo@ejemplo.com"
                                                             type="email"
                                                             {...field}
@@ -148,7 +148,7 @@ export const ContactPage = () => {
                                                 <FormLabel>Asunto</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200"
+                                                        className="bg-muted border-border"
                                                         placeholder="¿Sobre qué querés consultar?"
                                                         {...field}
                                                     />
@@ -166,7 +166,7 @@ export const ContactPage = () => {
                                                 <FormLabel>Mensaje</FormLabel>
                                                 <FormControl>
                                                     <Textarea
-                                                        className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200 dark:placeholder:text-slate-500 min-h-[140px] resize-none"
+                                                        className="bg-muted border-border min-h-[140px] resize-none"
                                                         placeholder="Escribí tu consulta acá..."
                                                         {...field}
                                                     />
@@ -186,7 +186,7 @@ export const ContactPage = () => {
                                     <Button
                                         type="submit"
                                         disabled={status === "sending"}
-                                        className="w-full bg-[#1A6B4A] hover:bg-[#134F37] text-white gap-2"
+                                        className="w-full bg-primary text-primary-foreground hover:opacity-90 gap-2"
                                     >
                                         <PaperPlaneTilt size={16} weight="duotone" />
                                         {status === "sending" ? "Enviando..." : "Enviar consulta"}

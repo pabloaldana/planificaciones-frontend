@@ -40,9 +40,9 @@ const getMateriaColor = (materia: string, index: number) =>
 const BarTooltip = ({ active, payload, label }: { active?: boolean; payload?: { value: number }[]; label?: string }) => {
     if (!active || !payload?.length) return null
     return (
-        <div className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-lg px-3 py-2 shadow-sm text-sm">
-            <p className="text-slate-500 dark:text-slate-400 mb-0.5">{label}</p>
-            <p className="font-semibold text-[#1A6B4A] dark:text-emerald-400">{payload[0].value} ventas</p>
+        <div className="bg-card border border-border rounded-lg px-3 py-2 shadow-sm text-sm">
+            <p className="text-muted-foreground mb-0.5">{label}</p>
+            <p className="font-semibold text-primary">{payload[0].value} ventas</p>
         </div>
     )
 }
@@ -53,7 +53,7 @@ const columns: Column<PlanificacionVendida>[] = [
     {
         key: "title",
         label: "Planificación",
-        render: (row) => <span className="font-medium text-[#1A6B4A] dark:text-emerald-400">{row.title}</span>,
+        render: (row) => <span className="font-medium text-primary">{row.title}</span>,
     },
     {
         key: "materia",
@@ -67,12 +67,12 @@ const columns: Column<PlanificacionVendida>[] = [
             )
         },
     },
-    { key: "grado", label: "Grado", render: (row) => <span className="text-slate-600 dark:text-slate-300">{row.grado}</span> },
-    { key: "ventas", label: "Ventas", render: (row) => <span className="font-bold text-[#1A6B4A] dark:text-emerald-400">{row.ventas}</span> },
+    { key: "grado", label: "Grado", render: (row) => <span className="text-foreground">{row.grado}</span> },
+    { key: "ventas", label: "Ventas", render: (row) => <span className="font-bold text-primary">{row.ventas}</span> },
     {
         key: "ingresos",
         label: "Ingresos",
-        render: (row) => <span className="text-slate-600 dark:text-slate-300">${row.ingresos.toLocaleString("es-AR")}</span>,
+        render: (row) => <span className="text-foreground">${row.ingresos.toLocaleString("es-AR")}</span>,
     },
 ]
 
@@ -161,7 +161,7 @@ export const Estadisticas = () => {
                 {statCards.map((card) => (
                     <div
                         key={card.label}
-                        className="min-w-0 bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-3"
+                        className="min-w-0 bg-card rounded-xl border border-border shadow-sm p-5 flex flex-col gap-3"
                     >
                         <div className="flex items-start justify-between">
                             <p className="text-slate-500 text-sm">{card.label}</p>
@@ -171,12 +171,12 @@ export const Estadisticas = () => {
                         </div>
                         <p
                             title={card.value}
-                            className="min-w-0 text-[1.75rem] font-bold text-[#1A6B4A] dark:text-emerald-400 leading-none truncate"
+                            className="min-w-0 text-[1.75rem] font-bold text-primary leading-none truncate"
                         >
                             {card.value}
                         </p>
                         {card.badge && (
-                            <span className="self-start bg-[#D1F2EB] dark:bg-emerald-900/30 text-[#1A6B4A] dark:text-emerald-400 text-xs font-medium px-2.5 py-1 rounded-full">
+                            <span className="self-start bg-primary/10 text-primary text-xs font-medium px-2.5 py-1 rounded-full">
                                 {card.badge}
                             </span>
                         )}
@@ -187,8 +187,8 @@ export const Estadisticas = () => {
             {/* Sección 2 — Gráficos */}
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
                 {/* Ventas por mes — ocupa 2/3 */}
-                <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400 mb-5">Ventas por mes</h2>
+                <div className="lg:col-span-2 bg-card rounded-xl border border-border shadow-sm p-6">
+                    <h2 className="text-base font-semibold text-primary mb-5">Ventas por mes</h2>
                     {ventasPorMes.length === 0 ? (
                         <div className="flex items-center justify-center h-55 text-slate-400 text-sm">
                             Todavía no hay ventas registradas.
@@ -216,8 +216,8 @@ export const Estadisticas = () => {
                 </div>
 
                 {/* Ventas por materia — ocupa 1/3 */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm p-6">
-                    <h2 className="text-base font-semibold text-[#1A6B4A] dark:text-emerald-400 mb-5">Por materia</h2>
+                <div className="bg-card rounded-xl border border-border shadow-sm p-6">
+                    <h2 className="text-base font-semibold text-primary mb-5">Por materia</h2>
                     {ventasPorMateria.length === 0 ? (
                         <div className="flex items-center justify-center h-55 text-slate-400 text-sm">
                             Sin datos todavía.
@@ -251,9 +251,9 @@ export const Estadisticas = () => {
                                                 className="w-3 h-3 rounded-sm shrink-0"
                                                 style={{ backgroundColor: getMateriaColor(item.materia, i) }}
                                             />
-                                            <span className="text-slate-600 dark:text-slate-300 capitalize">{item.materia}</span>
+                                            <span className="text-foreground capitalize">{item.materia}</span>
                                         </div>
-                                        <span className="font-semibold text-[#1A6B4A] dark:text-emerald-400">{item.ventas}</span>
+                                        <span className="font-semibold text-primary">{item.ventas}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -263,17 +263,17 @@ export const Estadisticas = () => {
             </section>
 
             {/* Sección 3 — Tabla de planificaciones vendidas */}
-            <section className="bg-white dark:bg-gray-800 rounded-xl border border-slate-100 dark:border-gray-700 shadow-sm">
+            <section className="bg-card rounded-xl border border-border shadow-sm">
                 {/* Header */}
-                <div className="px-6 py-5 border-b border-slate-100 dark:border-gray-700">
-                    <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Planificaciones vendidas</h2>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">
+                <div className="px-6 py-5 border-b border-border">
+                    <h2 className="text-xl font-bold text-primary">Planificaciones vendidas</h2>
+                    <p className="text-muted-foreground text-sm mt-0.5">
                         Solo las que registran al menos una venta
                     </p>
                 </div>
 
                 {/* Filtros */}
-                <div className="flex flex-wrap items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-gray-700">
+                <div className="flex flex-wrap items-center gap-3 px-6 py-4 border-b border-border">
                     <div className="relative flex-1 min-w-40 sm:min-w-52">
                         <MagnifyingGlass
                             size={15}
@@ -284,7 +284,7 @@ export const Estadisticas = () => {
                             placeholder="Buscar por título..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full border border-slate-200 dark:border-gray-600 dark:bg-gray-700 dark:text-slate-200 dark:placeholder:text-slate-500 rounded-lg pl-8 pr-3 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 dark:focus:border-emerald-400 transition-colors"
+                            className="w-full border border-border bg-muted rounded-lg pl-8 pr-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                         />
                     </div>
 
@@ -319,7 +319,7 @@ export const Estadisticas = () => {
                 </div>
 
                 {/* Footer: count + paginado */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-slate-100 dark:border-gray-700">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-border">
                     <p className="text-slate-400 text-sm">
                         Mostrando {rows.length} de {filtered.length} resultados
                     </p>
@@ -328,7 +328,7 @@ export const Estadisticas = () => {
                         <button
                             onClick={() => setPage(page - 1)}
                             disabled={page === 1}
-                            className="px-3 py-1.5 text-sm rounded-md border border-slate-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                            className="px-3 py-1.5 text-sm rounded-md border border-border text-foreground hover:bg-muted disabled:opacity-40 disabled:pointer-events-none transition-colors"
                         >
                             &lt; Previous
                         </button>
@@ -340,8 +340,8 @@ export const Estadisticas = () => {
                                 className={[
                                     "w-8 h-8 text-sm rounded-md border transition-colors",
                                     p === page
-                                        ? "bg-[#1A6B4A] text-white border-[#1A6B4A]"
-                                        : "border-slate-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-gray-700",
+                                        ? "bg-primary text-primary-foreground border-primary"
+                                        : "border-border text-foreground hover:bg-muted",
                                 ].join(" ")}
                             >
                                 {p}
@@ -351,7 +351,7 @@ export const Estadisticas = () => {
                         <button
                             onClick={() => setPage(page + 1)}
                             disabled={page === totalPages}
-                            className="px-3 py-1.5 text-sm rounded-md border border-slate-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                            className="px-3 py-1.5 text-sm rounded-md border border-border text-foreground hover:bg-muted disabled:opacity-40 disabled:pointer-events-none transition-colors"
                         >
                             Next &gt;
                         </button>

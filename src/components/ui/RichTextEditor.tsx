@@ -49,8 +49,8 @@ const ToolbarBtn = ({
         className={[
             "flex items-center justify-center w-8 h-8 rounded-md text-sm font-semibold transition-colors",
             active
-                ? "bg-[#1A6B4A] text-white"
-                : "text-slate-600 hover:bg-slate-100",
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-muted",
         ].join(" ")}
     >
         {children}
@@ -72,7 +72,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
         onUpdate: ({ editor }) => onChange(editor.getHTML()),
         editorProps: {
             attributes: {
-                class: "rich-content min-h-[200px] px-4 py-3 text-sm text-slate-700 focus:outline-none",
+                class: "rich-content min-h-[200px] px-4 py-3 text-sm text-foreground focus:outline-none",
             },
         },
     })
@@ -88,10 +88,10 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
     if (!editor) return null
 
     return (
-        <div className="rounded-md border border-slate-200 bg-slate-50 overflow-hidden focus-within:border-[#1A6B4A] transition-colors">
+        <div className="rounded-md border border-border bg-muted overflow-hidden focus-within:border-primary transition-colors">
 
             {/* Toolbar */}
-            <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-b border-slate-200 bg-white">
+            <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-b border-border bg-card">
 
                 {/* Headings */}
                 <ToolbarBtn
@@ -109,7 +109,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
                     H2
                 </ToolbarBtn>
 
-                <div className="w-px h-5 bg-slate-200 mx-1" />
+                <div className="w-px h-5 bg-border mx-1" />
 
                 {/* Formato inline */}
                 <ToolbarBtn
@@ -134,7 +134,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
                     <TextUnderline size={15} />
                 </ToolbarBtn>
 
-                <div className="w-px h-5 bg-slate-200 mx-1" />
+                <div className="w-px h-5 bg-border mx-1" />
 
                 {/* Listas */}
                 <ToolbarBtn
@@ -152,7 +152,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
                     <ListNumbers size={15} />
                 </ToolbarBtn>
 
-                <div className="w-px h-5 bg-slate-200 mx-1" />
+                <div className="w-px h-5 bg-border mx-1" />
 
                 {/* Alineación */}
                 <ToolbarBtn
@@ -177,7 +177,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
                     <TextAlignRight size={15} />
                 </ToolbarBtn>
 
-                <div className="w-px h-5 bg-slate-200 mx-1" />
+                <div className="w-px h-5 bg-border mx-1" />
 
                 {/* Colores */}
                 <div className="flex items-center gap-1">
@@ -195,7 +195,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
                         type="button"
                         onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().unsetColor().run() }}
                         title="Sin color"
-                        className="w-5 h-5 rounded-full border-2 border-slate-300 bg-white hover:scale-110 transition-transform text-[9px] text-slate-400 flex items-center justify-center"
+                        className="w-5 h-5 rounded-full border-2 border-border bg-card hover:scale-110 transition-transform text-[9px] text-muted-foreground flex items-center justify-center"
                     >
                         ✕
                     </button>
@@ -205,7 +205,7 @@ export const RichTextEditor = ({ value, onChange, placeholder = "Escribí el con
             {/* Área de escritura */}
             <div className="relative">
                 {editor.isEmpty && (
-                    <p className="absolute top-3 left-4 text-sm text-slate-400 pointer-events-none select-none">
+                    <p className="absolute top-3 left-4 text-sm text-muted-foreground pointer-events-none select-none">
                         {placeholder}
                     </p>
                 )}

@@ -27,7 +27,7 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
         <div className="flex-1 grid lg:grid-cols-2">
 
             {/* Panel izquierdo — branding */}
-            <div className="hidden lg:flex flex-col items-center justify-center bg-[#1A6B4A] text-white px-12 gap-6">
+            <div className="hidden lg:flex flex-col items-center justify-center bg-primary text-primary-foreground px-12 gap-6">
                 <div className="flex flex-col items-center gap-4 text-center">
                     <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
                         <BookBookmark size={36} weight="fill" className="text-white" />
@@ -51,20 +51,20 @@ export const AuthLayout = ({ title, description, children }: AuthLayoutProps) =>
             </div>
 
             {/* Panel derecho — formulario */}
-            <div className="flex flex-col items-center justify-center bg-[#F2F2F2] dark:bg-gray-900 px-6 py-10 gap-4">
+            <div className="flex flex-col items-center justify-center bg-background px-6 py-10 gap-4">
                 <NavLink
                     to="/"
-                    className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-[#1A6B4A] dark:hover:text-emerald-400 transition-colors self-start max-w-md w-full"
+                    className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors self-start max-w-md w-full"
                 >
                     ← Volver al inicio
                 </NavLink>
 
-                <Card className="w-full max-w-md rounded-2xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg">
+                <Card className="w-full max-w-md rounded-2xl border border-border bg-card shadow-lg">
                     <CardHeader className="pb-4">
-                        <CardTitle className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">
+                        <CardTitle className="text-xl font-bold text-primary">
                             {title}
                         </CardTitle>
-                        <CardDescription className="text-slate-500 text-sm">
+                        <CardDescription className="text-muted-foreground text-sm">
                             {description}
                         </CardDescription>
                     </CardHeader>

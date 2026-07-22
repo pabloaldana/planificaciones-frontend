@@ -30,7 +30,7 @@ export const MisCompras = () => {
 
     if (isLoading) {
         return (
-            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700 divide-y divide-slate-100 dark:divide-gray-700">
+            <section className="bg-card rounded-xl shadow-sm border border-border divide-y divide-border">
                 {[...Array(3)].map((_, i) => (
                     <div key={i} className="flex items-center gap-4 px-6 py-4 animate-pulse">
                         <div className="flex-1 space-y-2">
@@ -46,11 +46,11 @@ export const MisCompras = () => {
 
     if (compras.length === 0) {
         return (
-            <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700 p-12 text-center flex flex-col items-center gap-4">
+            <section className="bg-card rounded-xl shadow-sm border border-border p-12 text-center flex flex-col items-center gap-4">
                 <p className="text-slate-400 text-sm">Todavía no compraste ninguna planificación.</p>
                 <Link
                     to="/catalogo"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1A6B4A] text-white text-sm font-semibold hover:bg-[#134F37] transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-colors"
                 >
                     <ShoppingBag size={16} weight="duotone" />
                     Ir al catálogo
@@ -60,19 +60,19 @@ export const MisCompras = () => {
     }
 
     return (
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700">
+        <section className="bg-card rounded-xl shadow-sm border border-border">
 
             {/* Header */}
-            <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-slate-100 dark:border-gray-700">
+            <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-border">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A6B4A] dark:text-emerald-400">Mis compras</h2>
-                    <p className="text-slate-500 text-sm mt-0.5">
+                    <h2 className="text-xl font-bold text-primary">Mis compras</h2>
+                    <p className="text-muted-foreground text-sm mt-0.5">
                         {compras.length} {compras.length === 1 ? "planificación comprada" : "planificaciones compradas"}
                     </p>
                 </div>
                 <Link
                     to="/catalogo"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[#1A6B4A] dark:border-emerald-400 text-[#1A6B4A] dark:text-emerald-400 text-sm font-semibold hover:bg-[#1A6B4A]/5 dark:hover:bg-emerald-400/5 transition-colors shrink-0"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-primary text-primary text-sm font-semibold hover:bg-primary/5 transition-colors shrink-0"
                 >
                     <ShoppingBag size={16} weight="duotone" />
                     Seguir comprando
@@ -80,7 +80,7 @@ export const MisCompras = () => {
             </div>
 
             {/* Lista */}
-            <div className="divide-y divide-slate-100 dark:divide-gray-700">
+            <div className="divide-y divide-border">
                 {rows.map((compra) => {
                     const { planificacion } = compra
                     const subject = getSubjectConfig(planificacion.materia.name)
@@ -95,14 +95,14 @@ export const MisCompras = () => {
                                     </span>
                                     <span className="text-xs text-slate-400">{planificacion.grado.name}</span>
                                 </div>
-                                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">{planificacion.title}</p>
+                                <p className="text-sm font-semibold text-foreground truncate">{planificacion.title}</p>
                                 <p className="text-xs text-slate-400 mt-1">
                                     Comprada el {new Date(compra.createdAt).toLocaleDateString("es-AR")}
                                 </p>
                             </div>
 
                             {/* Precio */}
-                            <span className="text-sm font-bold text-[#1A6B4A] dark:text-emerald-400 shrink-0">
+                            <span className="text-sm font-bold text-primary shrink-0">
                                 ${Number(compra.priceAtPurchase).toLocaleString("es-AR")}
                             </span>
 
@@ -111,7 +111,7 @@ export const MisCompras = () => {
                                 <button
                                     onClick={() => handleDescargar(planificacion.id)}
                                     title="Descargar"
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1A6B4A] text-white text-xs font-medium hover:bg-[#134F37] transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-colors"
                                 >
                                     <DownloadSimple size={14} />
                                     Descargar
