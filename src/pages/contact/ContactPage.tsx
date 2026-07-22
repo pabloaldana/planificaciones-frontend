@@ -63,10 +63,10 @@ export const ContactPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col">
+        <div className="min-h-screen bg-[#F2F2F2] dark:bg-gray-950 flex flex-col">
             <PublicNavbar />
 
-            <main className="flex-1 flex items-center justify-center py-16 px-5 sm:px-6 bg-gradient-to-b from-white to-slate-50 dark:from-gray-950 dark:to-gray-900">
+            <main className="flex-1 flex items-center justify-center py-16 px-5 sm:px-6 bg-gradient-to-b from-[#D1F2EB] to-[#F2F2F2] dark:from-gray-950 dark:to-gray-900">
                 <div className="w-full max-w-4xl">
 
                     {/* Header */}
@@ -80,7 +80,7 @@ export const ContactPage = () => {
                     </div>
 
                     {/* Card */}
-                    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-100 dark:border-gray-700 shadow-sm p-8">
+                    <div className="bg-[#FFF7C2]/70 dark:bg-gray-900 rounded-2xl border border-[#D1F2EB] dark:border-gray-700 shadow-sm p-8">
 
                         {status === "success" ? (
                             <div className="flex flex-col items-center gap-4 py-8 text-center">
@@ -110,7 +110,7 @@ export const ContactPage = () => {
                                                     <FormLabel>Nombre</FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200"
+                                                            className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200"
                                                             placeholder="Tu nombre"
                                                             {...field}
                                                         />
@@ -128,7 +128,7 @@ export const ContactPage = () => {
                                                     <FormLabel>Email</FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200"
+                                                            className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200"
                                                             placeholder="tucorreo@ejemplo.com"
                                                             type="email"
                                                             {...field}
@@ -148,7 +148,7 @@ export const ContactPage = () => {
                                                 <FormLabel>Asunto</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200"
+                                                        className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200"
                                                         placeholder="¿Sobre qué querés consultar?"
                                                         {...field}
                                                     />
@@ -166,7 +166,7 @@ export const ContactPage = () => {
                                                 <FormLabel>Mensaje</FormLabel>
                                                 <FormControl>
                                                     <Textarea
-                                                        className="bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700 dark:text-slate-200 dark:placeholder:text-slate-500 min-h-[140px] resize-none"
+                                                        className="bg-[#F2F2F2] dark:bg-gray-800 border-[#D1F2EB] dark:border-gray-700 dark:text-slate-200 dark:placeholder:text-slate-500 min-h-[140px] resize-none"
                                                         placeholder="Escribí tu consulta acá..."
                                                         {...field}
                                                     />
