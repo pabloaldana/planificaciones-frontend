@@ -20,12 +20,12 @@ import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 type SubjectStyle = { icon: Icon; tone: string }
 
 const subjectStyles: Record<string, SubjectStyle> = {
-    "matemática":         { icon: ChalkboardTeacher, tone: "bg-accent" },
-    "lengua y literatura":{ icon: BookOpen,          tone: "bg-secondary" },
-    "ciencias naturales": { icon: Plant,             tone: "bg-muted" },
-    "ciencias sociales":  { icon: Globe,             tone: "bg-secondary" },
-    "tecnología":         { icon: Desktop,           tone: "bg-accent" },
-    "inglés":             { icon: BookOpen,          tone: "bg-secondary" },
+    "matemática": { icon: ChalkboardTeacher, tone: "bg-accent" },
+    "lengua y literatura": { icon: BookOpen, tone: "bg-secondary" },
+    "ciencias naturales": { icon: Plant, tone: "bg-muted" },
+    "ciencias sociales": { icon: Globe, tone: "bg-secondary" },
+    "tecnología": { icon: Desktop, tone: "bg-accent" },
+    "inglés": { icon: BookOpen, tone: "bg-secondary" },
 }
 const defaultStyle: SubjectStyle = { icon: BookOpen, tone: "bg-muted" }
 
