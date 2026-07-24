@@ -129,8 +129,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const profile = persistSession(data)
             setUser(profile)
             return profile
-        } catch {
-            setError("Error al registrarse. Intentá nuevamente.")
+        } catch (err) {
+            const messages = (err as { response?: { data?: { message?: string | string[] } } }).response?.data?.message
+            const readable = Array.isArray(messages) ? messages[0] : (messages ?? "Error al registrarse. Intentá nuevamente.")
+            setError(readable)
             throw new Error("Register failed")
         } finally {
             setIsLoading(false)
@@ -157,7 +159,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 // ── Hook ──────────────────────────────────────────────────────────────────────
 export const useAuth = () => {
+    console.log("useAuth called") //! llega bien
     const ctx = useContext(AuthContext)
+    console.log("useAuth ctx:", ctx) //! no llega nada
     if (!ctx) throw new Error("useAuth debe usarse dentro de AuthProvider")
     return ctx
 }

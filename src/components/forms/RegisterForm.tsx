@@ -22,7 +22,10 @@ const formSchema = z
         nombre: z.string().min(2, "Mínimo 2 caracteres"),
         apellido: z.string().min(2, "Mínimo 2 caracteres"),
         email: z.string().email("Email inválido"),
-        password: z.string().min(8, "Mínimo 8 caracteres"),
+        password: z
+            .string()
+            .min(8, "Mínimo 8 caracteres")
+            .regex(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, "Debe tener mayúscula, minúscula y un número o símbolo"),
         confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -49,6 +52,7 @@ export const RegisterForm = () => {
     })
 
     const onSubmit = async (values: FormValues) => {
+        console.log("RegisterForm onSubmit", values) //! llega bien
         try {
             await register(values.nombre, values.apellido, values.email, values.password)
             //como los nuevos usuarios siempre son user navego directamnte a su dashboar
