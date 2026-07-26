@@ -54,7 +54,7 @@ export const LandingPage = () => {
                     </span>
 
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary leading-tight mb-6">
-                        Planificaciones educativas listas para usar en el aula
+                        Material docente listo para usar en el aula
                     </h1>
 
                     <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
