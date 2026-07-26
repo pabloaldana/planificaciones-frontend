@@ -1,4 +1,4 @@
-import { GraduationCap, ShoppingCart, Sun, Moon } from "@phosphor-icons/react"
+import { ShoppingCart, Sun, Moon } from "@phosphor-icons/react"
 import { NavLink } from "react-router-dom"
 import { useCart } from "@/context/CartContext"
 import { useAuth } from "@/context/AuthContext"
@@ -21,9 +21,8 @@ export const PublicNavbar = () => {
             <header className="sticky top-0 z-50 bg-card/70 backdrop-blur border-b border-border">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
 
-                    <NavLink to="/" className="flex items-center gap-2 text-primary font-bold text-lg">
-                        <GraduationCap size={28} weight="duotone" />
-                        <span>Aula</span>
+                    <NavLink to="/" className="flex items-center">
+                        <img src="/logo.png" alt="Aula" className="h-16 w-auto" />
                     </NavLink>
 
                     <div className="flex items-center gap-3">
