@@ -2,7 +2,7 @@ import { useState, useEffect, type ElementType } from "react"
 import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 import { useSearchParams } from "react-router-dom"
 import {
-    MagnifyingGlass, X, Funnel, Sparkle, CaretDown, Check,
+    MagnifyingGlass, X, Funnel, CaretDown, Check,
     Calculator, BookOpen, Leaf, Globe, Desktop, Translate, PaintBrush, Bicycle, MusicNote,
 } from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
@@ -210,22 +210,10 @@ export const CatalogPage = () => {
         <div className="min-h-screen flex flex-col bg-background">
             <PublicNavbar />
 
-            {/* ── Hero ────────────────────────────────────────────────────── */}
+            {/* ── Search bar ──────────────────────────────────────────────── */}
             <section className="bg-secondary/30 border-b border-border/60">
-                <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
-                    <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground">
-                        <Sparkle size={14} className="text-primary" weight="fill" />
-                        Material creado por docentes
-                    </p>
-                    <h1 className="text-3xl font-bold leading-tight text-foreground md:text-5xl">
-                        Encontrá la planificación
-                        <br className="hidden sm:block" /> ideal para tu clase
-                    </h1>
-                    <p className="mt-3 max-w-xl text-muted-foreground">
-                        Filtrá por materia y grado, previsualizá el contenido y descargalo al instante.
-                    </p>
-
-                    <div className="mt-7 flex max-w-2xl items-center gap-2 rounded-full border border-border bg-card p-2 shadow-sm">
+                <div className="mx-auto max-w-6xl px-5 py-6">
+                    <div className="mx-auto flex max-w-2xl items-center gap-2 rounded-full border border-border bg-card p-2 shadow-sm">
                         <MagnifyingGlass size={20} className="ml-3 shrink-0 text-muted-foreground" />
                         <input
                             value={search}
