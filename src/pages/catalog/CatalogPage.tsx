@@ -70,11 +70,10 @@ const FiltersPanel = ({
                             <button
                                 key={s.id}
                                 onClick={() => onToggleSubject(s.id)}
-                                className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm transition-colors ${
-                                    active
+                                className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm transition-colors ${active
                                         ? "bg-primary/10 font-semibold text-foreground"
                                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                }`}
+                                    }`}
                             >
                                 <span className={`grid size-7 shrink-0 place-items-center rounded-xl ${cfg.badge}`}>
                                     <Icon size={14} />
@@ -111,11 +110,10 @@ const FiltersPanel = ({
                             <button
                                 key={g.id}
                                 onClick={() => onToggleGrade(g.id)}
-                                className={`rounded-full border px-3.5 py-1.5 text-sm transition-all ${
-                                    active
+                                className={`rounded-full border px-3.5 py-1.5 text-sm transition-all ${active
                                         ? "border-primary bg-primary text-primary-foreground shadow-sm"
                                         : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                                }`}
+                                    }`}
                             >
                                 {g.label}
                             </button>

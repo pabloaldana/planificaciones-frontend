@@ -115,54 +115,54 @@ export const LandingPage = () => {
 
             {/* ===== PLANIFICACIONES DESTACADAS ===== */}
             {(masVendidasLoading || masVendidas.length > 0) && (
-            <section className="border-t border-border bg-secondary/40 py-10 sm:py-14">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="text-center mb-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-3">
-                            Planificaciones más vendidas
-                        </h2>
-                        <p className="text-muted-foreground text-sm">Las más elegidas por docentes de todo el país</p>
-                    </div>
+                <section className="border-t border-border bg-secondary/40 py-10 sm:py-14">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="text-center mb-8">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-3">
+                                Planificaciones más vendidas
+                            </h2>
+                            <p className="text-muted-foreground text-sm">Las más elegidas por docentes de todo el país</p>
+                        </div>
 
-                    {masVendidasLoading ? (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {[...Array(3)].map((_, i) => (
-                                <div key={i} className="rounded-2xl border border-border p-6 h-48 animate-pulse bg-card" />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {masVendidas.map((plan) => {
-                                return (
-                                    <article key={plan.id} className="flex flex-col rounded-2xl bg-card p-5 shadow-sm ring-1 ring-border gap-4">
-                                        <div className="flex items-start justify-between">
-                                            <span className="inline-flex w-fit rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground capitalize">
-                                                {plan.materia}
-                                            </span>
-                                            <span className="text-xs text-muted-foreground">{plan.grado}</span>
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-foreground text-base capitalize">{plan.title}</h3>
-                                        </div>
-                                        <p className="text-xs text-muted-foreground">
-                                            {plan.ventas} {plan.ventas === 1 ? "venta" : "ventas"}
-                                        </p>
-                                        <div className="mt-auto flex items-center justify-between pt-4 border-t border-border">
-                                            <span className="text-xl font-bold text-primary">${plan.price.toLocaleString("es-AR")}</span>
-                                            <Link
-                                                to={`/catalogo/${plan.id}`}
-                                                className="text-xs px-4 py-2 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
-                                            >
-                                                Ver planificación
-                                            </Link>
-                                        </div>
-                                    </article>
-                                )
-                            })}
-                        </div>
-                    )}
-                </div>
-            </section>
+                        {masVendidasLoading ? (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {[...Array(3)].map((_, i) => (
+                                    <div key={i} className="rounded-2xl border border-border p-6 h-48 animate-pulse bg-card" />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {masVendidas.map((plan) => {
+                                    return (
+                                        <article key={plan.id} className="flex flex-col rounded-2xl bg-card p-5 shadow-sm ring-1 ring-border gap-4">
+                                            <div className="flex items-start justify-between">
+                                                <span className="inline-flex w-fit rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground capitalize">
+                                                    {plan.materia}
+                                                </span>
+                                                <span className="text-xs text-muted-foreground">{plan.grado}</span>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-foreground text-base capitalize">{plan.title}</h3>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground">
+                                                {plan.ventas} {plan.ventas === 1 ? "venta" : "ventas"}
+                                            </p>
+                                            <div className="mt-auto flex items-center justify-between pt-4 border-t border-border">
+                                                <span className="text-xl font-bold text-primary">${plan.price.toLocaleString("es-AR")}</span>
+                                                <Link
+                                                    to={`/catalogo/${plan.id}`}
+                                                    className="text-xs px-4 py-2 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                                                >
+                                                    Ver planificación
+                                                </Link>
+                                            </div>
+                                        </article>
+                                    )
+                                })}
+                            </div>
+                        )}
+                    </div>
+                </section>
             )}
 
             {/* ===== CÓMO FUNCIONA ===== */}
