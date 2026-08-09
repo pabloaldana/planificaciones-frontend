@@ -1,24 +1,35 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, type ElementType } from "react"
 import { useDocumentMeta } from "@/hooks/useDocumentMeta"
 import { useSearchParams } from "react-router-dom"
-import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react"
+import {
+    MagnifyingGlass, X, Funnel, Sparkle, CaretDown, Check,
+    Calculator, BookOpen, Leaf, Globe, Desktop, Translate, PaintBrush, Bicycle, MusicNote,
+} from "@phosphor-icons/react"
 import { PublicNavbar } from "@/components/common/PublicNavbar"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Pagination } from "@/components/ui/Pagination"
 import { PlanCard } from "@/components/common/PlanCard"
 import { usePlanificaciones } from "@/hooks/usePlanificaciones"
 import { useMaterias } from "@/hooks/useMaterias"
 import { useGrados } from "@/hooks/useGrados"
 import { Footer } from "@/components/Footer"
+import { getSubjectConfig } from "@/constants/subjects"
 
 const PAGE_SIZE = 12
 
-// ── Tipos para filtros dinámicos ──────────────────────────────────────────────
-interface FilterOption {
-    id: string
-    label: string
-    numero?: number
+const SUBJECT_ICONS: Record<string, ElementType> = {
+    "matemática": Calculator,
+    "lengua y literatura": BookOpen,
+    "ciencias naturales": Leaf,
+    "ciencias sociales": Globe,
+    "tecnología": Desktop,
+    "inglés": Translate,
+    "educación artística": PaintBrush,
+    "educación física": Bicycle,
+    "música": MusicNote,
 }
+
+// ── FiltersPanel ──────────────────────────────────────────────────────────────
+interface FilterOption { id: string; label: string; numero?: number }
 
 interface FiltersPanelProps {
     subjectOptions: FilterOption[]
@@ -27,43 +38,51 @@ interface FiltersPanelProps {
     selectedGrades: string[]
     onToggleSubject: (id: string) => void
     onToggleGrade: (id: string) => void
-    onClear: () => void
-    activeCount: number
+    onClearSubjects: () => void
+    onClearGrades: () => void
 }
 
-// ── Filters panel ─────────────────────────────────────────────────────────────
 const FiltersPanel = ({
     subjectOptions, gradeOptions,
     selectedSubjects, selectedGrades,
     onToggleSubject, onToggleGrade,
-    onClear, activeCount,
+    onClearSubjects, onClearGrades,
 }: FiltersPanelProps) => (
-    <div className="flex flex-col gap-6">
-        <div className="flex items-center justify-between">
-            <span className="font-semibold text-foreground text-sm">Filtros</span>
-            {activeCount > 0 && (
-                <button onClick={onClear} className="text-xs text-primary hover:underline">
-                    Limpiar todo
-                </button>
-            )}
-        </div>
-
+    <div className="space-y-8">
         {subjectOptions.length > 0 && (
             <div>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Materia</p>
-                <div className="flex flex-col gap-2.5">
-                    {subjectOptions.map((s) => (
-                        <label key={s.id} className="flex items-center gap-2.5 cursor-pointer group">
-                            <Checkbox
-                                checked={selectedSubjects.includes(s.id)}
-                                onCheckedChange={() => onToggleSubject(s.id)}
-                                className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                            />
-                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                                {s.label}
-                            </span>
-                        </label>
-                    ))}
+                <div className="mb-3 flex items-center justify-between">
+                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        Materia
+                    </h3>
+                    {selectedSubjects.length > 0 && (
+                        <button onClick={onClearSubjects} className="text-xs font-medium text-primary hover:underline">
+                            Limpiar
+                        </button>
+                    )}
+                </div>
+                <div className="space-y-1">
+                    {subjectOptions.map((s) => {
+                        const active = selectedSubjects.includes(s.id)
+                        const cfg = getSubjectConfig(s.label)
+                        const Icon = SUBJECT_ICONS[s.label.toLowerCase()] ?? BookOpen
+                        return (
+                            <button
+                                key={s.id}
+                                onClick={() => onToggleSubject(s.id)}
+                                className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm transition-colors ${active
+                                        ? "bg-primary/10 font-semibold text-foreground"
+                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    }`}
+                            >
+                                <span className={`grid size-7 shrink-0 place-items-center rounded-xl ${cfg.badge}`}>
+                                    <Icon size={14} />
+                                </span>
+                                <span className="flex-1 truncate">{s.label}</span>
+                                {active && <Check size={14} className="text-primary" />}
+                            </button>
+                        )
+                    })}
                 </div>
             </div>
         )}
@@ -74,20 +93,32 @@ const FiltersPanel = ({
 
         {gradeOptions.length > 0 && (
             <div>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Grado</p>
-                <div className="flex flex-col gap-2.5">
-                    {gradeOptions.map((g) => (
-                        <label key={g.id} className="flex items-center gap-2.5 cursor-pointer group">
-                            <Checkbox
-                                checked={selectedGrades.includes(g.id)}
-                                onCheckedChange={() => onToggleGrade(g.id)}
-                                className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                            />
-                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                <div className="mb-3 flex items-center justify-between">
+                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        Grado
+                    </h3>
+                    {selectedGrades.length > 0 && (
+                        <button onClick={onClearGrades} className="text-xs font-medium text-primary hover:underline">
+                            Limpiar
+                        </button>
+                    )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                    {gradeOptions.map((g) => {
+                        const active = selectedGrades.includes(g.id)
+                        return (
+                            <button
+                                key={g.id}
+                                onClick={() => onToggleGrade(g.id)}
+                                className={`rounded-full border px-3.5 py-1.5 text-sm transition-all ${active
+                                        ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                        : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                                    }`}
+                            >
                                 {g.label}
-                            </span>
-                        </label>
-                    ))}
+                            </button>
+                        )
+                    })}
                 </div>
             </div>
         )}
@@ -125,191 +156,255 @@ export const CatalogPage = () => {
         search: debouncedSearch || undefined,
         page,
         limit: PAGE_SIZE,
-        materiaIds: selectedSubjects.length ? selectedSubjects.join(',') : undefined,
-        gradoIds: selectedGrades.length ? selectedGrades.join(',') : undefined,
+        materiaIds: selectedSubjects.length ? selectedSubjects.join(",") : undefined,
+        gradoIds: selectedGrades.length ? selectedGrades.join(",") : undefined,
         sortBy: sortBy !== "featured" ? sortBy : undefined,
     })
 
     const planificaciones = data?.data ?? []
     const totalPages = data?.totalPages ?? 1
+    const total = data?.total ?? 0
 
     const { data: materias = [] } = useMaterias()
     const { data: grados = [] } = useGrados()
 
-    const subjectOptions = materias.map(m => ({ id: String(m.id), label: m.name }))
+    const subjectOptions = materias
+        .map(m => ({ id: String(m.id), label: m.name }))
         .sort((a, b) => a.label.localeCompare(b.label, "es"))
 
-    const gradeOptions = grados.map(g => ({ id: String(g.id), label: g.name, numero: (g as any).numero }))
+    const gradeOptions = grados
+        .map(g => ({ id: String(g.id), label: g.name, numero: (g as any).numero }))
         .sort((a, b) => (a.numero ?? 0) - (b.numero ?? 0))
 
     const toggleSubject = (id: string) =>
-        setSelectedSubjects((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
+        setSelectedSubjects(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
 
     const toggleGrade = (id: string) =>
-        setSelectedGrades((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])
+        setSelectedGrades(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
 
-    const clearFilters = () => { setSelectedSubjects([]); setSelectedGrades([]) }
+    const activeSubjectTags = selectedSubjects.map(id => ({
+        id, label: subjectOptions.find(s => s.id === id)?.label ?? id, type: "subject" as const,
+    }))
+    const activeGradeTags = selectedGrades.map(id => ({
+        id, label: gradeOptions.find(g => g.id === id)?.label ?? id, type: "grade" as const,
+    }))
+    const activeTags = [...activeSubjectTags, ...activeGradeTags]
+    const activeCount = activeTags.length
 
-    const activeCount = selectedSubjects.length + selectedGrades.length
+    const clearAll = () => { setSelectedSubjects([]); setSelectedGrades([]) }
+
+    const filtersPanel = (
+        <FiltersPanel
+            subjectOptions={subjectOptions}
+            gradeOptions={gradeOptions}
+            selectedSubjects={selectedSubjects}
+            selectedGrades={selectedGrades}
+            onToggleSubject={toggleSubject}
+            onToggleGrade={toggleGrade}
+            onClearSubjects={() => setSelectedSubjects([])}
+            onClearGrades={() => setSelectedGrades([])}
+        />
+    )
 
     return (
         <div className="min-h-screen flex flex-col bg-background">
-
             <PublicNavbar />
 
-            <div className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-
-                {/* ── Search ──────────────────────────────────────────────── */}
-                <div className="relative mb-6">
-                    <MagnifyingGlass
-                        size={16}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Buscar planificaciones..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-card border border-border rounded-xl pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors shadow-sm"
-                    />
-                </div>
-
-                {/* ── Toolbar ─────────────────────────────────────────────── */}
-                <div className="flex items-center justify-between mb-5 gap-3">
-                    <p className="text-sm text-muted-foreground">
-                        {isLoading ? (
-                            <span className="text-muted-foreground">Cargando...</span>
-                        ) : (
-                            <>
-                                <span className="font-semibold text-foreground">{data?.total ?? 0}</span> planificaciones
-                                {totalPages > 1 && (
-                                    <span> · página {page} de {totalPages}</span>
-                                )}
-                            </>
-                        )}
+            {/* ── Hero ────────────────────────────────────────────────────── */}
+            <section className="bg-secondary/30 border-b border-border/60">
+                <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
+                    <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground">
+                        <Sparkle size={14} className="text-primary" weight="fill" />
+                        Material creado por docentes
+                    </p>
+                    <h1 className="text-3xl font-bold leading-tight text-foreground md:text-5xl">
+                        Encontrá la planificación
+                        <br className="hidden sm:block" /> ideal para tu clase
+                    </h1>
+                    <p className="mt-3 max-w-xl text-muted-foreground">
+                        Filtrá por materia y grado, previsualizá el contenido y descargalo al instante.
                     </p>
 
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => setFiltersOpen(true)}
-                            className="lg:hidden flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg border border-border bg-card text-muted-foreground hover:bg-muted transition-colors"
-                        >
-                            <Funnel size={15} />
-                            Filtros
-                            {activeCount > 0 && (
-                                <span className="ml-0.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center">
-                                    {activeCount}
-                                </span>
-                            )}
-                        </button>
-
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                            className="text-sm border border-border rounded-lg px-3 py-2 bg-card text-muted-foreground focus:outline-none focus:border-primary cursor-pointer"
-                        >
-                            <option value="featured">Destacados</option>
-                            <option value="price_asc">Precio: menor a mayor</option>
-                            <option value="price_desc">Precio: mayor a menor</option>
-                        </select>
+                    <div className="mt-7 flex max-w-2xl items-center gap-2 rounded-full border border-border bg-card p-2 shadow-sm">
+                        <MagnifyingGlass size={20} className="ml-3 shrink-0 text-muted-foreground" />
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Buscar planificaciones, temas, palabras clave…"
+                            className="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground"
+                        />
+                        {search && (
+                            <button
+                                onClick={() => setSearch("")}
+                                aria-label="Limpiar búsqueda"
+                                className="grid size-8 place-items-center rounded-full text-muted-foreground hover:bg-muted transition-colors"
+                            >
+                                <X size={16} />
+                            </button>
+                        )}
+                        <span className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground sm:inline-flex">
+                            Buscar
+                        </span>
                     </div>
                 </div>
+            </section>
 
-                <div className="flex gap-6 items-start">
+            {/* ── Main ────────────────────────────────────────────────────── */}
+            <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 lg:flex lg:gap-10">
 
-                    {/* ── Sidebar desktop ──────────────────────────────────── */}
-                    <aside className="hidden lg:block w-56 shrink-0 bg-card rounded-xl border border-border shadow-sm p-5 sticky top-24">
-                        <FiltersPanel
-                            subjectOptions={subjectOptions}
-                            gradeOptions={gradeOptions}
-                            selectedSubjects={selectedSubjects}
-                            selectedGrades={selectedGrades}
-                            onToggleSubject={toggleSubject}
-                            onToggleGrade={toggleGrade}
-                            onClear={clearFilters}
-                            activeCount={activeCount}
-                        />
-                    </aside>
+                {/* ── Sidebar desktop ──────────────────────────────────────── */}
+                <aside className="hidden w-64 shrink-0 lg:block">
+                    <div className="sticky top-24 rounded-3xl border border-border bg-card p-6 shadow-sm">
+                        <div className="mb-6 flex items-center gap-2">
+                            <Funnel size={16} className="text-primary" />
+                            <h2 className="text-base font-semibold">Filtros</h2>
+                        </div>
+                        {filtersPanel}
+                    </div>
+                </aside>
 
-                    {/* ── Grid ─────────────────────────────────────────────── */}
-                    <div className="flex-1">
-                        {isLoading ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                                {[...Array(6)].map((_, i) => (
-                                    <div key={i} className="bg-card rounded-2xl border border-border p-5 flex flex-col gap-3 animate-pulse">
-                                        <div className="h-5 bg-muted rounded-full w-24" />
-                                        <div className="h-4 bg-muted rounded w-full" />
-                                        <div className="h-4 bg-muted rounded w-3/4" />
-                                        <div className="h-8 bg-muted rounded-xl mt-2" />
-                                    </div>
-                                ))}
-                            </div>
-                        ) : error ? (
-                            <div className="py-20 text-center text-muted-foreground text-sm">
-                                Error al cargar las planificaciones.
-                            </div>
-                        ) : planificaciones.length > 0 ? (
-                            <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                                    {planificaciones.map((p) => <PlanCard key={p.id} plan={p} />)}
-                                </div>
-                                {totalPages > 1 && (
-                                    <div className="mt-6">
-                                        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
-                                    </div>
+                {/* ── Content ──────────────────────────────────────────────── */}
+                <div className="min-w-0 flex-1">
+
+                    {/* Toolbar */}
+                    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+                        <p className="text-sm text-muted-foreground">
+                            {isLoading ? "Cargando..." : (
+                                <>
+                                    <span className="text-lg font-semibold text-foreground">{total}</span>
+                                    {" "}planificaciones encontradas
+                                    {totalPages > 1 && (
+                                        <span className="text-xs"> · página {page} de {totalPages}</span>
+                                    )}
+                                </>
+                            )}
+                        </p>
+
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setFiltersOpen(true)}
+                                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm lg:hidden"
+                            >
+                                <Funnel size={16} />
+                                Filtros
+                                {activeCount > 0 && (
+                                    <span className="grid size-5 place-items-center rounded-full bg-primary text-[11px] text-primary-foreground">
+                                        {activeCount}
+                                    </span>
                                 )}
-                            </>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center py-20 text-center gap-3">
-                                <p className="text-muted-foreground text-sm">
-                                    No hay planificaciones con los filtros seleccionados.
-                                </p>
-                                <button onClick={clearFilters} className="text-sm text-primary hover:underline">
+                            </button>
+
+                            <div className="relative">
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                    className="appearance-none cursor-pointer rounded-full border border-border bg-card py-2 pl-4 pr-10 text-sm font-medium shadow-sm outline-none"
+                                >
+                                    <option value="featured">Destacados</option>
+                                    <option value="price_asc">Menor precio</option>
+                                    <option value="price_desc">Mayor precio</option>
+                                </select>
+                                <CaretDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Active filter chips */}
+                    {activeTags.length > 0 && (
+                        <div className="mb-6 flex flex-wrap items-center gap-2">
+                            {activeTags.map((tag) => (
+                                <button
+                                    key={`${tag.type}-${tag.id}`}
+                                    onClick={() => tag.type === "subject" ? toggleSubject(tag.id) : toggleGrade(tag.id)}
+                                    className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
+                                >
+                                    {tag.label}
+                                    <X size={12} />
+                                </button>
+                            ))}
+                            <button onClick={clearAll} className="text-xs font-medium text-primary hover:underline">
+                                Limpiar todo
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Grid / states */}
+                    {isLoading ? (
+                        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                            {[...Array(6)].map((_, i) => (
+                                <div key={i} className="animate-pulse overflow-hidden rounded-3xl border border-border bg-card">
+                                    <div className="aspect-[4/3] bg-muted" />
+                                    <div className="space-y-3 p-5">
+                                        <div className="h-4 w-24 rounded-full bg-muted" />
+                                        <div className="h-4 w-full rounded bg-muted" />
+                                        <div className="h-4 w-3/4 rounded bg-muted" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : error ? (
+                        <div className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-16 text-center">
+                            <p className="text-sm text-muted-foreground">Error al cargar las planificaciones.</p>
+                        </div>
+                    ) : planificaciones.length > 0 ? (
+                        <>
+                            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                                {planificaciones.map((p) => <PlanCard key={p.id} plan={p} />)}
+                            </div>
+                            {totalPages > 1 && (
+                                <div className="mt-8">
+                                    <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-16 text-center">
+                            <span className="mx-auto mb-4 grid size-14 place-items-center rounded-2xl bg-secondary">
+                                <MagnifyingGlass size={24} className="text-muted-foreground" />
+                            </span>
+                            <h3 className="text-lg font-semibold">No encontramos resultados</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Probá con otras palabras o quitá algunos filtros.
+                            </p>
+                            {activeCount > 0 && (
+                                <button onClick={clearAll} className="mt-4 text-sm text-primary hover:underline">
                                     Limpiar filtros
                                 </button>
-                            </div>
-                        )}
+                            )}
+                        </div>
+                    )}
+                </div>
+            </main>
+
+            {/* ── Mobile bottom-sheet ─────────────────────────────────────── */}
+            {filtersOpen && (
+                <div className="fixed inset-0 z-50 lg:hidden">
+                    <button
+                        aria-label="Cerrar filtros"
+                        onClick={() => setFiltersOpen(false)}
+                        className="absolute inset-0 bg-foreground/30 backdrop-blur-sm"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl bg-card p-6 shadow-xl">
+                        <div className="mb-6 flex items-center justify-between">
+                            <h2 className="text-base font-semibold">Filtros</h2>
+                            <button
+                                onClick={() => setFiltersOpen(false)}
+                                aria-label="Cerrar"
+                                className="grid size-9 place-items-center rounded-full border border-border"
+                            >
+                                <X size={16} />
+                            </button>
+                        </div>
+                        {filtersPanel}
+                        <button
+                            onClick={() => setFiltersOpen(false)}
+                            className="mt-8 w-full rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground"
+                        >
+                            Ver {total} resultados
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            {/* ── Mobile filters drawer ───────────────────────────────────── */}
-            <div
-                className={[
-                    "fixed inset-0 bg-black/40 z-40 lg:hidden transition-opacity duration-300",
-                    filtersOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
-                ].join(" ")}
-                onClick={() => setFiltersOpen(false)}
-            />
-            <aside
-                className={[
-                    "fixed inset-y-0 left-0 z-50 w-72 bg-card shadow-xl lg:hidden",
-                    "transition-transform duration-300 ease-in-out",
-                    filtersOpen ? "translate-x-0" : "-translate-x-full",
-                ].join(" ")}
-            >
-                <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                    <span className="font-semibold text-foreground">Filtros</span>
-                    <button
-                        onClick={() => setFiltersOpen(false)}
-                        className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                    >
-                        <X size={18} />
-                    </button>
-                </div>
-                <div className="p-5 overflow-y-auto h-full pb-20">
-                    <FiltersPanel
-                        subjectOptions={subjectOptions}
-                        gradeOptions={gradeOptions}
-                        selectedSubjects={selectedSubjects}
-                        selectedGrades={selectedGrades}
-                        onToggleSubject={toggleSubject}
-                        onToggleGrade={toggleGrade}
-                        onClear={clearFilters}
-                        activeCount={activeCount}
-                    />
-                </div>
-            </aside>
+            )}
 
             <Footer />
         </div>
