@@ -48,13 +48,13 @@ export const LandingPage = () => {
 
             {/* ===== HERO ===== */}
             <section className="bg-secondary/60">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
                     <span className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-card shadow-sm text-primary text-xs font-medium">
                         📚 Planificaciones para docentes
                     </span>
 
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary leading-tight mb-6">
-                        Planificaciones educativas listas para usar en el aula
+                        Material docente listo para usar en el aula
                     </h1>
 
                     <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
@@ -73,9 +73,9 @@ export const LandingPage = () => {
             </section>
 
             {/* ===== CATEGORÍAS ===== */}
-            <section className="border-t border-border bg-background py-16 sm:py-20">
+            <section className="border-t border-border bg-background py-10 sm:py-14">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-12">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-8">
                         Explorá por materia
                     </h2>
 
@@ -114,9 +114,10 @@ export const LandingPage = () => {
             </section>
 
             {/* ===== PLANIFICACIONES DESTACADAS ===== */}
-            <section className="border-t border-border bg-secondary/40 py-16 sm:py-20">
+            {(masVendidasLoading || masVendidas.length > 0) && (
+            <section className="border-t border-border bg-secondary/40 py-10 sm:py-14">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="text-center mb-12">
+                    <div className="text-center mb-8">
                         <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-3">
                             Planificaciones más vendidas
                         </h2>
@@ -129,8 +130,6 @@ export const LandingPage = () => {
                                 <div key={i} className="rounded-2xl border border-border p-6 h-48 animate-pulse bg-card" />
                             ))}
                         </div>
-                    ) : masVendidas.length === 0 ? (
-                        <p className="text-center text-muted-foreground text-sm">Todavía no hay ventas registradas.</p>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {masVendidas.map((plan) => {
@@ -164,11 +163,12 @@ export const LandingPage = () => {
                     )}
                 </div>
             </section>
+            )}
 
             {/* ===== CÓMO FUNCIONA ===== */}
-            <section className="border-t border-border bg-background py-16 sm:py-20">
+            <section className="border-t border-border bg-background py-10 sm:py-14">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-12">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-8">
                         ¿Cómo funciona?
                     </h2>
 

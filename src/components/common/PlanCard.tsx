@@ -22,34 +22,34 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
     }
 
     return (
-        <div className="bg-card rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+        <div className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
 
-            <div className={`w-full aspect-4/3 flex items-center justify-center ${subjectCfg.badge}`}>
+            <div className={`flex aspect-[4/3] w-full items-center justify-center ${subjectCfg.badge}`}>
                 {plan.imagenes?.[0]?.url ? (
                     <img
                         src={plan.imagenes[0].url}
                         alt={plan.title}
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover"
                     />
                 ) : (
                     <FileText size={40} weight="duotone" className="opacity-40" />
                 )}
             </div>
 
-            <div className="p-5 flex flex-col gap-3 flex-1">
-                <div className="flex items-start justify-between">
-                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${subjectCfg.badge}`}>
+            <div className="flex flex-1 flex-col gap-3 p-5">
+                <div className="flex items-center justify-between gap-2">
+                    <span className={`inline-block rounded-full px-2.5 py-1 text-xs font-semibold ${subjectCfg.badge}`}>
                         {subjectCfg.label}
                     </span>
                     <span className="text-xs text-muted-foreground">{plan.grado.name}</span>
                 </div>
 
                 <div className="flex-1">
-                    <h3 className="font-bold text-primary text-sm leading-snug">{plan.title}</h3>
+                    <h3 className="text-sm font-semibold leading-snug text-foreground">{plan.title}</h3>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-border gap-2">
-                    <span className="text-lg font-bold text-primary">
+                <div className="flex items-center justify-between gap-2 border-t border-border/70 pt-3">
+                    <span className="text-xl font-bold text-primary">
                         ${plan.price.toLocaleString("es-AR")}
                     </span>
                     <div className="flex items-center gap-1.5">
@@ -58,17 +58,17 @@ export const PlanCard = ({ plan }: { plan: Planificacion }) => {
                             onClick={handleCart}
                             title={inCart ? "Ver carrito" : "Agregar al carrito"}
                             className={[
-                                "p-2 rounded-xl border transition-colors",
+                                "rounded-full border p-2 transition-colors",
                                 inCart
-                                    ? "border-primary/40 text-primary bg-primary/10 hover:bg-primary/15"
-                                    : "border-border text-muted-foreground hover:border-primary hover:text-primary hover:bg-primary/5",
+                                    ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/15"
+                                    : "border-border text-muted-foreground hover:border-primary hover:bg-primary/5 hover:text-primary",
                             ].join(" ")}
                         >
                             {inCart ? <Check size={14} weight="bold" /> : <ShoppingCart size={14} />}
                         </button>
                         <Link
                             to={`/catalogo/${plan.id}`}
-                            className="text-xs px-3 py-2 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-colors"
+                            className="rounded-full bg-primary px-4 py-2 text-xs text-primary-foreground transition-opacity hover:opacity-90"
                         >
                             Ver
                         </Link>
